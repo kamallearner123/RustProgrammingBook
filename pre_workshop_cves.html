@@ -101,6 +101,28 @@
                     </div>
                 </div>
 
+                <h2>The Business Cost of Vulnerabilities</h2>
+                <p>Memory safety vulnerabilities don't just cause technical debt; they result in massive financial losses. When a critical CVE is exploited, companies suffer from direct <strong>revenue loss</strong>, regulatory fines, and expensive engineering rewrites.</p>
+                
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin: 2rem 0;">
+                    <div class="mermaid" style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; flex: 1; min-width: 300px; text-align: center;">
+pie title Average Cost of a Data Breach (%)
+    "Lost Business/Revenue" : 38
+    "Detection & Escalation" : 29
+    "Post-Breach Response" : 27
+    "Notification" : 6
+                    </div>
+                    
+                    <div class="mermaid" style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; flex: 1; min-width: 300px; text-align: center;">
+pie title Engineering Remediation Time (%)
+    "Patching Legacy C/C++" : 55
+    "Debugging Memory Leaks" : 25
+    "Code Review & Audits" : 15
+    "Actual Feature Dev" : 5
+                    </div>
+                </div>
+                <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 2rem; font-size: 0.9rem;">Figure 4: Breakdown of Financial and Engineering Costs</div>
+
                 <h2>Historic & Recent Memory Safety CVEs</h2>
                 <p>Below is an overview of significant Common Vulnerabilities and Exposures (CVEs) highlighting how memory corruption leads to catastrophic real-world exploits.</p>
 
@@ -204,5 +226,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
 </body>
 </html>
