@@ -70,30 +70,73 @@
             </header>
 
             <article class="book-page">
-    <span class="chapter-number">Session 4</span>
-    <h1>Linux Kernel & Cloud Computing</h1>
+
+    <span class="chapter-number">Session 4.3</span>
+    <h1>Linux Kernel & Cloud Infrastructure</h1>
     
-<h2>Linux Kernel & Cloud Computing</h2>
+    <h2>Rust in the Linux Kernel</h2>
+    <p>For over 30 years, the Linux Kernel was written exclusively in C and Assembly. In Linux 6.1 (2022), history was made when Rust was officially accepted as the second language of the kernel. This initiative, known as <strong>Rust-for-Linux</strong>, allows developers to write kernel modules (like device drivers and file systems) that are memory-safe by default.</p>
 
-<h3>Rust in the Linux Kernel</h3>
-<p>For 30 years, the Linux Kernel was strictly written in C and Assembly. In late 2022 (Kernel 6.1), Rust became the second official language. Today, Rust is being used to write network drivers, GPU drivers (like Apple Silicon's Asahi Linux), and file systems.</p>
-<p><strong>Why?</strong> Over 68% of Linux kernel vulnerabilities are memory safety bugs. Rust eliminates them at compile time, drastically improving server security worldwide.</p>
+    <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+graph LR
+    subgraph UserSpace["User Space"]
+        App[Applications]
+    end
+    subgraph KernelSpace["Kernel Space"]
+        C[Core Kernel (C)]
+        RC[Rust Abstraction Layer]
+        RM[Rust Device Driver]
+        
+        C <--> RC
+        RC <--> RM
+    end
+    App <--> KernelSpace
+    style RM fill:#ed8936,stroke:#dd6b20,color:#fff,stroke-width:2px;
+    </div>
+    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">Figure 4.3: Rust integration architecture in Linux</div>
 
-<h3>Cloud Computing & Hyperscalers</h3>
-<p>Cloud providers (AWS, Cloudflare, Microsoft Azure) are migrating massive amounts of infrastructure to Rust.</p>
-<div class="info-callout" style="border-left-color: #28c840;">
-    <strong>Current Adoption & Need for the Future:</strong>
-    <ul>
-        <li><strong>AWS Firecracker:</strong> The microVM technology powering AWS Lambda is written entirely in Rust for maximum isolation security and microsecond boot times.</li>
-        <li><strong>Cloudflare Pingora:</strong> Cloudflare rewrote their NGINX proxy layer in Rust, handling trillions of requests a day. The result? CPU usage dropped by 70%, and memory safety bugs dropped to zero.</li>
+    <h2>Cloud Computing at Scale</h2>
+    <p>Cloud providers are obsessed with two things: <strong>Security</strong> (tenant isolation) and <strong>Performance</strong> (CPU/Memory overhead). Rust delivers both, making it the premier choice for modern cloud infrastructure.</p>
+    
+    <div class="info-callout" style="border-left-color: #2196f3;">
+        <strong>Cloud Infrastructure Rewrites:</strong>
+        <ul>
+            <li><strong>AWS Firecracker:</strong> Amazon wrote the microVM hypervisor that powers AWS Lambda and Fargate entirely in Rust, guaranteeing tenant isolation with microsecond boot times.</li>
+            <li><strong>Cloudflare Pingora:</strong> Cloudflare rewrote their NGINX-based proxy infrastructure in Rust, handling trillions of requests a day while drastically reducing CPU and memory usage, and eliminating memory leaks.</li>
+            <li><strong>Discord:</strong> Transitioned their core microservices from Go to Rust to eliminate garbage collection latency spikes, achieving flat millisecond response times.</li>
+        </ul>
+    </div>
+
+    <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="margin-top:0; color:var(--accent);">Tutorial Highlight: Tokio Async TCP Server</h3>
+        <p>The foundation of all Rust cloud tooling is <code>tokio</code>, an asynchronous runtime capable of handling millions of concurrent connections on a single server.</p>
+        <pre><code class="language-rust">use tokio::net::TcpListener;
+use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+#[tokio::main]
+async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let listener = TcpListener::bind("127.0.0.1:8080").await?;
+
+    loop {
+        let (mut socket, _) = listener.accept().await?;
+
+        // Spawn a lightweight green-thread for each connection
+        tokio::spawn(async move {
+            let mut buf = [0; 1024];
+            let n = socket.read(&mut buf).await.unwrap();
+            socket.write_all(&buf[0..n]).await.unwrap();
+        });
+    }
+}</code></pre>
+        <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Program 4.3: Highly concurrent Tokio Echo Server</div>
+    </div>
+
+    <h3 style="margin-top: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">External References & Further Reading</h3>
+    <ul style="font-size: 0.9rem; color: var(--text-muted);">
+        <li><a href="https://kernel.org/" target="_blank" style="color: var(--accent);">Rust for Linux Official Documentation</a> (kernel.org)</li>
+        <li><a href="https://blog.cloudflare.com/pingora-opensource" target="_blank" style="color: var(--accent);">How we built Pingora, the proxy that connects Cloudflare to the Internet</a> (Cloudflare Engineering Blog)</li>
+        <li><a href="https://aws.amazon.com/blogs/opensource/firecracker-open-source-secure-fast-microvm-serverless/" target="_blank" style="color: var(--accent);">Firecracker: Secure and fast microVMs for serverless computing</a> (AWS Open Source Blog)</li>
     </ul>
-</div>
-
-<h3>Recent References & Traction</h3>
-<ul>
-    <li><em>"Microsoft Azure rewrites core Windows OS virtualization layers in Rust"</em> (Microsoft Security, 2025)</li>
-    <li><em>"Rust Linux Kernel modules see 500% growth in community contributions"</em> (LKML, 2026)</li>
-</ul>
 
 </article>
 
@@ -118,5 +161,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
 </body>
 </html>

@@ -70,34 +70,51 @@
             </header>
 
             <article class="book-page">
-    <span class="chapter-number">Session 4</span>
-    <h1>Career Roadmap & Open-Source</h1>
+
+    <span class="chapter-number">Session 4.5</span>
+    <h1>The Career Roadmap</h1>
     
-<h2>Career Roadmap & Open-Source</h2>
+    <h2>Mastering the Learning Curve</h2>
+    <p>Rust has a reputation for a steep learning curve. The compiler (often affectionately called the "borrow checker") will initially feel like an adversary, rejecting code that you thought was perfectly fine. However, this friction is by design: it is forcing you to handle the edge cases that you would have ignored in C or Python.</p>
 
-<p>The demand for Rust developers is massively outpacing the supply. Companies are willing to pay a premium for developers who can write high-performance, memory-safe code.</p>
+    <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+gitGraph
+    commit id: "Phase 1: Fighting the Compiler"
+    commit id: "Phase 2: Understanding Lifetimes"
+    commit id: "Phase 3: Fearless Concurrency"
+    branch "Systems/Embedded"
+    commit id: "#![no_std] & Hardware"
+    checkout main
+    branch "Cloud/Backend"
+    commit id: "Tokio & Axum"
+    checkout main
+    commit id: "Phase 4: Domain Expert"
+    </div>
+    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">Figure 4.5: The Rust Developer Progression Track</div>
 
-<h3>Career Roadmap</h3>
-<ol style="line-height: 1.8;">
-    <li><strong>Master the Borrow Checker:</strong> Don't fight it. Understand ownership, borrowing, and lifetimes.</li>
-    <li><strong>Build a Systems Project:</strong> Write a CLI tool, a basic HTTP server, or an emulator. Prove you can handle bytes and buffers.</li>
-    <li><strong>Learn FFI (Foreign Function Interface):</strong> Companies rarely rewrite everything at once. Learn how to call C code from Rust, and how to expose Rust functions to C/Python. This makes you invaluable for incremental migrations.</li>
-    <li><strong>Specialize:</strong> Choose a domain: Embedded (Embassy), Web Backend (Axum), or Systems/Infra (Tokio).</li>
-</ol>
+    <div class="info-callout" style="border-left-color: #f44336;">
+        <strong>Market Demand for Rust</strong>
+        <p>According to the <em>Stack Overflow Developer Survey</em>, Rust has been the "Most Loved Programming Language" for eight consecutive years. Furthermore, the White House Office of the National Cyber Director (ONCD) recently issued an urgent memo urging software companies to transition to memory-safe languages like Rust to protect national infrastructure.</p>
+    </div>
 
-<div class="info-callout">
-    <strong>Open-Source Contributions</strong>
+    <h2>Open-Source Contributions</h2>
     <p>Rust has the most welcoming open-source community in the world. Finding a project to contribute to is the fastest way to get hired.</p>
     <ul>
-        <li><strong>Good First Issues:</strong> Almost all Rust projects tag easy issues for beginners. Check out <code>this-week-in-rust.org</code> for calls for participation.</li>
+        <li><strong>Good First Issues:</strong> Almost all Rust projects tag easy issues for beginners. Check out <code class="keyword-hl">this-week-in-rust.org</code> for calls for participation.</li>
         <li><strong>Contribute to the Compiler:</strong> The <code>rustc</code> compiler is entirely open source. There are dedicated mentoring groups to help you make your first commit to the language itself!</li>
     </ul>
-</div>
 
-<div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem; text-align: center;">
-    <h1 style="margin-top:0; color:var(--accent);">You have completed the workshop!</h1>
-    <p style="color: var(--text-muted);">Thank you for participating. You are now equipped with the fundamental knowledge of why memory safety matters, and how Rust solves the billion-dollar software problem.</p>
-</div>
+    <h3 style="margin-top: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">External References & Further Reading</h3>
+    <ul style="font-size: 0.9rem; color: var(--text-muted);">
+        <li><a href="https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/" target="_blank" style="color: var(--accent);">White House Report on Memory Safe Programming</a> (WhiteHouse.gov, 2024)</li>
+        <li><a href="https://survey.stackoverflow.co/" target="_blank" style="color: var(--accent);">Stack Overflow Annual Developer Survey</a></li>
+        <li><a href="https://this-week-in-rust.org/" target="_blank" style="color: var(--accent);">This Week in Rust (Newsletter)</a></li>
+    </ul>
+    
+    <div style="background: var(--accent); color: #fff; padding: 2rem; border-radius: 8px; text-align: center; margin-top: 4rem;">
+        <h1 style="margin: 0; color: #fff;">You have completed the workshop!</h1>
+        <p style="margin-top: 1rem; font-size: 1.1rem; opacity: 0.9;">Congratulations on taking your first steps toward fearless, secure systems programming.</p>
+    </div>
 
 </article>
 
@@ -122,5 +139,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
 </body>
 </html>

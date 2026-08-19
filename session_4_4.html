@@ -70,37 +70,61 @@
             </header>
 
             <article class="book-page">
-    <span class="chapter-number">Session 4</span>
-    <h1>AI Infrastructure</h1>
+
+    <span class="chapter-number">Session 4.4</span>
+    <h1>AI & Machine Learning Infrastructure</h1>
     
-<h2>AI Infrastructure</h2>
-<p>While Python is the face of AI (TensorFlow, PyTorch), it is far too slow to handle the underlying infrastructure. AI requires orchestrating thousands of GPUs and processing petabytes of data.</p>
+    <h2>The Hidden Danger in ML Models</h2>
+    <p>While Python is the face of AI data science, the actual heavy lifting (matrix multiplication, hardware acceleration) is historically done by C++ backends. Furthermore, sharing AI models traditionally relied on Python's <code>pickle</code> module. The problem? Unpickling a malicious model can execute arbitrary code on the victim's machine.</p>
 
-<h3>Rust as the AI Glue</h3>
-<p>Rust is rapidly replacing C++ as the backend systems language for Artificial Intelligence.</p>
+    <h3>Securing the Weights: Safetensors</h3>
+    <p>HuggingFace solved the model distribution security crisis by creating <code>safetensors</code>, a format built in Rust. It guarantees that parsing a model is mathematically safe, fast, and cannot result in Remote Code Execution (RCE) or memory exhaustion.</p>
 
-<div class="info-callout" style="border-left-color: #8b5cf6;">
-    <strong>Current Adoption & Need for the Future:</strong>
-    <ul>
-        <li><strong>HuggingFace SafeTensors:</strong> HuggingFace replaced Python's insecure <code>pickle</code> format with <code>safetensors</code>, written in Rust. It prevents malicious code execution when downloading AI models and parses data significantly faster.</li>
-        <li><strong>Candle Framework:</strong> A minimalist ML framework built entirely in Rust to run LLMs directly on edge devices without the massive bloat of PyTorch.</li>
-        <li><strong>Data Engineering:</strong> Tools like <em>Polars</em> (a lightning-fast DataFrame library replacing Pandas) are written in Rust, processing data 10x to 50x faster.</li>
-    </ul>
-</div>
+    <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+graph TD
+    subgraph Traditional["Traditional PyTorch (Insecure)"]
+        A[Download Model.pkl] --> B[Unpickle data]
+        B -->|Malicious Payload!| C[Arbitrary Code Execution]
+    end
+    subgraph RustSafe["Safetensors (Rust-Powered)"]
+        D[Download Model.safetensors] --> E[Rust zero-copy validation]
+        E -->|Strict parsing| F[Model loaded directly to GPU memory]
+    end
+    style F fill:#48bb78,stroke:#2f855a,color:#fff,stroke-width:2px;
+    style C fill:#f56565,stroke:#c53030,color:#fff,stroke-width:2px;
+    </div>
+    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">Figure 4.4: Vulnerable Pickle vs Secure Safetensors</div>
 
-<h3>Tutorial Highlight: Running an LLM in 10 lines of Rust</h3>
-<p>Using the Candle framework, developers can load and run Large Language Models directly on their CPU/GPU with incredible efficiency.</p>
-<pre><code class="language-rust">use candle_core::{Device, Tensor};
-// Rust's strict typing ensures tensor dimensions match perfectly at compile time!
-fn main() -> Result&lt;()&gt; {
-    let device = Device::new_cuda(0)?;
-    let weights = Tensor::randn(0f32, 1f32, (100, 100), &device)?;
-    // Matrix multiplication executes directly on the GPU
-    let output = weights.matmul(&weights)?;
-    println!("Computed output shape: {:?}", output.shape());
-    Ok(())
+    <div class="info-callout" style="border-left-color: #9c27b0;">
+        <strong>Rust ML Frameworks (Candle)</strong>
+        <p>HuggingFace's <strong>Candle</strong> is a minimalist ML framework built entirely in Rust. It allows developers to run Large Language Models (LLMs) like LLaMA directly on Edge devices, servers, or WebAssembly without the massive overhead of Python and PyTorch.</p>
+    </div>
+
+    <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="margin-top:0; color:var(--accent);">Tutorial Highlight: Loading Safetensors</h3>
+        <p>Rust makes parsing mult-gigabyte AI models lightning fast via zero-copy memory mapping.</p>
+        <pre><code class="language-rust">use safetensors::SafeTensors;
+use std::fs::File;
+use memmap2::MmapOptions;
+
+fn load_ai_model() {
+    let file = File::open("model.safetensors").unwrap();
+    // Safely map the file directly into memory without copying
+    let buffer = unsafe { MmapOptions::new().map(&file).unwrap() };
+    
+    // Safetensors securely validates the tensor boundaries
+    let tensors = SafeTensors::deserialize(&buffer).unwrap();
+    println!("Loaded tensor: {:?}", tensors.tensor("weight_1"));
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 34: Tutorial Highlight: Running an LLM in 10 lines of Rust</div>
+        <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Program 4.4: Zero-copy, secure ML model loading</div>
+    </div>
+
+    <h3 style="margin-top: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">External References & Further Reading</h3>
+    <ul style="font-size: 0.9rem; color: var(--text-muted);">
+        <li><a href="https://huggingface.co/docs/safetensors/index" target="_blank" style="color: var(--accent);">Safetensors Documentation</a> (HuggingFace, 2023)</li>
+        <li><a href="https://github.com/huggingface/candle" target="_blank" style="color: var(--accent);">Candle: Minimalist ML framework for Rust</a> (GitHub)</li>
+        <li><em>"Why we rewrote our backend in Rust for AI inference"</em> - AI Engineering Conference (2025)</li>
+    </ul>
 
 </article>
 
@@ -125,5 +149,11 @@ fn main() -> Result&lt;()&gt; {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
 </body>
 </html>
