@@ -111,7 +111,7 @@ fn main() {
 
     println!("Final Vault Total: ${}", *vault_total.lock().unwrap());
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 31</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 31: Project Code</div>
                 
                 <h2>How to Run</h2>
                 <p>Run <code class="keyword-hl">cargo run</code>. Unlike C, this will print exactly <code>1,000,000</code> every single time. Try removing the Mutex and passing a standard reference into the thread—the compiler will instantly throw an error to prevent the data race!</p>

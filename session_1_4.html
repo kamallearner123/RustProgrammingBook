@@ -84,7 +84,7 @@ sudo apt-get install valgrind
 
 # macOS (using Homebrew)
 brew install valgrind</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 15</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 15: Installation</div>
 
                 <h3>Example Program (Memory Leak)</h3>
                 <pre><code class="language-c">#include &lt;stdlib.h&gt;
@@ -98,13 +98,13 @@ int main() {
     leak_memory();
     return 0;
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 16</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 16: Example Program (Memory Leak)</div>
 
                 <h3>How to Compile and Run</h3>
                 <p>Always compile with the <code>-g</code> flag to include debugging symbols, which allows Valgrind to show exact line numbers in its report.</p>
                 <pre><code class="language-bash">$ gcc -g leak.c -o leak_app
 $ valgrind --leak-check=full ./leak_app</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 17</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 17: How to Compile and Run</div>
 
                 <h3>Sample Report</h3>
                 <pre><code class="language-bash">==12345== HEAP SUMMARY:
@@ -118,7 +118,7 @@ $ valgrind --leak-check=full ./leak_app</code></pre>
 ==12345== 
 ==12345== LEAK SUMMARY:
 ==12345==    definitely lost: 40 bytes in 1 blocks</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 18</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 18: Sample Report</div>
 
 
                 <h2>2. Helgrind</h2>
@@ -148,12 +148,12 @@ int main() {
     pthread_join(t2, NULL);
     return 0;
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 19</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 19: Example Program (Data Race)</div>
 
                 <h3>How to Compile and Run</h3>
                 <pre><code class="language-bash">$ gcc -g -pthread datarace.c -o datarace_app
 $ valgrind --tool=helgrind ./datarace_app</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 20</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 20: How to Compile and Run</div>
 
                 <h3>Sample Report</h3>
                 <pre><code class="language-bash">==12346== Possible data race during read of size 4 at 0x10C014 by thread #3
@@ -163,7 +163,7 @@ $ valgrind --tool=helgrind ./datarace_app</code></pre>
 ==12346== This conflicts with a previous write of size 4 by thread #2
 ==12346== Locks held: none
 ==12346==    at 0x1091B1: increment (datarace.c:8)</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 21</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 21: Sample Report</div>
 
 
                 <h2>3. Address Sanitizer (ASan)</h2>
@@ -173,7 +173,7 @@ $ valgrind --tool=helgrind ./datarace_app</code></pre>
                 <p>ASan is built into GCC (v4.8+) and Clang (v3.1+). If you have a modern C compiler installed, you already have ASan. On Linux, you may need the specific ASan library package:</p>
                 <pre><code class="language-bash"># Ubuntu / Debian
 sudo apt-get install libasan6</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 22</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 22: Installation</div>
 
                 <h3>Example Program (Use-After-Free)</h3>
                 <pre><code class="language-c">#include &lt;stdlib.h&gt;
@@ -186,13 +186,13 @@ int main() {
     // ERROR: Using memory after it has been freed
     return array[5]; 
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 23</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 23: Example Program (Use-After-Free)</div>
 
                 <h3>How to Compile and Run</h3>
                 <p>You must compile the program with the <code>-fsanitize=address</code> flag. Then simply run the binary normally.</p>
                 <pre><code class="language-bash">$ gcc -fsanitize=address -g uaf.c -o uaf_app
 $ ./uaf_app</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 24</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 24: How to Compile and Run</div>
 
                 <h3>Sample Report</h3>
                 <pre><code class="language-bash">=================================================================
@@ -210,7 +210,7 @@ previously allocated by thread T0 here:
     #0 0x7f8a9b43ed38 in malloc (/usr/lib/x86_64-linux-gnu/libasan.so.5+0x10ad38)
     #1 0x401132 in main /path/to/uaf.c:5
 =================================================================</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 25</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 25: Sample Report</div>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 

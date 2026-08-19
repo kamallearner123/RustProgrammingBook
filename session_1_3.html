@@ -85,7 +85,7 @@
                 <!-- Image placeholder as requested -->
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="c_cpp_wild.png" alt="C/C++ in the wild" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 2</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 2: C/C++ in the Wild</div>
                     <p style="font-size: 0.9rem; color: var(--text-muted);"><em>(Please ensure 'c_cpp_wild.png' is in your project folder)</em></p>
                 </div>
 
@@ -100,7 +100,7 @@
     printf("Enter password: ");
     gets(password);
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 5</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 5: 1. The Classic Mistake</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Stack Buffer Overflow.</strong> The <code>gets()</code> function reads from standard input until it sees a newline, completely ignoring the 16-byte limit of the buffer. An attacker can input 500 characters and overwrite the function's return address, taking control of the program.
@@ -117,7 +117,7 @@
         printf("Transfer successful!\n");
     }
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 6</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 6: 2. The Math Trap</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Integer Underflow / Logical Flaw.</strong> Because <code>balance</code> and <code>amount</code> are <code>unsigned int</code>, they can never be negative. If <code>amount</code> is 500, <code>100 - 500</code> wraps around to a massive positive number (e.g., 4294966896). The <code>>= 0</code> check is always true!
@@ -133,7 +133,7 @@ free(user);
 
 // ... later in the code ...
 printf("Welcome, %s\n", user);</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 7</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 7: 3. The Ghost Pointer</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Use-After-Free (UAF).</strong> The memory was freed and given back to the OS. Between the <code>free()</code> and the <code>printf()</code>, that memory could have been reallocated to a completely different object (like attacker-controlled input). The program uses the old pointer, leading to data corruption or code execution.
@@ -147,7 +147,7 @@ printf("Welcome, %s\n", user);</code></pre>
 for (int i = 0; i &lt;= 10; i++) {
     scores[i] = 100;
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 8</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 8: 4. The Off-By-One</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Static Array Overflow (Out-Of-Bounds Write).</strong> An array of size 10 has indices 0 through 9. The loop condition <code>i &lt;= 10</code> executes for index 10, overwriting whatever memory sits immediately after the array on the stack.
@@ -167,7 +167,7 @@ char *buffer = malloc(256);
 cleanup(buffer);
 // ... error occurs ...
 cleanup(buffer);</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 9</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 9: 5. The Echo</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Double Free.</strong> Calling <code>free()</code> on the same pointer twice corrupts the heap allocator's internal linked lists (the freelist). Attackers can manipulate this to overwrite arbitrary memory locations.
@@ -180,7 +180,7 @@ cleanup(buffer);</code></pre>
                     <pre><code class="language-c">void log_input(char *user_input) {
     printf(user_input);
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 10</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 10: 6. The Unfiltered Echo</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Format String Vulnerability.</strong> If the user inputs <code>%x %x %x</code>, <code>printf</code> will pop values off the stack and print them, leaking sensitive data. Worse, if they input <code>%n</code>, they can write data to arbitrary memory addresses!
@@ -198,7 +198,7 @@ int main() {
     Config *cfg = get_config(); // Might return NULL
     update_config(cfg);
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 11</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 11: 7. The Missing Check</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Null Pointer Dereference.</strong> If <code>get_config()</code> fails and returns NULL, the program attempts to write to memory address 0. This instantly crashes the program (Denial of Service).
@@ -217,7 +217,7 @@ int main() {
         printf("Access Granted.\n");
     }
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 12</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 12: 8. The Dirty Laundry</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Uninitialized Variable.</strong> Local variables in C are not automatically set to zero. <code>is_admin</code> contains whatever garbage data was left on the stack from previous function calls. If that garbage data happens to be non-zero, the attacker bypasses authentication!
@@ -230,7 +230,7 @@ int main() {
                     <pre><code class="language-c">char *src = "Super Secret Password";
 char *dest = malloc(10);
 strcpy(dest, src);</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 13</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 13: 9. The Short Request</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Heap Buffer Overflow.</strong> We allocated 10 bytes on the heap, but <code>strcpy</code> copies until it hits a null terminator. It will copy all 22 bytes of the source string, overwriting 12 bytes of adjacent heap memory.
@@ -247,7 +247,7 @@ strcpy(dest, src);</code></pre>
     }
     free(session_data);
 }</code></pre>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 14</div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 14: 10. The Silent Killer</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Memory Leak.</strong> If <code>user_aborted()</code> is true, the function returns early and skips the <code>free()</code> call. Every time an attacker triggers this condition, the server permanently loses 4KB of RAM until it crashes completely.
