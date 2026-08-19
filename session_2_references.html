@@ -78,7 +78,22 @@
                 <p>When you have a reference, sometimes you need to access the underlying value directly. You do this using the <strong>dereference operator</strong>, which is the asterisk (<code>*</code>).</p>
 
                 <h2>Example 1: Basic Dereferencing</h2>
-                <pre><code class="language-rust">fn main() {
+                
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// C Null Pointer Dereference
+// C references (pointers) can be NULL, causing immediate crashes.
+void update_score(int *score_ptr) {
+    // If the developer forgets: if (score_ptr == NULL) return;
+    // The server will instantly crash with a Segfault.
+    *score_ptr = *score_ptr + 10;
+}
+                        </code></pre>
+                    </div>
+                </details>
+<pre><code class="language-rust">fn main() {
     let x = 5;
     let y = &x; // y is a reference to x
 

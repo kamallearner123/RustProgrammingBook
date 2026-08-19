@@ -85,7 +85,22 @@
                 </div>
 
                 <h2>Example 1: Multiple Immutable References</h2>
-                <pre><code class="language-rust">fn main() {
+                
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// C Mutable Aliasing / Data Race
+void process_transaction(int *sender_bal, int *receiver_bal) {
+    // If sender_bal and receiver_bal point to the EXACT same memory address
+    // (aliasing), the logic breaks entirely.
+    *sender_bal -= 100;
+    *receiver_bal += 100;
+}
+                        </code></pre>
+                    </div>
+                </details>
+<pre><code class="language-rust">fn main() {
     let s = String::from("hello");
 
     let r1 = &s;

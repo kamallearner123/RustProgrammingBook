@@ -78,7 +78,25 @@
                 <p>We use the ampersand symbol <code>&</code> to create a reference (borrow) to a value.</p>
 
                 <h2>Example 1: Passing by Borrow (Reference)</h2>
-                <pre><code class="language-rust">fn calculate_length(s: &String) -> usize {
+                
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// C Use-After-Free (UAF) Vulnerability
+void process_user() {
+    char *user = malloc(20);
+    strcpy(user, "admin");
+    free(user); // Memory returned to OS
+    
+    // BUG: The pointer still holds the address.
+    // If an attacker allocates memory here, they control 'user'.
+    printf("Processing: %s\n", user); 
+}
+                        </code></pre>
+                    </div>
+                </details>
+<pre><code class="language-rust">fn calculate_length(s: &String) -> usize {
     s.len()
 } // Here, s goes out of scope. But because it does not have ownership of what it refers to, it is not dropped.
 

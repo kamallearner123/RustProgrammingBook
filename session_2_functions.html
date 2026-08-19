@@ -79,7 +79,22 @@
                 <p><strong>Syntax:</strong> <code>fn name(param: type) -> return_type { ... }</code></p>
 
                 <h2>Example 1: Basic Function</h2>
-                <pre><code class="language-rust">fn print_labeled_measurement(value: i32, unit_label: char) {
+                
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// C allows you to return pointers to local stack variables!
+int* get_system_status() {
+    int status_code = 200;
+    // BUG: Returning the address of a local variable. 
+    // When the function returns, this memory is destroyed!
+    return &status_code; 
+}
+                        </code></pre>
+                    </div>
+                </details>
+<pre><code class="language-rust">fn print_labeled_measurement(value: i32, unit_label: char) {
     println!("The measurement is: {value}{unit_label}");
 }
 

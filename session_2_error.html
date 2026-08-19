@@ -82,7 +82,25 @@
                 </div>
 
                 <h2>Example 1: Unrecoverable Errors (panic!)</h2>
-                <pre><code class="language-rust">fn main() {
+                
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// C Error Handling: Silent Failures
+void read_config() {
+    // fopen returns NULL if the file doesn't exist
+    FILE *file = fopen("secrets.txt", "r");
+    
+    // BUG: Developer forgot to check for NULL.
+    // fread will attempt to read from address 0x0 and crash.
+    char buffer[100];
+    fread(buffer, 1, 100, file); 
+}
+                        </code></pre>
+                    </div>
+                </details>
+<pre><code class="language-rust">fn main() {
     // This will immediately stop execution and print an error message.
     panic!("Crash and burn!");
 }</code></pre>

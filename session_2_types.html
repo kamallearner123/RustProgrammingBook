@@ -91,7 +91,36 @@
 
                 <div class="trap-callout">
                     <h3>⚠️ C/C++ Developer Trap: No Implicit Type Coercion</h3>
-                    <p>In C, you can seamlessly add a <code>char</code> to an <code>int</code>, or pass a <code>float</code> into a function expecting a <code>double</code>. The compiler implicitly converts it. <strong>Rust refuses to do this.</strong> If you try to add an <code>i32</code> to an <code>i64</code>, the compiler will throw an error. You must explicitly cast types using the <code>as</code> keyword (e.g., <code>x as i64</code>). This eliminates an entire class of subtle integer overflow and truncation vulnerabilities.</p>
+                    <p>In C, you can seamlessly add a <code>char</code> to an <code>int</code>, or pass a <code>float</code> into a function expecting a <code>double</code>. The compiler implicitly converts it. <strong>Rust refuses to do this.</strong></p>
+                    
+                    <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                        <div style="margin-top: 1rem;">
+                            <pre><code class="language-c">
+// C suffers from dangerous implicit type conversions (Integer Underflow)
+unsigned int max_buffer = 100;
+int user_input = -1;
+
+// BUG: -1 is implicitly cast to an unsigned int (4294967295)
+// This check evaluates to TRUE!
+if (user_input > max_buffer) {
+    printf("Access Denied");
+}
+                            </code></pre>
+                        </div>
+                    </details>
+
+                    <p>If you try to add an <code>i32</code> to an <code>i64</code> in Rust, the compiler will throw an error. You must explicitly cast types using the <code>as</code> keyword (e.g., <code>x as i64</code>). This eliminates an entire class of subtle integer overflow and truncation vulnerabilities.</p>
+                    <pre><code class="language-rust">
+let max_buffer: u32 = 100;
+let user_input: i32 = -1;
+
+// COMPILER ERROR: Rust refuses to compare different types directly!
+// You must explicitly handle the conversion, forcing you to think about the sign.
+if user_input > max_buffer { 
+    // error[E0308]: mismatched types
+}
+                    </code></pre>
                 </div>
 
                 <h3>Compound Types</h3>

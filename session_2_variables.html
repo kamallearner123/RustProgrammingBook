@@ -79,7 +79,20 @@
                 <p>To make a variable mutable, you must explicitly use the <code class="keyword-hl">mut</code> keyword: <code>let mut variable_name = value;</code></p>
 
                 <h2>Example 1: Immutable Variables</h2>
-                <pre><code class="language-rust">fn main() {
+                
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// In C, variables are mutable by default.
+// It is very easy to accidentally overwrite a critical configuration value.
+int max_retries = 3;
+// ... hundreds of lines later ...
+max_retries = -1; // Accidental logic bug, no compiler warning!
+                        </code></pre>
+                    </div>
+                </details>
+<pre><code class="language-rust">fn main() {
     let x = 5;
     println!("The value of x is: {}", x);
 }</code></pre>
