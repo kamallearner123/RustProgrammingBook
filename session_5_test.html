@@ -8,631 +8,678 @@
 </head>
 <body>
     <div class="app-container">
-        <main class="main-content" style="margin-left:0; max-width: 800px; margin: 0 auto; padding: 2rem;">
-            <h1>Test your skills: 50 MCQs</h1>
-            <p>Test your comprehensive knowledge of Rust memory safety and security.</p>
-            <button id="start-test-btn" style="background:var(--accent); color:#fff; padding: 10px 20px; border:none; border-radius: 4px; cursor:pointer; font-weight:bold; margin-bottom: 2rem;">Start Test (Reset Data)</button>
-            
-            <div id="test-questions">
-                <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);">
-        <div class="mcq-container">
-            <div class="mcq-question">1. Generic Rust Security Question 1?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">2. Generic Rust Security Question 2?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">3. Generic Rust Security Question 3?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">4. Generic Rust Security Question 4?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">5. Generic Rust Security Question 5?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">6. Generic Rust Security Question 6?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">7. Generic Rust Security Question 7?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">8. Generic Rust Security Question 8?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">9. Generic Rust Security Question 9?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">10. Generic Rust Security Question 10?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">11. Generic Rust Security Question 11?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">12. Generic Rust Security Question 12?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">13. Generic Rust Security Question 13?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">14. Generic Rust Security Question 14?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">15. Generic Rust Security Question 15?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">16. Generic Rust Security Question 16?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">17. Generic Rust Security Question 17?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">18. Generic Rust Security Question 18?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">19. Generic Rust Security Question 19?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">20. Generic Rust Security Question 20?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">21. Generic Rust Security Question 21?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">22. Generic Rust Security Question 22?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">23. Generic Rust Security Question 23?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">24. Generic Rust Security Question 24?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">25. Generic Rust Security Question 25?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">26. Generic Rust Security Question 26?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">27. Generic Rust Security Question 27?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">28. Generic Rust Security Question 28?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">29. Generic Rust Security Question 29?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">30. Generic Rust Security Question 30?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">31. Generic Rust Security Question 31?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">32. Generic Rust Security Question 32?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">33. Generic Rust Security Question 33?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">34. Generic Rust Security Question 34?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">35. Generic Rust Security Question 35?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">36. Generic Rust Security Question 36?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">37. Generic Rust Security Question 37?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">38. Generic Rust Security Question 38?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">39. Generic Rust Security Question 39?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">40. Generic Rust Security Question 40?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">41. Generic Rust Security Question 41?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">42. Generic Rust Security Question 42?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">43. Generic Rust Security Question 43?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">44. Generic Rust Security Question 44?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">45. Generic Rust Security Question 45?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">46. Generic Rust Security Question 46?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">47. Generic Rust Security Question 47?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">48. Generic Rust Security Question 48?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">49. Generic Rust Security Question 49?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">50. Generic Rust Security Question 50?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        </div>
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
             </div>
-            
-            <div style="text-align:center; margin-top: 3rem;">
-                <a href="index.html" style="color:var(--accent);">Return to Home</a>
+            <div class="sidebar-content">
+                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+
+                    <li class="toc-main" style="margin-top:20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                        <a href="session_5_test.html" style="color:#ffbd2e; font-weight: bold;">TEST YOUR SKILLS: 50 MCQs</a>
+                    </li>
+                </ul>
             </div>
+        </nav>
+
+        <main class="main-content" style="padding: 2rem;">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <h1>Test your skills: 50 MCQs</h1>
+                <p>Test your comprehensive knowledge of Rust memory safety, C/C++ vulnerabilities, and real-world system architecture.</p>
+                <button id="start-test-btn" style="background:var(--accent); color:#fff; padding: 10px 20px; border:none; border-radius: 4px; cursor:pointer; font-weight:bold; margin-bottom: 2rem;">Start / Reset Test</button>
+                
+                <div id="test-score-display" style="font-size: 1.2rem; font-weight: bold; margin-bottom: 2rem; color: var(--accent);">Test Score: 0 / 50</div>
+
+                <div id="test-questions">
+                    
+        <div class="mcq-container">
+            <div class="mcq-question">1. Which memory segment is used for dynamic allocation via malloc?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Stack</li>
+                <li class="mcq-option" data-correct="true">Heap</li>
+                <li class="mcq-option" data-correct="false">BSS</li>
+                <li class="mcq-option" data-correct="false">Text</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">2. What happens if a process attempts to read outside its allocated memory segment?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">The program runs slower</li>
+                <li class="mcq-option" data-correct="false">The CPU ignores the read</li>
+                <li class="mcq-option" data-correct="true">The MMU triggers a Hardware Exception (Segfault)</li>
+                <li class="mcq-option" data-correct="false">The compiler fixes it automatically</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">3. What is the '70% Rule' discovered by Microsoft and Google?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">70% of code is legacy</li>
+                <li class="mcq-option" data-correct="false">70% of developers use C++</li>
+                <li class="mcq-option" data-correct="true">70% of all severe security vulnerabilities are caused by memory safety issues</li>
+                <li class="mcq-option" data-correct="false">70% of bugs are logical errors</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">4. Which vulnerability is caused by forgetting to call free()?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Use-After-Free</li>
+                <li class="mcq-option" data-correct="false">Buffer Overflow</li>
+                <li class="mcq-option" data-correct="true">Memory Leak</li>
+                <li class="mcq-option" data-correct="false">Double Free</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">5. Which vulnerability is caused by calling free() twice on the same pointer?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Memory Leak</li>
+                <li class="mcq-option" data-correct="false">Dangling Pointer</li>
+                <li class="mcq-option" data-correct="true">Double Free</li>
+                <li class="mcq-option" data-correct="false">Integer Overflow</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">6. What was the root cause of the Heartbleed vulnerability (CVE-2014-0160)?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">SQL Injection</li>
+                <li class="mcq-option" data-correct="true">Buffer Over-read</li>
+                <li class="mcq-option" data-correct="false">Use-After-Free</li>
+                <li class="mcq-option" data-correct="false">Data Race</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">7. In C/C++, how do developers prevent Data Races in concurrent code?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">By using the volatile keyword</li>
+                <li class="mcq-option" data-correct="true">By manually using Mutexes or Semaphores</li>
+                <li class="mcq-option" data-correct="false">The OS prevents them automatically</li>
+                <li class="mcq-option" data-correct="false">By increasing the Stack size</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">8. What is a Time-of-Check to Time-of-Use (TOCTOU) bug often related to?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Network latency</li>
+                <li class="mcq-option" data-correct="true">Data Races / Concurrency</li>
+                <li class="mcq-option" data-correct="false">Database deadlocks</li>
+                <li class="mcq-option" data-correct="false">Compiler optimization</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">9. What is Valgrind primarily used for?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Formatting code</li>
+                <li class="mcq-option" data-correct="false">Static Analysis</li>
+                <li class="mcq-option" data-correct="true">Dynamic memory debugging and profiling</li>
+                <li class="mcq-option" data-correct="false">Package management</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">10. Why are static analysis tools (like MISRA linters) not enough to stop all bugs?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">They are too slow</li>
+                <li class="mcq-option" data-correct="true">They cannot catch complex runtime behaviors like Data Races</li>
+                <li class="mcq-option" data-correct="false">They delete your code</li>
+                <li class="mcq-option" data-correct="false">They require an internet connection</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">11. Are Rust variables mutable or immutable by default?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Mutable</li>
+                <li class="mcq-option" data-correct="true">Immutable</li>
+                <li class="mcq-option" data-correct="false">Depends on the type</li>
+                <li class="mcq-option" data-correct="false">Only integers are immutable</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">12. What keyword is used to make a Rust variable mutable?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">mut</li>
+                <li class="mcq-option" data-correct="false">var</li>
+                <li class="mcq-option" data-correct="false">let</li>
+                <li class="mcq-option" data-correct="false">change</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">13. What does the 'shadowing' feature in Rust allow you to do?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Hide code from the compiler</li>
+                <li class="mcq-option" data-correct="true">Declare a new variable with the same name as a previous one</li>
+                <li class="mcq-option" data-correct="false">Bypass memory safety</li>
+                <li class="mcq-option" data-correct="false">Run code in the background</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">14. What happens in C if you add a char to an int, compared to Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">C prevents it, Rust allows it</li>
+                <li class="mcq-option" data-correct="false">Both allow it implicitly</li>
+                <li class="mcq-option" data-correct="true">C allows it implicitly, Rust throws a compiler error</li>
+                <li class="mcq-option" data-correct="false">Both throw a compiler error</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">15. How many bytes does a 'char' type take in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">1 byte (ASCII)</li>
+                <li class="mcq-option" data-correct="false">2 bytes</li>
+                <li class="mcq-option" data-correct="true">4 bytes (Unicode Scalar)</li>
+                <li class="mcq-option" data-correct="false">8 bytes</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">16. In a Rust function signature, what does the '->' symbol indicate?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">A pointer</li>
+                <li class="mcq-option" data-correct="true">The return type</li>
+                <li class="mcq-option" data-correct="false">An anonymous function</li>
+                <li class="mcq-option" data-correct="false">A generic type</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">17. What is the difference between a statement and an expression in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Statements return a value, expressions do not</li>
+                <li class="mcq-option" data-correct="true">Expressions evaluate to a value, statements do not</li>
+                <li class="mcq-option" data-correct="false">There is no difference</li>
+                <li class="mcq-option" data-correct="false">Expressions end with a semicolon</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">18. What is the defining feature of Rust's memory management?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Garbage Collection</li>
+                <li class="mcq-option" data-correct="false">Manual free() calls</li>
+                <li class="mcq-option" data-correct="true">The Ownership System</li>
+                <li class="mcq-option" data-correct="false">Reference Counting only</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">19. How many owners can a Rust value have at a given time?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Unlimited</li>
+                <li class="mcq-option" data-correct="false">Two</li>
+                <li class="mcq-option" data-correct="true">Exactly one</li>
+                <li class="mcq-option" data-correct="false">None</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">20. What happens when the owner of a variable goes out of scope?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">The memory leaks</li>
+                <li class="mcq-option" data-correct="true">The memory is automatically dropped (freed)</li>
+                <li class="mcq-option" data-correct="false">The garbage collector wakes up</li>
+                <li class="mcq-option" data-correct="false">The program crashes</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">21. What does the '&' symbol represent in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">A bitwise AND only</li>
+                <li class="mcq-option" data-correct="false">A raw pointer</li>
+                <li class="mcq-option" data-correct="true">Borrowing (creating a reference)</li>
+                <li class="mcq-option" data-correct="false">Memory allocation</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">22. Can you modify data through an immutable reference (&T)?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Yes, always</li>
+                <li class="mcq-option" data-correct="false">Yes, if it's on the heap</li>
+                <li class="mcq-option" data-correct="true">No, never</li>
+                <li class="mcq-option" data-correct="false">Only in unsafe blocks</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">23. What is the primary rule regarding mutable references (&mut T)?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">You can have as many as you want</li>
+                <li class="mcq-option" data-correct="true">You can have only ONE mutable reference to a piece of data in a particular scope</li>
+                <li class="mcq-option" data-correct="false">They can coexist with immutable references</li>
+                <li class="mcq-option" data-correct="false">They must be dropped manually</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">24. How does Rust's strict mutable reference rule prevent Data Races?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It forces single-threaded execution</li>
+                <li class="mcq-option" data-correct="true">It prevents Aliasing + Mutation happening at the same time</li>
+                <li class="mcq-option" data-correct="false">It uses a Global Interpreter Lock (GIL)</li>
+                <li class="mcq-option" data-correct="false">It locks the entire heap</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">25. What is a 'Lifetime' in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">How long the compiled binary lasts</li>
+                <li class="mcq-option" data-correct="true">A mechanism that ensures references never outlive the data they point to</li>
+                <li class="mcq-option" data-correct="false">The time a thread sleeps</li>
+                <li class="mcq-option" data-correct="false">The duration of a network request</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">26. Does Rust have a 'null' value for references?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Yes, std::null</li>
+                <li class="mcq-option" data-correct="false">Yes, just like C</li>
+                <li class="mcq-option" data-correct="true">No, Rust references are guaranteed to be valid</li>
+                <li class="mcq-option" data-correct="false">Only in the 2021 edition</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">27. Which Rust enum is used for values that can be either something or nothing?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Result<T, E></li>
+                <li class="mcq-option" data-correct="true">Option<T></li>
+                <li class="mcq-option" data-correct="false">Nullable<T></li>
+                <li class="mcq-option" data-correct="false">Maybe<T></li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">28. Which Rust enum is used for recoverable error handling?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Option<T></li>
+                <li class="mcq-option" data-correct="true">Result<T, E></li>
+                <li class="mcq-option" data-correct="false">Error<T></li>
+                <li class="mcq-option" data-correct="false">Catch<E></li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">29. What does the 'unwrap()' method do if it encounters an Error/None?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It returns 0</li>
+                <li class="mcq-option" data-correct="false">It ignores the error</li>
+                <li class="mcq-option" data-correct="true">It panics and crashes the program</li>
+                <li class="mcq-option" data-correct="false">It retries the operation</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">30. What is the purpose of the '?' operator in Rust error handling?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It creates a random boolean</li>
+                <li class="mcq-option" data-correct="true">It propagates the error up to the calling function</li>
+                <li class="mcq-option" data-correct="false">It is a ternary operator</li>
+                <li class="mcq-option" data-correct="false">It ignores errors</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">31. What is the purpose of Cargo in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It is a web framework</li>
+                <li class="mcq-option" data-correct="true">It is the package manager and build system</li>
+                <li class="mcq-option" data-correct="false">It is the standard library</li>
+                <li class="mcq-option" data-correct="false">It is a debugging tool</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">32. Which file stores the project's dependencies and configuration?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">package.json</li>
+                <li class="mcq-option" data-correct="false">Makefile</li>
+                <li class="mcq-option" data-correct="true">Cargo.toml</li>
+                <li class="mcq-option" data-correct="false">rust.config</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">33. What is the difference between 'cargo build' and 'cargo check'?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">There is no difference</li>
+                <li class="mcq-option" data-correct="true">cargo check verifies compilation but skips creating the executable binary to save time</li>
+                <li class="mcq-option" data-correct="false">cargo check runs the tests</li>
+                <li class="mcq-option" data-correct="false">cargo build only downloads dependencies</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">34. What tool automatically formats your Rust code to standard style?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">cargo fmt</li>
+                <li class="mcq-option" data-correct="false">cargo lint</li>
+                <li class="mcq-option" data-correct="false">cargo clean</li>
+                <li class="mcq-option" data-correct="false">rust-style</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">35. What is 'clippy' in the Rust ecosystem?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">An AI assistant</li>
+                <li class="mcq-option" data-correct="false">A paperclip mascot</li>
+                <li class="mcq-option" data-correct="true">The official linter that catches complex bugs and non-idiomatic code</li>
+                <li class="mcq-option" data-correct="false">A code minifier</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">36. How can you add a dependency like 'serde' directly from the command line?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">npm install serde</li>
+                <li class="mcq-option" data-correct="true">cargo add serde</li>
+                <li class="mcq-option" data-correct="false">rustup get serde</li>
+                <li class="mcq-option" data-correct="false">git clone serde</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">37. What is an SDV in the automotive context?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Safe Driving Vehicle</li>
+                <li class="mcq-option" data-correct="true">Software-Defined Vehicle</li>
+                <li class="mcq-option" data-correct="false">System Data Vector</li>
+                <li class="mcq-option" data-correct="false">Standard Diagnostic Valve</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">38. What certification did the Ferrocene Rust compiler achieve for automotive safety?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">ISO 9001</li>
+                <li class="mcq-option" data-correct="true">ASIL-D (ISO 26262)</li>
+                <li class="mcq-option" data-correct="false">MISRA-C</li>
+                <li class="mcq-option" data-correct="false">DO-178C</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">39. Why is Rust highly suitable for parsing CAN bus frames?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Because it compiles to JavaScript</li>
+                <li class="mcq-option" data-correct="true">Because it prevents out-of-bounds array reads that cause buffer overflows</li>
+                <li class="mcq-option" data-correct="false">Because it uses a Garbage Collector</li>
+                <li class="mcq-option" data-correct="false">Because it is interpreted</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">40. What Rust feature makes it possible to run on bare-metal microcontrollers?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">The #![no_std] attribute</li>
+                <li class="mcq-option" data-correct="false">The async runtime</li>
+                <li class="mcq-option" data-correct="false">The Cargo.toml file</li>
+                <li class="mcq-option" data-correct="false">The macro system</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">41. What does the Embassy framework provide for embedded systems?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">A graphical user interface</li>
+                <li class="mcq-option" data-correct="true">Asynchronous, zero-allocation hardware execution (async/await)</li>
+                <li class="mcq-option" data-correct="false">A Linux kernel</li>
+                <li class="mcq-option" data-correct="false">A cloud deployment pipeline</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">42. In which Linux Kernel version was Rust officially merged as a secondary language?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Linux 2.6</li>
+                <li class="mcq-option" data-correct="false">Linux 4.14</li>
+                <li class="mcq-option" data-correct="true">Linux 6.1</li>
+                <li class="mcq-option" data-correct="false">Linux 7.0</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">43. Why did Cloudflare rewrite their Pingora proxy infrastructure in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">To eliminate garbage collection latency and memory leaks</li>
+                <li class="mcq-option" data-correct="false">To make it compatible with Windows</li>
+                <li class="mcq-option" data-correct="false">Because C++ was discontinued</li>
+                <li class="mcq-option" data-correct="false">To use Python libraries</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">44. What is 'cross' used for in the Continuous Delivery (CD) stage?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Cross-referencing CVEs</li>
+                <li class="mcq-option" data-correct="true">Cross-compiling Rust binaries for different CPU architectures using Docker</li>
+                <li class="mcq-option" data-correct="false">Crossing off tasks in Jira</li>
+                <li class="mcq-option" data-correct="false">Cross-site scripting prevention</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">45. What vulnerability is associated with loading AI models using Python's 'pickle'?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">SQL Injection</li>
+                <li class="mcq-option" data-correct="true">Remote Code Execution (RCE) / Arbitrary Code Execution</li>
+                <li class="mcq-option" data-correct="false">Cross-Site Scripting</li>
+                <li class="mcq-option" data-correct="false">Data Race</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">46. How does HuggingFace's 'safetensors' format fix the pickle vulnerability?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">By using a password</li>
+                <li class="mcq-option" data-correct="true">By utilizing Rust's zero-copy memory mapping for strict, mathematical validation</li>
+                <li class="mcq-option" data-correct="false">By deleting the model after loading</li>
+                <li class="mcq-option" data-correct="false">By running an antivirus scan</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">47. What is 'Candle' in the Rust ecosystem?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">A logging tool</li>
+                <li class="mcq-option" data-correct="true">A minimalist Machine Learning framework by HuggingFace</li>
+                <li class="mcq-option" data-correct="false">A web server</li>
+                <li class="mcq-option" data-correct="false">A database</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">48. What US Government entity recently urged the transition to memory-safe languages like Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">The FDA</li>
+                <li class="mcq-option" data-correct="true">The Office of the National Cyber Director (ONCD)</li>
+                <li class="mcq-option" data-correct="false">The IRS</li>
+                <li class="mcq-option" data-correct="false">The Department of Education</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">49. According to Stack Overflow, Rust has been the 'Most Loved Language' for how many consecutive years (as of recent surveys)?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">1 year</li>
+                <li class="mcq-option" data-correct="false">3 years</li>
+                <li class="mcq-option" data-correct="true">8 years</li>
+                <li class="mcq-option" data-correct="false">It has never been</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">50. What is the best way to start contributing to open-source Rust projects?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">Rewrite the compiler</li>
+                <li class="mcq-option" data-correct="true">Look for 'Good First Issues' in the community</li>
+                <li class="mcq-option" data-correct="false">Email the creator of Rust</li>
+                <li class="mcq-option" data-correct="false">Wait to be invited</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        
+                </div>
+            </article>
         </main>
     </div>
     <script>
-        // Inline script for test page reset
-        document.getElementById('start-test-btn').addEventListener('click', () => {
-            if(confirm("Are you sure you want to restart the test? All answers will be cleared.")) {
-                localStorage.removeItem('rust_test_mcqs');
-                location.reload();
-            }
-        });
-        
-        // Simple test logic overriding global script
         document.addEventListener("DOMContentLoaded", () => {
+            // Theme toggle logic (fallback if script.js not fully linked)
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) mainContent.classList.add('page-enter');
+
+            // Reset Button
+            document.getElementById('start-test-btn').addEventListener('click', () => {
+                if(confirm("Are you sure you want to restart the test? All answers will be cleared.")) {
+                    localStorage.removeItem('rust_test_mcqs');
+                    localStorage.setItem('rust_test_score', '0');
+                    location.reload();
+                }
+            });
+            
+            // Score tracking
+            function updateTestScore() {
+                const score = localStorage.getItem('rust_test_score') || '0';
+                document.getElementById('test-score-display').textContent = `Test Score: ${score} / 50`;
+            }
+            updateTestScore();
+
+            // MCQ Logic for Test Page
             const mcqContainers = document.querySelectorAll('.mcq-container');
             let answeredQuestions = JSON.parse(localStorage.getItem('rust_test_mcqs') || '{}');
 
@@ -679,7 +726,14 @@
                             }
                         });
 
-                        if (!isCorrect) selectedOption.element.classList.add('incorrect');
+                        if (!isCorrect) {
+                            selectedOption.element.classList.add('incorrect');
+                            feedback.textContent = "Incorrect.";
+                        } else {
+                            let score = parseInt(localStorage.getItem('rust_test_score') || '0');
+                            localStorage.setItem('rust_test_score', score + 1);
+                            updateTestScore();
+                        }
                         
                         answeredQuestions[qId] = { chosen: selectedOption.index, correct: correctIdx };
                         localStorage.setItem('rust_test_mcqs', JSON.stringify(answeredQuestions));
