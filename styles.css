@@ -590,3 +590,97 @@ pre code {
         padding: 0 1.5rem 3rem;
     }
 }
+
+
+/* Page Transition */
+.page-enter {
+    animation: slideInFade 0.4s ease-out forwards;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+@keyframes slideInFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MCQ Styles */
+.mcq-container {
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+.mcq-question {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.mcq-options {
+    list-style: none;
+    padding: 0;
+}
+.mcq-option {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.mcq-option:hover {
+    border-color: var(--accent);
+}
+.mcq-option.selected {
+    border-color: var(--accent);
+    background: rgba(255, 152, 0, 0.1);
+}
+.mcq-option.correct {
+    border-color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+}
+.mcq-option.incorrect {
+    border-color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+}
+.mcq-feedback {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+    background: var(--bg-color);
+    border-left: 4px solid var(--accent);
+}
+.mcq-submit {
+    margin-top: 1rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.mcq-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#global-score-container {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#global-score-container button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 4px;
+    cursor: pointer;
+}

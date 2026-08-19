@@ -228,3 +228,116 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSidebarScroll();
     setupRustPlayground();
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Page Transition
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.classList.add('page-enter');
+    }
+
+    // 2. Global Score UI
+    const sidebarHeader = document.querySelector('.sidebar-header');
+    if (sidebarHeader && !document.getElementById('global-score-container')) {
+        const scoreContainer = document.createElement('div');
+        scoreContainer.id = 'global-score-container';
+        scoreContainer.innerHTML = `
+            <div style="font-size: 0.95rem; color: var(--text-color);">Score: <strong id="global-score-display" style="color: var(--accent);">0</strong></div>
+            <button id="reset-score-btn" style="font-size: 0.75rem; padding: 2px 6px;">Reset</button>
+        `;
+        sidebarHeader.appendChild(scoreContainer);
+        
+        updateScoreDisplay();
+
+        document.getElementById('reset-score-btn').addEventListener('click', () => {
+            if(confirm("Reset your global score?")) {
+                localStorage.setItem('rust_global_score', '0');
+                localStorage.removeItem('rust_answered_mcqs');
+                updateScoreDisplay();
+                location.reload(); // Reload to reset local MCQ states
+            }
+        });
+    }
+
+    // 3. Initialize Interactive MCQs
+    initMCQs();
+});
+
+function updateScoreDisplay() {
+    const score = localStorage.getItem('rust_global_score') || '0';
+    const display = document.getElementById('global-score-display');
+    if(display) display.textContent = score;
+}
+
+function initMCQs() {
+    const mcqContainers = document.querySelectorAll('.mcq-container');
+    let answeredQuestions = JSON.parse(localStorage.getItem('rust_answered_mcqs') || '{}');
+
+    mcqContainers.forEach((container, index) => {
+        // Unique ID based on page path and index
+        const qId = window.location.pathname + "_q" + index;
+        const options = container.querySelectorAll('.mcq-option');
+        const submitBtn = container.querySelector('.mcq-submit');
+        const feedback = container.querySelector('.mcq-feedback');
+        
+        // Check if already answered correctly
+        if (answeredQuestions[qId]) {
+            const correctIdx = answeredQuestions[qId].correct;
+            const chosenIdx = answeredQuestions[qId].chosen;
+            
+            options[chosenIdx].classList.add(chosenIdx === correctIdx ? 'correct' : 'incorrect');
+            if(chosenIdx !== correctIdx) options[correctIdx].classList.add('correct');
+            
+            feedback.style.display = 'block';
+            submitBtn.style.display = 'none';
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            return;
+        }
+
+        let selectedOption = null;
+
+        options.forEach((opt, optIndex) => {
+            opt.addEventListener('click', () => {
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                selectedOption = { element: opt, index: optIndex };
+                submitBtn.disabled = false;
+            });
+        });
+
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                if (!selectedOption) return;
+                
+                const isCorrect = selectedOption.element.dataset.correct === "true";
+                
+                // Show feedback
+                options.forEach(opt => opt.style.pointerEvents = 'none'); // disable clicks
+                submitBtn.style.display = 'none';
+                feedback.style.display = 'block';
+                
+                // Find correct option index
+                let correctIdx = 0;
+                options.forEach((opt, idx) => {
+                    if(opt.dataset.correct === "true") {
+                        opt.classList.add('correct');
+                        correctIdx = idx;
+                    }
+                });
+
+                if (isCorrect) {
+                    let score = parseInt(localStorage.getItem('rust_global_score') || '0');
+                    localStorage.setItem('rust_global_score', score + 1);
+                    updateScoreDisplay();
+                } else {
+                    selectedOption.element.classList.add('incorrect');
+                }
+                
+                // Save state
+                answeredQuestions[qId] = { chosen: selectedOption.index, correct: correctIdx };
+                localStorage.setItem('rust_answered_mcqs', JSON.stringify(answeredQuestions));
+            });
+        }
+    });
+}
