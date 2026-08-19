@@ -345,3 +345,157 @@ function initMCQs() {
         }
     });
 }
+
+// UI Enhancements (Resizer, Nav Icons, Collapsible TOC)
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Sidebar Resizer
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar && !document.querySelector('.sidebar-resizer')) {
+        const savedWidth = localStorage.getItem('rust-sidebar-width');
+        if (savedWidth) {
+            sidebar.style.setProperty('--sidebar-width', savedWidth);
+        }
+
+        const resizer = document.createElement('div');
+        resizer.className = 'sidebar-resizer';
+        sidebar.appendChild(resizer);
+
+        let isDragging = false;
+        let startX, startWidth;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startWidth = parseInt(getComputedStyle(sidebar).getPropertyValue('--sidebar-width') || 300, 10);
+            resizer.classList.add('is-dragging');
+            document.body.style.cursor = 'col-resize';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const newWidth = startWidth + (e.clientX - startX);
+            if (newWidth > 200 && newWidth < 500) {
+                sidebar.style.setProperty('--sidebar-width', newWidth + 'px');
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                resizer.classList.remove('is-dragging');
+                document.body.style.cursor = '';
+                localStorage.setItem('rust-sidebar-width', sidebar.style.getPropertyValue('--sidebar-width'));
+            }
+        });
+    }
+
+    // 2. Top Nav Icons (Hamburger, Print, GitHub)
+    const topNav = document.getElementById('top-nav');
+    if (topNav) {
+        // Hamburger (Left)
+        if (!document.getElementById('sidebar-toggle')) {
+            const hamburgerBtn = document.createElement('button');
+            hamburgerBtn.id = 'sidebar-toggle';
+            hamburgerBtn.className = 'nav-icon';
+            hamburgerBtn.style.marginRight = '10px';
+            hamburgerBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>`;
+            topNav.insertBefore(hamburgerBtn, topNav.firstChild);
+            
+            // Initial hide check
+            if (localStorage.getItem('rust-sidebar-hidden') === 'true') {
+                sidebar.classList.add('hidden');
+            }
+
+            hamburgerBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+                localStorage.setItem('rust-sidebar-hidden', sidebar.classList.contains('hidden'));
+            });
+        }
+
+        // Print & GitHub (Right)
+        const navActions = document.querySelector('.nav-actions');
+        if (navActions && !document.getElementById('github-link')) {
+            const printBtn = document.createElement('button');
+            printBtn.id = 'print-btn';
+            printBtn.className = 'nav-icon';
+            printBtn.title = "Print Page";
+            printBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>`;
+            printBtn.addEventListener('click', () => window.print());
+            
+            const githubLink = document.createElement('a');
+            githubLink.id = 'github-link';
+            githubLink.className = 'nav-icon';
+            githubLink.href = 'https://github.com/kamallearner123/RustProgrammingBook';
+            githubLink.target = '_blank';
+            githubLink.title = "View on GitHub";
+            githubLink.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`;
+
+            navActions.appendChild(printBtn);
+            navActions.appendChild(githubLink);
+        }
+    }
+});
+
+// Convert flat TOC into collapsible sections dynamically
+document.addEventListener('DOMContentLoaded', () => {
+    const tocList = document.querySelector('.toc');
+    if (!tocList || tocList.dataset.collapsibleInit) return;
+    tocList.dataset.collapsibleInit = 'true';
+
+    const items = Array.from(tocList.children);
+    let currentMain = null;
+    let currentSubList = null;
+
+    items.forEach(li => {
+        if (li.classList.contains('toc-main')) {
+            // Setup new collapsible group
+            const link = li.querySelector('a');
+            
+            // Exclude single pages like Test Your Skills from acting as a collapsible parent
+            if (link.textContent.toUpperCase().includes('SESSION 5')) return;
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'toc-main-header';
+            
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'toc-toggle';
+            toggleBtn.innerHTML = '▼';
+            
+            // Move link into header
+            li.insertBefore(headerDiv, link);
+            headerDiv.appendChild(link);
+            headerDiv.appendChild(toggleBtn);
+            
+            currentSubList = document.createElement('ul');
+            currentSubList.className = 'toc-sub-list';
+            li.appendChild(currentSubList);
+            
+            currentMain = li;
+            
+            // Toggle Logic
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                li.classList.toggle('collapsed');
+            });
+            
+        } else if (currentMain && !li.classList.contains('toc-main')) {
+            // Is it a normal sub-item? Move into currentSubList
+            // Ignore top level links like Intro, Pre-workshop
+            if (li.textContent.trim().match(/^\d+\.\d+|Exercise|Bonus/)) {
+                currentSubList.appendChild(li);
+                // If this item is active, make sure parent is NOT collapsed
+                if (li.classList.contains('active')) {
+                    currentMain.classList.remove('collapsed');
+                }
+            }
+        }
+    });
+
+    // Auto collapse sections that don't contain the active link
+    document.querySelectorAll('.toc-main').forEach(mainLi => {
+        if (mainLi.querySelector('.toc-sub-list') && !mainLi.querySelector('.active')) {
+            mainLi.classList.add('collapsed');
+        }
+    });
+});

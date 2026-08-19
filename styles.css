@@ -707,3 +707,96 @@ body::after {
     opacity: 0.03; /* Even fainter in dark mode to not distract */
     filter: invert(1); /* Optional: inverts the logo color for dark mode if it's a dark logo */
 }
+
+/* Sidebar Resizer & Collapsible Menus */
+.sidebar {
+    position: relative;
+    width: var(--sidebar-width, 300px);
+    min-width: 200px;
+    max-width: 500px;
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar.hidden {
+    transform: translateX(-100%);
+    position: absolute;
+    height: 100vh;
+}
+.app-container:has(.sidebar.hidden) .main-content {
+    margin-left: 0;
+}
+
+.sidebar-resizer {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 6px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-resizer::after {
+    content: "⋮";
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+}
+.sidebar-resizer:hover::after,
+.sidebar-resizer.is-dragging::after {
+    opacity: 1;
+    color: var(--accent);
+}
+
+/* Nav Icons */
+.nav-icon {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    text-decoration: none;
+}
+.nav-icon:hover {
+    color: var(--text-main);
+    background: var(--sidebar-bg);
+}
+
+/* Collapsible TOC */
+.toc-main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.toc-main-header a {
+    flex-grow: 1;
+}
+.toc-toggle {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+.toc-main.collapsed .toc-sub-list {
+    display: none;
+}
+.toc-main.collapsed .toc-toggle {
+    transform: rotate(-90deg);
+}
+.toc-sub-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
