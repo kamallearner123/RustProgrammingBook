@@ -244,22 +244,56 @@ document.addEventListener("DOMContentLoaded", () => {
         scoreContainer.id = 'global-score-container';
         scoreContainer.style.display = 'flex';
         scoreContainer.style.alignItems = 'center';
-        scoreContainer.style.gap = '10px';
-        scoreContainer.style.marginRight = '15px';
+        scoreContainer.style.marginRight = '10px';
+        scoreContainer.style.position = 'relative';
+        scoreContainer.style.cursor = 'pointer';
         scoreContainer.innerHTML = `
-            <div style="font-size: 1rem; color: var(--text-color); font-weight: 600;">Score: <strong id="global-score-display" style="color: var(--accent);">0</strong></div>
-            <button id="reset-score-btn" style="font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; background: var(--sidebar-bg); color: var(--text-color); border: 1px solid var(--border-color); cursor: pointer;">Reset</button>
+            <div id="score-toggle" style="font-size: 0.95rem; color: var(--text-color); font-weight: 600; padding: 6px 12px; border-radius: 6px; background: var(--sidebar-bg); border: 1px solid var(--border-color); transition: all 0.2s;">
+                Completeness: <strong id="global-score-display" style="color: var(--accent);">0%</strong>
+            </div>
+            <div id="score-dropdown" style="display: none; position: absolute; top: 120%; right: 0; width: 260px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-md); padding: 1.25rem; z-index: 1000; cursor: default;">
+                <h4 style="margin-top: 0; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-size: 1rem;">Course Progress</h4>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span style="color: var(--text-muted);">Session 1:</span> <strong id="s1-score" style="color: var(--text-main);">0 / 20</strong></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span style="color: var(--text-muted);">Session 2:</span> <strong id="s2-score" style="color: var(--text-main);">0 / 45</strong></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span style="color: var(--text-muted);">Session 4:</span> <strong id="s4-score" style="color: var(--text-main);">0 / 5</strong></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;"><span style="color: var(--text-muted);">Final Test:</span> <strong id="s5-score" style="color: var(--text-main);">0 / 50</strong></div>
+                <button id="reset-score-btn" style="width: 100%; font-size: 0.85rem; padding: 8px; border-radius: 4px; background: rgba(255, 95, 86, 0.1); color: #ff5f56; border: 1px solid rgba(255, 95, 86, 0.2); cursor: pointer; font-weight: bold; transition: background 0.2s;">Reset All Progress</button>
+            </div>
         `;
         topNavActions.insertBefore(scoreContainer, topNavActions.firstChild);
         
+        const scoreToggle = document.getElementById('score-toggle');
+        const scoreDropdown = document.getElementById('score-dropdown');
+        
+        // Hover effects for the toggle button
+        scoreToggle.addEventListener('mouseenter', () => scoreToggle.style.borderColor = 'var(--accent)');
+        scoreToggle.addEventListener('mouseleave', () => scoreToggle.style.borderColor = 'var(--border-color)');
+
+        scoreToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            scoreDropdown.style.display = scoreDropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!scoreContainer.contains(e.target)) {
+                scoreDropdown.style.display = 'none';
+            }
+        });
+        
         updateScoreDisplay();
 
-        document.getElementById('reset-score-btn').addEventListener('click', () => {
-            if(confirm("Reset your global score?")) {
+        const resetBtn = document.getElementById('reset-score-btn');
+        resetBtn.addEventListener('mouseenter', () => resetBtn.style.background = 'rgba(255, 95, 86, 0.2)');
+        resetBtn.addEventListener('mouseleave', () => resetBtn.style.background = 'rgba(255, 95, 86, 0.1)');
+        
+        resetBtn.addEventListener('click', () => {
+            if(confirm("Are you sure you want to completely reset all your progress, scores, and test results?")) {
                 localStorage.setItem('rust_global_score', '0');
                 localStorage.removeItem('rust_answered_mcqs');
+                localStorage.removeItem('rust_test_score');
+                localStorage.removeItem('rust_test_mcqs');
                 updateScoreDisplay();
-                location.reload(); // Reload to reset local MCQ states
+                location.reload();
             }
         });
     }
@@ -269,9 +303,37 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function updateScoreDisplay() {
-    const score = localStorage.getItem('rust_global_score') || '0';
+    let answeredQuestions = JSON.parse(localStorage.getItem('rust_answered_mcqs') || '{}');
+    
+    let s1 = 0, s2 = 0, s4 = 0;
+    for (const [key, value] of Object.entries(answeredQuestions)) {
+        if (value.chosen === value.correct) {
+            if (key.includes('session_1_')) s1++;
+            if (key.includes('session_2_')) s2++;
+            if (key.includes('session_4_')) s4++;
+        }
+    }
+    
+    let s5 = parseInt(localStorage.getItem('rust_test_score') || '0', 10);
+    
+    let totalCorrect = s1 + s2 + s4 + s5;
+    let maxPossible = 120; // 20 + 45 + 5 + 50
+    let percentage = Math.round((totalCorrect / maxPossible) * 100);
+
     const display = document.getElementById('global-score-display');
-    if(display) display.textContent = score;
+    if (display) display.textContent = percentage + '%';
+    
+    const s1Display = document.getElementById('s1-score');
+    if (s1Display) s1Display.textContent = s1 + ' / 20';
+    
+    const s2Display = document.getElementById('s2-score');
+    if (s2Display) s2Display.textContent = s2 + ' / 45';
+    
+    const s4Display = document.getElementById('s4-score');
+    if (s4Display) s4Display.textContent = s4 + ' / 5';
+    
+    const s5Display = document.getElementById('s5-score');
+    if (s5Display) s5Display.textContent = s5 + ' / 50';
 }
 
 function initMCQs() {
