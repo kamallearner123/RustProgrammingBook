@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.6 Mutable vs Immutable - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                                                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <span class="chapter-number">Session 2.6</span>
+                <h1>Mutable vs Immutable References</h1>
+                
+                <h2>The Golden Rule of References</h2>
+                <p>Rust prevents data races at compile time using one simple, unbreakable rule regarding references.</p>
+                <div class="info-callout">
+                    At any given time, you can have <em>either</em>:
+                    <ul>
+                        <li>One mutable reference (<code>&mut T</code>)</li>
+                        <li><strong>OR</strong> any number of immutable references (<code>&T</code>)</li>
+                    </ul>
+                    But you cannot have both at the same time.
+                </div>
+
+                <h2>Example 1: Multiple Immutable References</h2>
+                <pre><code class="language-rust">fn main() {
+    let s = String::from("hello");
+
+    let r1 = &s;
+    let r2 = &s;
+    let r3 = &s;
+
+    println!("{} and {} and {}", r1, r2, r3);
+}</code></pre>
+                <p><strong>Why:</strong> You can have as many immutable references as you want. Since nobody is modifying the data, it's perfectly safe for any number of references to read it simultaneously.</p>
+
+                <h2>Example 2: Error - Mixing Mutable and Immutable</h2>
+                <pre><code class="language-rust">fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &s; // no problem
+    let r2 = &s; // no problem
+    let r3 = &mut s; // BIG PROBLEM
+
+    println!("{}, {}, and {}", r1, r2, r3);
+}</code></pre>
+                <p><strong>Error Explanation:</strong> <code>cannot borrow `s` as mutable because it is also borrowed as immutable</code>. If <code>r3</code> modifies the string, the data that <code>r1</code> and <code>r2</code> are pointing to could change or be relocated in memory without them knowing. This causes crashes. Rust prevents this at compile time.</p>
+
+                <h2>Example 3: Non-Overlapping Scopes</h2>
+                <pre><code class="language-rust">fn main() {
+    let mut s = String::from("hello");
+
+    let r1 = &s;
+    let r2 = &s;
+    println!("{} and {}", r1, r2);
+    // r1 and r2 are no longer used after this point
+
+    let r3 = &mut s; // This is now okay!
+    r3.push_str(" world");
+    println!("{}", r3);
+}</code></pre>
+                <p><strong>Output:</strong></p>
+                <pre><code class="language-rust">hello and hello
+hello world</code></pre>
+                <p><strong>Why:</strong> A reference’s scope ends the last time it is used. Because <code>r1</code> and <code>r2</code> are never used after the first <code>println!</code>, their scope is over. Therefore, creating a mutable reference <code>r3</code> afterward does not violate the rule.</p>
+
+                <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                <h2>Knowledge Check (MCQ)</h2>
+                <div class="info-callout" style="background-color: var(--sidebar-bg); border-left-color: var(--text-muted);">
+                    <p><strong>Question:</strong> Why does Rust prohibit having a mutable reference and an immutable reference active at the same time?</p>
+                    <ol type="A">
+                        <li>To save memory allocation overhead.</li>
+                        <li>To enforce a functional programming paradigm.</li>
+                        <li>To prevent data races and dangling pointers while reading.</li>
+                        <li>Because the compiler cannot infer the types.</li>
+                    </ol>
+                    <p><em>Answer: C. If data is modified via a mutable reference while being read via an immutable reference, it causes data races and memory corruption.</em></p>
+                </div>
+            </article>
+
+            <footer class="page-navigation">
+                <a href="session_2_references.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">2.5 References</span>
+                </a>
+                
+                <a href="session_2_error.html" class="nav-button next">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">2.7 Error Handling</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

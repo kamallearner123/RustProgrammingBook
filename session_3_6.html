@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 6: Thread-safe Counter - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="app-container">
+                <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <span class="chapter-number">Exercise 6</span>
+                <h1>Global Vault Total</h1>
+                
+                <div class="info-callout" style="border-left-color: var(--accent); background: rgba(0, 122, 255, 0.05); padding: 1rem; margin-top: 0;">
+                    <strong>Mission Briefing:</strong> The bank processes thousands of deposits simultaneously. The legacy C++ system suffered from catastrophic Data Races where simultaneous deposits overwrote each other, losing money! You must use Rust's concurrency primitives to build a mathematically accurate, thread-safe vault counter.
+                </div>
+                
+                <h2>Objective</h2>
+                <p>Remember the C program that produced data races? Rust refuses to compile code that shares mutable state across threads without proper synchronization. In this exercise, you'll use an <code>Arc</code> (Atomic Reference Counted pointer) and a <code>Mutex</code> to safely increment a counter across 10 concurrent threads.</p>
+                
+                <h2>Project Code</h2>
+
+                <pre><code class="language-rust">use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn main() {
+    // Arc allows safe sharing of ownership across threads
+    // Mutex ensures only one thread can modify the vault at a time
+    let vault_total = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    // Simulate 10 bank branches processing deposits
+    for _ in 0..10 {
+        let vault_clone = Arc::clone(&vault_total);
+        
+        let handle = thread::spawn(move || {
+            for _ in 0..100_000 {
+                // We MUST acquire the lock before accessing the data
+                // If another thread has it, we wait here.
+                let mut num = vault_clone.lock().unwrap();
+                *num += 1; // Deposit $1
+            } // Lock is automatically released here
+        });
+        
+        handles.push(handle);
+    }
+
+    // Wait for all branches to finish
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Final Vault Total: ${}", *vault_total.lock().unwrap());
+}</code></pre>
+                
+                <h2>How to Run</h2>
+                <p>Run <code class="keyword-hl">cargo run</code>. Unlike C, this will print exactly <code>1,000,000</code> every single time. Try removing the Mutex and passing a standard reference into the thread—the compiler will instantly throw an error to prevent the data race!</p>
+
+                <div class="info-callout" style="background-color: var(--sidebar-bg); border-left-color: var(--accent);">
+                    <h3>Enhancement Challenges</h3>
+                    <p>Modify the code above to accomplish the following:</p>
+                    <ol>
+                        <li><strong>Poisoned Mutex:</strong> Intentionally add a <code>if *num == 50000 { panic!("Crash!"); }</code> block inside the loop. Observe how Rust "poisons" the Mutex, preventing other threads from accessing potentially corrupted data, and then figure out how to recover from a poisoned Mutex.</li>
+                        <li><strong>Read-Write Locks:</strong> Change <code>Mutex</code> to <code>RwLock</code>. This allows multiple threads to read the value simultaneously, but only one to write. Create 5 threads that only read the value, and 5 that write to it.</li>
+                        <li><strong>Atomic Types:</strong> Because our data is just a simple integer, using a Mutex is overkill. Replace <code>Arc&lt;Mutex&lt;i32&gt;&gt;</code> with <code>Arc&lt;AtomicI32&gt;</code> (from <code>std::sync::atomic</code>) and use the <code>.fetch_add()</code> method. Compare the performance!</li>
+                    </ol>
+                </div>
+
+            </article>
+
+            <footer class="page-navigation">
+                <a href="session_3_5.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">Exercise 5</span>
+                </a>
+                <a href="session_3_bonus.html" class="nav-button next">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">Bonus Project</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

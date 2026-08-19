@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.3 Ownership - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                                                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <span class="chapter-number">Session 2.3</span>
+                <h1>Ownership</h1>
+                
+                <h2>Overview & Rules</h2>
+                <p>Ownership is Rust’s most unique feature and has deep implications for the rest of the language. It enables Rust to make memory safety guarantees without needing a garbage collector.</p>
+                <div class="info-callout">
+                    <strong>The 3 Rules of Ownership:</strong>
+                    <ol>
+                        <li>Each value in Rust has an owner.</li>
+                        <li>There can only be one owner at a time.</li>
+                        <li>When the owner goes out of scope, the value will be dropped (memory freed).</li>
+                    </ol>
+                </div>
+
+                <div class="trap-callout">
+                    <h3>⚠️ C/C++ Developer Trap: Passing by Value "Moves" the Data</h3>
+                    <p>In C/C++, if you pass a struct to a function, the compiler silently copies the memory. In Rust, if you pass a <code>String</code> or a custom struct into a function, <strong>ownership is moved</strong>. The original variable instantly becomes invalid. You cannot use it again unless the function returns ownership back to you. This guarantees there is only ever one owner responsible for freeing the memory.</p>
+                </div>
+
+                <h2>Example 1: Variable Scope and Drop</h2>
+                <pre><code class="language-rust">fn main() {
+    {                      // s is not valid here, it’s not yet declared
+        let s = "hello";   // s is valid from this point forward
+        println!("{s}");
+    }                      // this scope is now over, and s is no longer valid
+}</code></pre>
+                <p><strong>Why:</strong> When a variable like <code>s</code> goes out of scope at the closing curly brace <code>}</code>, Rust automatically calls a special function called <code>drop</code> to free the memory. You never have to call <code>free()</code> manually.</p>
+
+                <h2>Example 2: The "Move" Semantics (Error Example)</h2>
+                <pre><code class="language-rust">fn main() {
+    let s1 = String::from("hello");
+    let s2 = s1; // Ownership of the string moves from s1 to s2
+
+    println!("{}, world!", s1); // ERROR: borrow of moved value: `s1`
+}</code></pre>
+                <p><strong>Error Explanation:</strong> Because Rust must ensure there is only <em>one</em> owner at a time, when we assign <code>s1</code> to <code>s2</code>, the pointer to the heap data is transferred to <code>s2</code>, and <code>s1</code> is marked as invalid. This prevents the "Double Free" vulnerability when both variables eventually go out of scope. <code>s1</code> was "moved".</p>
+
+                <h2>Example 3: Deep Copying (Cloning)</h2>
+                <pre><code class="language-rust">fn main() {
+    let s1 = String::from("hello");
+    let s2 = s1.clone(); // Create a full copy of the heap data
+
+    println!("s1 = {}, s2 = {}", s1, s2);
+}</code></pre>
+                <p><strong>Why:</strong> If we deeply want to copy the data on the heap (not just the pointer), we use a method called <code>clone</code>. This leaves <code>s1</code> as the owner of the first chunk of memory, and <code>s2</code> as the owner of an entirely new, separate chunk of memory containing the same characters. Both are valid.</p>
+
+                <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                <h2>Knowledge Check</h2>
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent); cursor: pointer;">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none;">Question: What happens when you assign a variable pointing to heap memory (like a String) to another variable in Rust?</summary>
+                    <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Answer:</strong> Ownership is <strong>moved</strong> to the new variable, and the old variable becomes invalid. This is completely different from C/C++ (where both point to the same memory, risking double-free) or Java/Python (where both point to the same memory and rely on garbage collection). Rust moves it to prevent memory corruption at compile time.</p>
+                </details>
+            </article>
+
+            <footer class="page-navigation">
+                <a href="session_2_functions.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">2.2 Functions</span>
+                </a>
+                
+                <a href="session_2_borrowing.html" class="nav-button next">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">2.4 Borrowing</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

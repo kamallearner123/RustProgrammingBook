@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Workshop Requirements</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Table of Contents -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                                                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <!-- Theme toggle button -->
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <span class="chapter-number">Setup Guide</span>
+                <h1>Pre-Workshop Requirements</h1>
+                <p>To ensure we can hit the ground running, all students must complete the following setup steps before attending the workshop. This will give you the complete Rust toolchain and a properly configured development environment.</p>
+                
+                <h2>Course Prerequisites</h2>
+                <p>To use this course efficiently and get the most out of the hands-on labs, students should meet the following 5 prerequisites:</p>
+                <ul style="padding-left: 1.5rem; margin-bottom: 2rem;">
+                    <li style="margin-bottom: 0.5rem;"><strong>1. Basic C/C++ Concepts:</strong> A fundamental understanding of C/C++ syntax, particularly how pointers, arrays, and manual memory management (malloc/free) work.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>2. Hardware Requirements:</strong> A modern laptop or desktop (Windows, macOS, or Linux) with at least 8GB of RAM and a stable internet connection for downloading packages.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>3. Software Environment:</strong> The complete Rust toolchain (<code class="keyword-hl">rustc</code>, <code>cargo</code>, and <code>rustup</code>), along with Visual Studio Code (configured with the rust-analyzer extension) or Visual Studio with Rust support.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>4. Terminal Familiarity:</strong> Basic comfort with using a command-line interface (CLI) to navigate directories and execute build scripts.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>5. Security Mindset:</strong> A general interest in cybersecurity concepts, such as why memory leaks and data races represent severe vulnerabilities.</li>
+                </ul>
+
+                <h2>1. Install Rust (rustup, cargo)</h2>
+                <p>Rust is installed and managed by a tool called <code>rustup</code>. The installation process depends on your operating system.</p>
+                
+                <h3>For Linux and macOS</h3>
+                <p>Open a terminal and run the following command to download and execute the rustup installation script:</p>
+                <pre><code class="language-rust">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code></pre>
+                <p>When prompted, press <strong>1</strong> for the default installation. After installation completes, you may need to restart your terminal or run <code>source $HOME/.cargo/env</code> to update your system's PATH.</p>
+
+                <h3>For Windows</h3>
+                <p>On Windows, Rust requires the Microsoft C++ Build Tools for compilation.</p>
+                <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">Download and run <strong>rustup-init.exe</strong> from <a href="https://rustup.rs" target="_blank" style="color: var(--accent); font-weight: 600;">rustup.rs</a>.</li>
+                    <li style="margin-bottom: 0.5rem;">If you don't already have the C++ build tools installed, the installer will prompt you. It is highly recommended to follow the prompt and let it install the <strong>Visual Studio C++ Build tools</strong> automatically.</li>
+                    <li style="margin-bottom: 0.5rem;">Once the build tools are ready, the Rust installation terminal will appear. Press <strong>1</strong> for the default installation and hit Enter.</li>
+                </ol>
+
+                <h2>2. IDE and Environment Setup</h2>
+                <ul>
+                    <li><strong>Install Visual Studio Code:</strong> Download and install VS Code from <a href="https://code.visualstudio.com/" target="_blank" style="color: var(--accent);">code.visualstudio.com</a>.</li>
+                    <li><strong>Install Rust Analyzer Extension:</strong> Open VS Code, go to the Extensions tab (Ctrl+Shift+X / Cmd+Shift+X), search for "rust-analyzer", and install it. This provides essential autocomplete and language support.</li>
+                    <li><strong>Download workshop exercise files:</strong> Ensure you have downloaded or cloned the provided exercise repository to your local machine before the first session.</li>
+                </ul>
+
+                <h2>3. Verify Installation ("Hello, World!")</h2>
+                <p>To confirm everything is working properly, open a fresh terminal (or PowerShell on Windows) and run the following commands sequentially:</p>
+                <pre><code class="language-rust">cargo new hello_world
+cd hello_world
+cargo run</code></pre>
+                <p>If your installation was successful, the code will compile and you will see <code>Hello, world!</code> printed to the terminal.</p>
+
+                <div class="info-callout">
+                    <strong>Need Help?</strong> If you encounter any issues during the installation, please reach out to the instructor prior to the start of the workshop.
+                </div>
+            </article>
+
+            <footer class="page-navigation">
+                <a href="index.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">Introduction</span>
+                </a>
+                
+                <a href="session_1_1.html" class="nav-button next">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">1.1 Memory Structure</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

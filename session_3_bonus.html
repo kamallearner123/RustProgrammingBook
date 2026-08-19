@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus: Secure Password Generator - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="app-container">
+                <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <span class="chapter-number">Bonus Project</span>
+                <h1>Secure Password Generator</h1>
+                
+                <h2>Objective</h2>
+                <p>Combine everything you've learned to build a fully functional, real-world utility: a secure random password generator. You will use external crates, handle loops, generate random data, and manipulate strings.</p>
+                
+                <h2>Project Setup</h2>
+                <p>Run <code>cargo new pass_gen</code>. Then, add the <code>rand</code> crate to your project by running <code>cargo add rand</code> in the terminal. Your <code>Cargo.toml</code> will update automatically.</p>
+
+                <h2>Project Code (src/main.rs)</h2>
+                <pre><code class="language-rust">use rand::Rng; // Import the random number generator trait
+
+fn generate_password(length: usize) -> String {
+    // The pool of characters to choose from
+    let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+    let mut rng = rand::thread_rng(); // Initialize random generator
+    let mut password = String::with_capacity(length);
+
+    for _ in 0..length {
+        // Pick a random index between 0 and the length of the charset
+        let idx = rng.gen_range(0..charset.len());
+        
+        // Retrieve the character at that index safely
+        // (Note: .nth() is O(n), but fine for small charsets)
+        if let Some(ch) = charset.chars().nth(idx) {
+            password.push(ch);
+        }
+    }
+
+    password
+}
+
+fn main() {
+    println!("Generating a secure 16-character password...");
+    let safe_pass = generate_password(16);
+    println!("Your new password: {}", safe_pass);
+}</code></pre>
+                
+                <h2>How to Run</h2>
+                <p>Run <code class="keyword-hl">cargo run</code>. Every time you execute it, a brand new secure string will be printed to the terminal.</p>
+
+                <div class="info-callout" style="background-color: var(--sidebar-bg); border-left-color: var(--accent);">
+                    <h3>Enhancement Challenges</h3>
+                    <p>Take off the training wheels! Modify the code to accomplish the following:</p>
+                    <ol>
+                        <li><strong>CLI Arguments:</strong> Use <code>std::env::args()</code> so the user can pass the desired password length via the command line (e.g., <code>cargo run -- 24</code>). Don't forget to validate that the input is a valid integer and greater than 8!</li>
+                        <li><strong>Strict Requirements:</strong> Right now, it's possible (though unlikely) for the generator to output 16 lowercase letters. Update the logic to guarantee that the final password contains <em>at least one</em> uppercase letter, one number, and one special character.</li>
+                        <li><strong>Dictionary Check:</strong> Create a separate text file named <code>banned_words.txt</code> containing words like "password", "admin", and "qwerty". After generating the password, open and parse the file to ensure the generated string doesn't contain any of the banned substrings.</li>
+                    </ol>
+                </div>
+
+            </article>
+
+            <footer class="page-navigation">
+                <a href="session_3_6.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">Exercise 6</span>
+                </a>
+                <!-- End of Course -->
+                <a href="#" class="nav-button next disabled">
+                    <span class="nav-label">Course Complete</span>
+                    <span class="nav-title">Well Done!</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>

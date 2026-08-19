@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1 Memory Structure - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                                                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+                <span class="chapter-number">Session 1.1</span>
+                <h1>Memory Structure</h1>
+                
+                <h2>How Memory Works in C/C++</h2>
+                <p>To understand why traditional systems languages are prone to vulnerabilities, we must first understand how they structure and manage memory. Programs divide memory into several segments, but the two most important for developers are the <strong class="keyword-hl">Stack</strong> and the <strong class="keyword-hl">Heap</strong>.</p>
+                
+                <div style="display: flex; gap: 2rem; margin: 2rem 0; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px; background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top: 0; color: var(--accent);">The Stack</h3>
+                        <p>Fast, highly organized memory used for static data (like local variables and function call frames). Size must be known at compile time. Data is automatically pushed and popped as functions execute.</p>
+                        <p><em>Example: <code>int count = 5;</code> or <code>char buf[10];</code></em></p>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <h3 style="margin-top: 0; color: var(--accent);">The Heap</h3>
+                        <p>Large, unorganized memory pool used for dynamic data (where size can change at runtime). Developers must manually request space (<code>malloc</code>) and manually return it (<code>free</code>).</p>
+                        <p><em>Example: <code>int* data = malloc(100);</code></em></p>
+                    </div>
+                </div>
+                
+                <div style="margin: 3rem 0; padding: 1.5rem; background: var(--sidebar-bg); border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                    <h3 style="margin-top: 0; color: var(--accent); margin-bottom: 1.5rem;">Hardware & OS Memory Protection</h3>
+                    <img src="images/memory_management_diagram.png" alt="OS Memory Management and Hardware Protection Diagram" style="max-width: 100%; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+                    <p style="margin-top: 1.5rem; text-align: left; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+                        <strong>How Protection Works:</strong> The OS Kernel is responsible for allocating specific memory segments (like the Stack and Heap) to each running process. However, the OS relies on hardware—specifically the <strong>Memory Management Unit (MMU)</strong>—to actively monitor and enforce these boundaries at runtime. If a process attempts to read or write data outside of its allocated segment (e.g., due to a buffer overflow or dangling pointer), the MMU hardware intercepts the invalid access and throws a hardware exception. The OS Kernel catches this exception and immediately kills the offending process with a <strong>Segmentation Fault (Segfault)</strong> to prevent data leakage or corruption.
+                    </p>
+                </div>
+
+                <h2>Manual Memory Management (C Example)</h2>
+                <p>When you use the Heap in C, you take on 100% of the responsibility for that memory. Let's look at a standard example using buffers, <code>malloc</code>, and <code>free</code>.</p>
+
+                <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+void process_data() {
+    // 1. ALLOCATION: Requesting a buffer of 100 bytes on the Heap
+    char *buffer = (char *)malloc(100 * sizeof(char));
+    
+    // Check if allocation failed (often forgotten in real code!)
+    if (buffer == NULL) {
+        return; 
+    }
+
+    // 2. USAGE: Writing data into the buffer
+    strcpy(buffer, "Secret Security Data");
+    printf("Data: %s\n", buffer);
+
+    // 3. DEALLOCATION: Giving the memory back to the OS
+    free(buffer);
+
+    // DANGER: The pointer 'buffer' still holds the memory address, 
+    // even though we don't own it anymore. It is now a "Dangling Pointer".
+}</code></pre>
+
+                <h2>The Weak Links</h2>
+                <p>The code above looks simple, but it relies entirely on the developer perfectly tracking the lifecycle of <code>buffer</code>. If any of the following occur, you have a critical security vulnerability:</p>
+                <ul>
+                    <li><strong>Forget to call <code>free()</code>:</strong> Memory Leak. If this happens in a loop, the server will crash from Out of Memory (OOM).</li>
+                    <li><strong>Write more than 100 bytes:</strong> Heap Buffer Overflow. You corrupt adjacent memory, allowing attackers to inject code.</li>
+                    <li><strong>Call <code>free()</code> twice:</strong> Double Free. Corrupts the memory allocator data structures, often leading to code execution.</li>
+                    <li><strong>Use <code>buffer</code> after freeing it:</strong> Use-After-Free (UAF). The memory might have been reassigned to something else, like an authentication token, which the attacker can now manipulate.</li>
+                </ul>
+
+                <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+                <h2>Knowledge Check</h2>
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent); cursor: pointer;">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none;">Question: Which memory error occurs if you forget to write <code>free(buffer)</code> inside a loop?</summary>
+                    <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Answer:</strong> A Memory Leak. The allocated memory on the Heap is never returned to the OS. Over time, the program will continually request new blocks until it consumes all available RAM and crashes (Out of Memory).</p>
+                </details>
+
+            </article>
+
+            <footer class="page-navigation">
+                <a href="pre_workshop.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">Pre-Workshop</span>
+                </a>
+                
+                <a href="session_1_2.html" class="nav-button next">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">1.2 Data sharing</span>
+                </a>
+            </footer>
+        </main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+</body>
+</html>
