@@ -84,20 +84,43 @@ Cargo.toml  src/</code></pre>
                 <p><strong>Output:</strong> A new folder containing <code>Cargo.toml</code> and a <code>src</code> directory with <code>main.rs</code>.</p>
                 <p><strong>Why:</strong> <code>Cargo.toml</code> is the configuration file for your project (written in TOML). It tracks your project's name, version, and dependencies. The <code>src</code> folder is where all your Rust code belongs.</p>
 
-                <h2>Example 2: Adding Dependencies</h2>
-                <p>Modify your <code>Cargo.toml</code> to include a third-party library, like the popular random number generator <code>rand</code>:</p>
-                <pre><code class="language-rust">[dependencies]
-rand = "0.8.5"</code></pre>
-                <p>Then run the build command:</p>
-                <pre><code class="language-rust">$ cargo build</code></pre>
-                <p><strong>Output:</strong> Cargo will reach out to crates.io, download the <code>rand</code> crate and all its dependencies, and compile them alongside your code.</p>
-                <p><strong>Why:</strong> This standardized package management makes sharing code across the Rust ecosystem incredibly easy and secure. Cargo creates a <code>Cargo.lock</code> file to ensure reproducible builds.</p>
+                
+                <h2>Adding Dependencies (Crates)</h2>
+                <p>Instead of manually editing <code>Cargo.toml</code>, you can add dependencies directly from the command line using <code>cargo add</code>. This automatically updates your manifest file.</p>
+                <pre><code class="language-bash">$ cargo add rand
+$ cargo add serde --features derive</code></pre>
+                <p><strong>Why:</strong> Cargo reaches out to <em>crates.io</em>, resolves the latest compatible version, and ensures reproducible builds via the <code>Cargo.lock</code> file.</p>
 
-                <h2>Example 3: Checking and Running</h2>
-                <pre><code class="language-rust">$ cargo check
-$ cargo run</code></pre>
-                <p><strong>Output:</strong> <code class="keyword-hl">cargo check</code> quickly analyzes your code to ensure it compiles without producing an executable. <code class="keyword-hl">cargo run</code> compiles the code and executes the resulting binary immediately.</p>
-                <p><strong>Why:</strong> Running <code class="keyword-hl">cargo check</code> is much faster than a full compile, making it ideal to run frequently while writing code to catch syntax and type errors early.</p>
+                <h2>Checking, Formatting, and Linting</h2>
+                <p>Rust provides built-in tools for maintaining a highly readable and mathematically correct codebase.</p>
+                <ul>
+                    <li><code class="keyword-hl">cargo check</code>: Analyzes your code to ensure it compiles, but skips producing an executable. It is much faster than a full build, ideal for rapid development.</li>
+                    <li><code class="keyword-hl">cargo fmt</code>: Automatically formats all your Rust code according to standard styling guidelines (using <em>rustfmt</em>).</li>
+                    <li><code class="keyword-hl">cargo clippy</code>: Rust's official linter. It analyzes your code and catches common mistakes, performance issues, and non-idiomatic patterns. <em>"If it compiles, it works. If it passes clippy, it's perfect."</em></li>
+                </ul>
+
+                <h2>Testing and Code Coverage</h2>
+                <p>Rust has testing built directly into the language. You can write unit tests in the same file as your logic.</p>
+                <pre><code class="language-bash">$ cargo test</code></pre>
+                <p>To generate test coverage reports, the community standard is to use tools like <code>cargo-tarpaulin</code> or <code>grcov</code>. For example, installing tarpaulin allows you to run:</p>
+                <pre><code class="language-bash">$ cargo install cargo-tarpaulin
+$ cargo tarpaulin --out Html</code></pre>
+                <p>This generates an HTML report showing exactly which lines of code your tests missed!</p>
+
+                <h2>Documentation Generation</h2>
+                <p>Rust can automatically generate beautiful HTML documentation based on the comments (<code>///</code>) in your source code.</p>
+                <pre><code class="language-bash">$ cargo doc --open</code></pre>
+                <p>This command builds documentation for your crate and all its dependencies, then opens it directly in your browser.</p>
+
+                <h2>Toolchains and Embedded Systems (rustup)</h2>
+                <p>While <em>Cargo</em> manages your project, <em>rustup</em> manages your Rust installation. You can use <code>rustup</code> to download different compiler versions or add support for different CPU architectures (like embedded systems).</p>
+                <pre><code class="language-bash">$ rustup update                  # Updates Rust to the latest version
+$ rustup toolchain install nightly # Installs experimental Rust features
+$ rustup target add thumbv7m-none-eabi # Adds support for ARM Cortex-M microcontrollers</code></pre>
+                
+                <p>Once you have added an embedded target via <code>rustup</code>, you can tell Cargo to cross-compile your project for that specific hardware:</p>
+                <pre><code class="language-bash">$ cargo build --target thumbv7m-none-eabi --release</code></pre>
+                <p>This outputs a binary specifically formatted for an embedded chip rather than your local PC.</p>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 
