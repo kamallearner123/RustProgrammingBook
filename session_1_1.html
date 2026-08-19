@@ -83,6 +83,38 @@
                     <li><strong>Stack:</strong> Fast, static memory for local function variables and call frames. Grows downwards. Automatically managed as functions are called and return.</li>
                 </ul>
 
+                <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+flowchart TD
+    %% Define Node Classes
+    classDef stack fill:#f56565,stroke:#c53030,color:#fff,stroke-width:2px;
+    classDef heap fill:#ed8936,stroke:#dd6b20,color:#fff,stroke-width:2px;
+    classDef bss fill:#ecc94b,stroke:#d69e2e,color:#000,stroke-width:2px;
+    classDef data fill:#48bb78,stroke:#38a169,color:#fff,stroke-width:2px;
+    classDef text fill:#4299e1,stroke:#3182ce,color:#fff,stroke-width:2px;
+    classDef free fill:#e2e8f0,stroke:#a0aec0,color:#4a5568,stroke-dasharray: 5 5;
+    classDef addr fill:none,stroke:none,color:#718096,font-weight:bold;
+
+    subgraph Memory["Virtual Memory Layout"]
+        direction TB
+        High["High Memory Addresses (0xFFFFFFFF)"]:::addr
+        Stack["<b>Stack Segment</b><br>Local variables, function frames<br><i>(Grows Downwards ↓)</i>"]:::stack
+        Free["<i>... Free Memory ...</i>"]:::free
+        Heap["<b>Heap Segment</b><br>Dynamic allocation (malloc/new)<br><i>(Grows Upwards ↑)</i>"]:::heap
+        BSS["<b>BSS Segment</b><br>Uninitialized global/static variables"]:::bss
+        Data["<b>Data Segment</b><br>Initialized global/static variables"]:::data
+        Text["<b>Text Segment</b><br>Read-only compiled instructions"]:::text
+        Low["Low Memory Addresses (0x00000000)"]:::addr
+
+        High --- Stack
+        Stack --- Free
+        Free --- Heap
+        Heap --- BSS
+        BSS --- Data
+        Data --- Text
+        Text --- Low
+    end
+                </div>
+
                 <div class="mermaid" style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
 sequenceDiagram
     participant P as User Process
