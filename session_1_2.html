@@ -92,6 +92,7 @@ sequenceDiagram
     TB->>M: WRITE Balance (Sets 1001)
     Note over TA,TB: Both increments executed,<br/>but the final total is 1001 instead of 1002!<br/>This is a Data Race.
                 </div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 3</div>
 
                 <h2>A Classic C Data Race</h2>
                 <p>In C/C++, there is nothing preventing you from causing a data race. The compiler will happily compile the code below, and the bug will only show up occasionally at runtime (making it notoriously hard to debug).</p>
@@ -128,6 +129,7 @@ int main() {
     
     return 0;
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 4</div>
 
                 <h2>The Result</h2>
                 <p>If you run this code, the output will almost never be <code>201000</code>. It might be <code>145293</code>, or <code>198302</code>. The operations overlap.</p>
