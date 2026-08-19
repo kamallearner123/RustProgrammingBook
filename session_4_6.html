@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1: Core concepts and C/C++ limitations - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                                                                                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+                    
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+                    
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_functions.html">2.3 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.4 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.5 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.6 References</a></li>
+                    <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.8 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
+                    
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+                
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                    <li><a href="session_4_6.html">4.6 Automotive Cybersecurity</a></li>
+                    <li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+    <span class="chapter-number">Session 4.6</span>
+    <h1>Cybersecurity in Automotive</h1>
+    
+    <h2>The Regulatory Landscape: UNECE WP.29 & ISO/SAE 21434</h2>
+    <p>Historically, automotive engineering prioritized physical safety (brakes, crash structures) over digital security. This changed dramatically with the introduction of the <strong>UNECE WP.29 R155</strong> regulation. It mandates that all new vehicles must have a certified Cybersecurity Management System (CSMS) to be legally sold in major global markets.</p>
+    
+    <p>To comply with this regulation, the automotive industry adopted the <strong>ISO/SAE 21434</strong> standard, which enforces "Cybersecurity Engineering" throughout the entire lifecycle of a vehicle—from concept to decommissioning.</p>
+
+    <div class="info-callout" style="border-left-color: #ff9800;">
+        <strong>Why C/C++ Fails ISO/SAE 21434</strong>
+        <p>A core tenet of ISO 21434 is "Security by Design". Relying on languages with undefined behavior (like C and C++) directly contradicts this principle when memory-safe alternatives exist. A single buffer overflow in a Telematics Control Unit (TCU) can compromise the entire vehicle network.</p>
+    </div>
+
+    <h2>The Modern Automotive Threat Landscape</h2>
+    <p>Modern vehicles have a massive attack surface. Hackers no longer need physical access to compromise a car.</p>
+    
+    <ul>
+        <li><strong>Telematics & OTA (Over-The-Air):</strong> Remote code execution (RCE) via malicious cellular packets.</li>
+        <li><strong>Infotainment & Bluetooth:</strong> Buffer overflows in the Bluetooth stack allowing attackers to pivot into the internal vehicle network.</li>
+        <li><strong>Keyless Entry (RF/NFC):</strong> Relay attacks that spoof the physical proximity of the owner's key fob.</li>
+        <li><strong>CAN Bus Injection:</strong> Once inside the network, injecting fake CAN frames to manipulate steering, braking, or engine parameters.</li>
+    </ul>
+
+    <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+graph TD
+    subgraph External Attack Vectors
+        OTA[Cellular / OTA Server]
+        BT[Bluetooth / Wi-Fi]
+        OBD[OBD-II Port]
+    end
+
+    subgraph Vehicle Internal Network
+        TCU[Telematics Control Unit]
+        INFO[Infotainment System]
+        GW[Central Gateway]
+        CAN[CAN / Automotive Ethernet]
+        ECU1[Engine / Braking ECU]
+    end
+
+    OTA -->|Malicious Payload| TCU
+    BT -->|Buffer Overflow| INFO
+    OBD -->|Physical Access| GW
+
+    TCU -->|Compromised| GW
+    INFO -->|Compromised| GW
+    
+    GW -->|Malicious Injection| CAN
+    CAN -->|Fatal Command| ECU1
+    
+    style ECU1 fill:#f56565,stroke:#c53030,color:#fff,stroke-width:2px;
+    style GW fill:#ed8936,stroke:#dd6b20,color:#fff,stroke-width:2px;
+    </div>
+    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">Figure 4.6: Connected Vehicle Attack Vectors</div>
+
+    <h2>How Rust Defends the Vehicle</h2>
+    <p>By writing edge-facing components (like the TCU and Infotainment parsers) in Rust, automotive engineers can categorically eliminate memory safety vulnerabilities.</p>
+    
+    <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="margin-top:0; color:var(--accent);">Securing OTA Updates</h3>
+        <p>If an OTA update parser in C is compromised, the attacker gains persistence. In Rust, strict bounds checking and memory safety prevent the payload from overflowing the buffer.</p>
+        <pre><code class="language-rust">fn parse_ota_firmware(payload: &[u8]) -> Result&lt;Firmware, Error&gt; {
+    // Rust guarantees that we cannot read past the end of the payload slice
+    if payload.len() &lt; 1024 {
+        return Err(Error::InvalidHeaderSize);
+    }
+    
+    // Safely extract the cryptographic signature without pointer arithmetic risks
+    let signature = &payload[0..256]; 
+    verify_crypto_signature(signature)?;
+    
+    Ok(Firmware::new(&payload[256..]))
+}</code></pre>
+        <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; font-size: 0.9rem;">Program 4.6: Safe OTA Firmware Parsing</div>
+    </div>
+
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);">
+        <h2>Topic Quiz (5 Questions)</h2>
+        <div class="mcq-container">
+            <div class="mcq-question">1. What does the UNECE WP.29 regulation mandate for new vehicles?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">A certified Cybersecurity Management System (CSMS)</li>
+                <li class="mcq-option" data-correct="false">Mandatory electric batteries</li>
+                <li class="mcq-option" data-correct="false">Self-driving capabilities</li>
+                <li class="mcq-option" data-correct="false">Removal of CAN buses</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        <div class="mcq-container">
+            <div class="mcq-question">2. Which international standard enforces Cybersecurity Engineering in automotive?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">ISO/SAE 21434</li>
+                <li class="mcq-option" data-correct="false">ISO 9001</li>
+                <li class="mcq-option" data-correct="false">IEEE 802.11</li>
+                <li class="mcq-option" data-correct="false">RFC 793</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        <div class="mcq-container">
+            <div class="mcq-question">3. What is a TCU in a connected vehicle?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">Telematics Control Unit (handles cellular connectivity)</li>
+                <li class="mcq-option" data-correct="false">Transmission Control Unit</li>
+                <li class="mcq-option" data-correct="false">Tire Checking Utility</li>
+                <li class="mcq-option" data-correct="false">Thread Concurrency Unit</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        <div class="mcq-container">
+            <div class="mcq-question">4. How can hackers remotely compromise a vehicle without physical access?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">Via Over-The-Air (OTA) updates and Bluetooth stacks</li>
+                <li class="mcq-option" data-correct="false">By slashing the tires</li>
+                <li class="mcq-option" data-correct="false">By unplugging the OBD-II port</li>
+                <li class="mcq-option" data-correct="false">By replacing the engine</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+        <div class="mcq-container">
+            <div class="mcq-question">5. Why is Rust uniquely positioned to secure OTA update parsers?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">Its strict bounds checking prevents payload buffer overflows</li>
+                <li class="mcq-option" data-correct="false">It uses an AI antivirus</li>
+                <li class="mcq-option" data-correct="false">It encrypts the payload automatically</li>
+                <li class="mcq-option" data-correct="false">It is approved by MISRA-C</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer!</div>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">External References & Further Reading</h3>
+    <ul style="font-size: 0.9rem; color: var(--text-muted);">
+        <li><a href="https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security" target="_blank" style="color: var(--accent);">UN Regulation No. 155 (Cyber Security)</a></li>
+        <li><a href="https://www.iso.org/standard/70918.html" target="_blank" style="color: var(--accent);">ISO/SAE 21434:2021 Road vehicles - Cybersecurity engineering</a></li>
+    </ul>
+</article>
+
+            <footer class="page-navigation">
+                <a href="pre_workshop.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">Pre-Workshop</span>
+                </a>
+                
+                <a href="#" class="nav-button next" style="display:none;">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">1.1 Memory Structure</span>
+                </a>
+            </footer>
+        
+            <div style="text-align: center; padding: 2rem 0; margin-top: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem;">
+                Prepared by <a href="https://www.aptcomputinglabs.com/" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: bold;">Apt Computing Labs</a>
+                <br><span style="font-size: 0.8rem; opacity: 0.7;">&copy; 2026 Apt Computing Labs. This material may be distributed freely provided that credit is given to Apt Computing Labs.</span>
+            </div>
+</main>
+    </div>
+    <script src="script.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
+</body>
+</html>
