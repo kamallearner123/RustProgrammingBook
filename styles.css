@@ -684,3 +684,26 @@ pre code {
     border-radius: 4px;
     cursor: pointer;
 }
+
+/* APT Computing Labs Watermark */
+body::after {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 55%; /* Offset slightly due to sidebar */
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 50vh;
+    background-image: url('acl_logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.04; /* Very faint watermark */
+    pointer-events: none; /* Allows clicking through the watermark */
+    z-index: 0; /* Keeps it behind text but visible */
+}
+
+[data-theme='dark'] body::after {
+    opacity: 0.03; /* Even fainter in dark mode to not distract */
+    filter: invert(1); /* Optional: inverts the logo color for dark mode if it's a dark logo */
+}
