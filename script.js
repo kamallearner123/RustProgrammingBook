@@ -237,16 +237,20 @@ document.addEventListener("DOMContentLoaded", () => {
         mainContent.classList.add('page-enter');
     }
 
-    // 2. Global Score UI
-    const sidebarHeader = document.querySelector('.sidebar-header');
-    if (sidebarHeader && !document.getElementById('global-score-container')) {
+    // 2. Global Score UI (Top Right Corner)
+    const topNavActions = document.querySelector('.nav-actions');
+    if (topNavActions && !document.getElementById('global-score-container')) {
         const scoreContainer = document.createElement('div');
         scoreContainer.id = 'global-score-container';
+        scoreContainer.style.display = 'flex';
+        scoreContainer.style.alignItems = 'center';
+        scoreContainer.style.gap = '10px';
+        scoreContainer.style.marginRight = '15px';
         scoreContainer.innerHTML = `
-            <div style="font-size: 0.95rem; color: var(--text-color);">Score: <strong id="global-score-display" style="color: var(--accent);">0</strong></div>
-            <button id="reset-score-btn" style="font-size: 0.75rem; padding: 2px 6px;">Reset</button>
+            <div style="font-size: 1rem; color: var(--text-color); font-weight: 600;">Score: <strong id="global-score-display" style="color: var(--accent);">0</strong></div>
+            <button id="reset-score-btn" style="font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; background: var(--sidebar-bg); color: var(--text-color); border: 1px solid var(--border-color); cursor: pointer;">Reset</button>
         `;
-        sidebarHeader.appendChild(scoreContainer);
+        topNavActions.insertBefore(scoreContainer, topNavActions.firstChild);
         
         updateScoreDisplay();
 
