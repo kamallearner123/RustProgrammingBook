@@ -9,7 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
+
 <body>
     <div class="app-container">
         <nav class="sidebar" id="sidebar">
@@ -81,7 +91,7 @@
     <li>Linux Kernel & Cloud Infrastructure</li>
     <li>AI Infrastructure & Tooling</li>
     <li>Career Opportunities & Open Source</li>
-<li class="toc-main"><a href="session_5_test.html">Session 5: Test your skills (50 MCQs)</a></li>
+<li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
 </ul>
 <div class="info-callout">
     <strong>The Future is Safe:</strong> As regulatory bodies (like the US White House, CISA, and the NSA) increasingly mandate memory-safe languages for critical infrastructure, Rust's adoption is accelerating exponentially.

@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Your Skills - Rust Security Course</title>
     <link rel="stylesheet" href="styles.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
+
 <body>
     <div class="app-container">
         <nav class="sidebar" id="sidebar">
@@ -26,7 +36,7 @@
                 
                     <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
 
-                    <li class="toc-main"><a href="session_5_test.html">Session 5: Test your skills (50 MCQs)</a></li>
+                    <li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
                 </ul>
             </div>
         </nav>

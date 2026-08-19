@@ -9,7 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
+
 <body>
     <div class="app-container">
         <nav class="sidebar" id="sidebar">
@@ -201,7 +211,7 @@ void cleanup() {
                 <li class="mcq-option" data-correct="false">Option B</li>
                 <li class="mcq-option" data-correct="false">Option C</li>
                 <li class="mcq-option" data-correct="false">Option D</li>
-            <li class="toc-main"><a href="session_5_test.html">Session 5: Test your skills (50 MCQs)</a></li>
+            <li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
 </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>

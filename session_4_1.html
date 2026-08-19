@@ -9,7 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
+
 <body>
     <div class="app-container">
         <nav class="sidebar" id="sidebar">
@@ -127,7 +137,7 @@ fn parse_engine_temp(frame: &CanFrame) -> Option&lt;u8&gt; {
         <li><a href="https://ferrous-systems.com/ferrocene/" target="_blank" style="color: var(--accent);">Ferrocene ASIL-D Qualified Compiler documentation</a> (Ferrous Systems, 2023)</li>
         <li><a href="https://www.autosar.org/" target="_blank" style="color: var(--accent);">AUTOSAR Specifications for Rust</a> (AUTOSAR Consortium, 2024)</li>
         <li><em>"Volvo Cars invests in Rust for next-gen SDV architecture"</em> - Automotive Software Daily (2025)</li>
-    <li class="toc-main"><a href="session_5_test.html">Session 5: Test your skills (50 MCQs)</a></li>
+    <li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
 </ul>
 
 </article>
