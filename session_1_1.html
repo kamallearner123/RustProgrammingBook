@@ -72,7 +72,34 @@
             <article class="book-page">
                 <span class="chapter-number">Session 1.1</span>
                 <h1>Memory Structure</h1>
-                
+
+                <h2>Process Memory Segments</h2>
+                <p>When an operating system runs a program, it allocates an isolated block of virtual memory for that process. This memory is divided into distinct segments, each serving a specific purpose:</p>
+                <ul>
+                    <li><strong>Text (Code) Segment:</strong> Read-only memory where the compiled machine instructions live. Making this read-only prevents attackers from modifying the running code.</li>
+                    <li><strong>Data Segment:</strong> Stores global and static variables that are explicitly initialized by the developer (e.g., <code>int count = 5;</code>).</li>
+                    <li><strong>BSS Segment:</strong> Stores global and static variables that are uninitialized (e.g., <code>int total;</code>). The OS zeroes this out before execution.</li>
+                    <li><strong>Heap:</strong> Dynamic memory allocated at runtime (e.g., via <code>malloc()</code>). Grows upwards. Used for data whose size isn't known until the program is running.</li>
+                    <li><strong>Stack:</strong> Fast, static memory for local function variables and call frames. Grows downwards. Automatically managed as functions are called and return.</li>
+                </ul>
+
+                <div class="mermaid" style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+sequenceDiagram
+    participant P as User Process
+    participant MMU as MMU / DMA (Hardware)
+    participant K as OS Kernel
+    
+    P->>K: malloc() / mmap() Request memory
+    K-->>P: Returns Virtual Memory Address
+    P->>MMU: Accesses memory (Read/Write)
+    alt Valid Address
+        MMU-->>P: Data operation successful
+    else Invalid Boundary (Buffer Overflow)
+        MMU->>K: Hardware Exception (Page Fault / Segfault)
+        K->>P: Kills process (Segmentation Fault)
+    end
+                </div>
+
                 <h2>How Memory Works in C/C++</h2>
                 <p>To understand why traditional systems languages are prone to vulnerabilities, we must first understand how they structure and manage memory. Programs divide memory into several segments, but the two most important for developers are the <strong class="keyword-hl">Stack</strong> and the <strong class="keyword-hl">Heap</strong>.</p>
                 
@@ -163,5 +190,11 @@ void process_data() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+</script>
+
 </body>
 </html>

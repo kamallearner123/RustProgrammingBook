@@ -77,6 +77,22 @@
                 <p>Modern processors have many cores. To maximize performance, we use multithreading. However, when multiple threads run simultaneously and share the same memory, they can easily step on each other's toes.</p>
                 <p>If Thread A and Thread B both attempt to read and write to the same variable at the exact same moment without coordination, the data becomes corrupted. This is called a <strong class="keyword-hl">Data Race</strong>.</p>
                 
+                
+                <div class="mermaid" style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+sequenceDiagram
+    participant TA as Thread A
+    participant M as Shared Memory (Balance: 1000)
+    participant TB as Thread B
+    
+    TA->>M: READ Balance (Gets 1000)
+    TB->>M: READ Balance (Gets 1000)
+    TA->>TA: Calculate Add 1 (1001)
+    TB->>TB: Calculate Add 1 (1001)
+    TA->>M: WRITE Balance (Sets 1001)
+    TB->>M: WRITE Balance (Sets 1001)
+    Note over TA,TB: Both increments executed,<br/>but the final total is 1001 instead of 1002!<br/>This is a Data Race.
+                </div>
+
                 <h2>A Classic C Data Race</h2>
                 <p>In C/C++, there is nothing preventing you from causing a data race. The compiler will happily compile the code below, and the bug will only show up occasionally at runtime (making it notoriously hard to debug).</p>
 
@@ -146,5 +162,11 @@ int main() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+</script>
+
 </body>
 </html>
