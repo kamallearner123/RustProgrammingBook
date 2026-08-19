@@ -156,58 +156,58 @@ void update_score(int *score_ptr) {
         <div class="mcq-container">
             <div class="mcq-question">1. What is a dangling reference?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">A reference without a type</li>
+                <li class="mcq-option" data-correct="false">A mutable reference</li>
+                <li class="mcq-option" data-correct="false">A pointer to a static string</li>
+                <li class="mcq-option" data-correct="true">A pointer that references memory that has been deallocated</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">2. Does Rust allow null pointers?</div>
+            <div class="mcq-question">2. Does Rust allow dangling references?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Yes, but it warns you</li>
+                <li class="mcq-option" data-correct="true">No, the compiler enforces lifetimes to prevent them</li>
+                <li class="mcq-option" data-correct="false">Yes, like C/C++</li>
+                <li class="mcq-option" data-correct="false">Only in debug mode</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">3. What happens if you dereference a null pointer in C?</div>
+            <div class="mcq-question">3. What are lifetimes in Rust?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">The execution time of a function</li>
+                <li class="mcq-option" data-correct="false">The warranty period of a software package</li>
+                <li class="mcq-option" data-correct="false">The time a thread sleeps</li>
+                <li class="mcq-option" data-correct="true">Annotations that tell the compiler how long references are valid</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">4. How does Rust guarantee valid references?</div>
+            <div class="mcq-question">4. When does the Rust compiler require explicit lifetime annotations?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="true">When it cannot automatically infer the relationship between reference lifespans</li>
+                <li class="mcq-option" data-correct="false">Only when using integers</li>
+                <li class="mcq-option" data-correct="false">For every single reference</li>
+                <li class="mcq-option" data-correct="false">Never, it's deprecated</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">5. What are lifetimes?</div>
+            <div class="mcq-question">5. What is the '*' operator used for in relation to references?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Multiplying the memory address</li>
+                <li class="mcq-option" data-correct="false">Casting types</li>
+                <li class="mcq-option" data-correct="false">Creating a raw pointer</li>
+                <li class="mcq-option" data-correct="true">Dereferencing a reference to access the underlying value</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>

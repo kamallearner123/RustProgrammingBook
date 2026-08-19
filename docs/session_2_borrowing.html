@@ -160,60 +160,60 @@ fn main() {
 
             <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
         <div class="mcq-container">
-            <div class="mcq-question">1. What does borrowing mean?</div>
+            <div class="mcq-question">1. What does borrowing mean in Rust?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="true">Creating a reference to a value without taking ownership</li>
+                <li class="mcq-option" data-correct="false">Stealing ownership from another function</li>
+                <li class="mcq-option" data-correct="false">Allocating memory from the OS</li>
+                <li class="mcq-option" data-correct="false">Copying data from the heap to the stack</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">2. What symbol is used for borrowing?</div>
+            <div class="mcq-question">2. Which operator is used to create an immutable reference?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">mut</li>
+                <li class="mcq-option" data-correct="false">*</li>
+                <li class="mcq-option" data-correct="true">&</li>
+                <li class="mcq-option" data-correct="false">-></li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">3. Can you modify a borrowed value?</div>
+            <div class="mcq-question">3. What is the primary restriction on mutable references?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">They cannot be passed to functions</li>
+                <li class="mcq-option" data-correct="false">They must be static</li>
+                <li class="mcq-option" data-correct="false">They can only be used with integers</li>
+                <li class="mcq-option" data-correct="true">You can only have one mutable reference to a piece of data at a time</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">4. What is the rule of borrowing?</div>
+            <div class="mcq-question">4. Can you have immutable and mutable references to the same data in the same scope?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Only if you use unsafe Rust</li>
+                <li class="mcq-option" data-correct="false">Yes, it is perfectly fine</li>
+                <li class="mcq-option" data-correct="false">Only if the data is on the stack</li>
+                <li class="mcq-option" data-correct="true">No, it causes a compile-time error</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">5. What does borrowing prevent?</div>
+            <div class="mcq-question">5. What problem do Rust's borrowing rules completely prevent?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Network timeouts</li>
+                <li class="mcq-option" data-correct="false">Logic bugs in math</li>
+                <li class="mcq-option" data-correct="true">Data races and use-after-free errors</li>
+                <li class="mcq-option" data-correct="false">Infinite loops</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>

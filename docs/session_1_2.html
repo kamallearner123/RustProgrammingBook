@@ -157,60 +157,60 @@ int main() {
 
             <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
         <div class="mcq-container">
-            <div class="mcq-question">1. What is a Data Race?</div>
+            <div class="mcq-question">1. What is a data race?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">A fast memory access operation</li>
+                <li class="mcq-option" data-correct="true">Two threads accessing same memory simultaneously with at least one writing</li>
+                <li class="mcq-option" data-correct="false">Two threads reading from the same memory</li>
+                <li class="mcq-option" data-correct="false">Data corruption from disk failure</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">2. How do you prevent data races in C?</div>
+            <div class="mcq-question">2. Why are raw pointers dangerous in concurrent C/C++ code?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="true">They bypass compiler safety checks for concurrent access</li>
+                <li class="mcq-option" data-correct="false">They slow down thread execution</li>
+                <li class="mcq-option" data-correct="false">They consume too much memory</li>
+                <li class="mcq-option" data-correct="false">They automatically lock variables</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">3. What is TOCTOU?</div>
+            <div class="mcq-question">3. What is a common bug associated with shared heap memory?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Stack overflow</li>
+                <li class="mcq-option" data-correct="false">Divide by zero</li>
+                <li class="mcq-option" data-correct="true">Use-after-free</li>
+                <li class="mcq-option" data-correct="false">Syntax error</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">4. Why are mutexes dangerous in C?</div>
+            <div class="mcq-question">4. How does Rust prevent data races at compile time?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Disabling multithreading</li>
+                <li class="mcq-option" data-correct="false">Automatic garbage collection</li>
+                <li class="mcq-option" data-correct="true">Ownership and Borrowing rules</li>
+                <li class="mcq-option" data-correct="false">Global Interpreter Lock (GIL)</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">5. Does Rust prevent data races?</div>
+            <div class="mcq-question">5. What happens if you forget to use a mutex in C++ for shared data?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">The OS prevents execution</li>
+                <li class="mcq-option" data-correct="true">Undefined behavior and possible data races</li>
+                <li class="mcq-option" data-correct="false">The program automatically locks it</li>
+                <li class="mcq-option" data-correct="false">The compiler throws an error</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>

@@ -161,60 +161,60 @@ fn read_username() -> Result&lt;String, Error&gt; {
 
             <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
         <div class="mcq-container">
-            <div class="mcq-question">1. What enum handles recoverable errors?</div>
+            <div class="mcq-question">1. How does Rust handle unrecoverable errors?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Segfaulting</li>
+                <li class="mcq-option" data-correct="false">Throwing an Exception</li>
+                <li class="mcq-option" data-correct="true">Using the panic! macro</li>
+                <li class="mcq-option" data-correct="false">Returning null</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">2. What does the ? operator do?</div>
+            <div class="mcq-question">2. What enum does Rust use for recoverable errors?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Option<T></li>
+                <li class="mcq-option" data-correct="false">TryCatch</li>
+                <li class="mcq-option" data-correct="true">Result<T, E></li>
+                <li class="mcq-option" data-correct="false">Error<T></li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">3. What is unwrap()?</div>
+            <div class="mcq-question">3. What are the two variants of the Result enum?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Some and None</li>
+                <li class="mcq-option" data-correct="false">Success and Failure</li>
+                <li class="mcq-option" data-correct="false">True and False</li>
+                <li class="mcq-option" data-correct="true">Ok and Err</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">4. How do you handle unrecoverable errors?</div>
+            <div class="mcq-question">4. What does the '?' operator do in Rust?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Checks if a variable is null</li>
+                <li class="mcq-option" data-correct="true">Propagates the error if Err, or unwraps the value if Ok</li>
+                <li class="mcq-option" data-correct="false">Acts as a ternary conditional operator</li>
+                <li class="mcq-option" data-correct="false">Initiates a panic</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">5. What is the Option enum?</div>
+            <div class="mcq-question">5. What is the purpose of the unwrap() method?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Decrypts an encrypted variable</li>
+                <li class="mcq-option" data-correct="false">Converts an error into a string</li>
+                <li class="mcq-option" data-correct="true">Extracts the Ok value, or panics if it's an Err</li>
+                <li class="mcq-option" data-correct="false">Safely unwraps a value with a fallback</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>

@@ -159,60 +159,60 @@ void cleanup() {
 
             <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
         <div class="mcq-container">
-            <div class="mcq-question">1. What is the core feature of Rust?</div>
+            <div class="mcq-question">1. Which of these is NOT a rule of Ownership in Rust?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="true">A value can have multiple owners at the same time</li>
+                <li class="mcq-option" data-correct="false">When the owner goes out of scope, the value is dropped</li>
+                <li class="mcq-option" data-correct="false">Each value has a variable called its owner</li>
+                <li class="mcq-option" data-correct="false">There can only be one owner at a time</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">2. How many owners can a value have at a time?</div>
+            <div class="mcq-question">2. What happens when a heap-allocated variable goes out of scope?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">It waits for the garbage collector</li>
+                <li class="mcq-option" data-correct="false">The program crashes</li>
+                <li class="mcq-option" data-correct="true">Its 'drop' function is called and memory is freed</li>
+                <li class="mcq-option" data-correct="false">It causes a memory leak</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">3. What happens when an owner goes out of scope?</div>
+            <div class="mcq-question">3. What is 'Move' semantics in Rust?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="true">Transferring ownership of a value to another variable</li>
+                <li class="mcq-option" data-correct="false">Passing a reference</li>
+                <li class="mcq-option" data-correct="false">Copying the value in memory</li>
+                <li class="mcq-option" data-correct="false">Deleting a variable</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">4. What is a 'move' in Rust?</div>
+            <div class="mcq-question">4. If a String type is moved, what happens to the original variable?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="true">It becomes invalid and cannot be used</li>
+                <li class="mcq-option" data-correct="false">It becomes immutable</li>
+                <li class="mcq-option" data-correct="false">It holds a duplicate of the data</li>
+                <li class="mcq-option" data-correct="false">It becomes a null pointer</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">5. Does Rust have a garbage collector?</div>
+            <div class="mcq-question">5. Which types implement the Copy trait by default?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Custom structs containing heap data</li>
+                <li class="mcq-option" data-correct="false">String and Vec</li>
+                <li class="mcq-option" data-correct="false">Network sockets</li>
+                <li class="mcq-option" data-correct="true">Simple scalar types like integers and booleans</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>

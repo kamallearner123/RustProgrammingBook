@@ -170,60 +170,60 @@ hello world</code></pre>
 
             <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
         <div class="mcq-container">
-            <div class="mcq-question">1. Can you have multiple mutable references to the same data?</div>
+            <div class="mcq-question">1. Why are variables immutable by default in Rust?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">To save RAM</li>
+                <li class="mcq-option" data-correct="false">Because mutable variables are slower</li>
+                <li class="mcq-option" data-correct="true">To encourage functional programming patterns and improve safety</li>
+                <li class="mcq-option" data-correct="false">Because the CPU doesn't support mutability</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">2. Can you have one mutable and one immutable reference?</div>
+            <div class="mcq-question">2. What happens if you try to modify an immutable variable?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">The variable is silently overwritten</li>
+                <li class="mcq-option" data-correct="true">The code will not compile</li>
+                <li class="mcq-option" data-correct="false">The program panics at runtime</li>
+                <li class="mcq-option" data-correct="false">A new variable is automatically created</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">3. What does restricting mutable references prevent?</div>
+            <div class="mcq-question">3. Can a struct have some fields mutable and others immutable?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Yes, using Cell</li>
+                <li class="mcq-option" data-correct="true">No, mutability is determined by the variable binding of the struct instance</li>
+                <li class="mcq-option" data-correct="false">Yes, using the mut keyword on specific fields</li>
+                <li class="mcq-option" data-correct="false">Only if the struct is public</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">4. Is mutability inherited?</div>
+            <div class="mcq-question">4. What is interior mutability?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Changing the type of a variable at runtime</li>
+                <li class="mcq-option" data-correct="true">A design pattern that allows mutating data even when there are immutable references to it</li>
+                <li class="mcq-option" data-correct="false">Modifying private fields directly</li>
+                <li class="mcq-option" data-correct="false">A vulnerability in Rust</li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
         </div>
         
         <div class="mcq-container">
-            <div class="mcq-question">5. What happens if you violate mutability rules?</div>
+            <div class="mcq-question">5. Which smart pointer is commonly used for interior mutability in single-threaded contexts?</div>
             <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">Option A (Correct)</li>
-                <li class="mcq-option" data-correct="false">Option B</li>
-                <li class="mcq-option" data-correct="false">Option C</li>
-                <li class="mcq-option" data-correct="false">Option D</li>
+                <li class="mcq-option" data-correct="false">Rc<T></li>
+                <li class="mcq-option" data-correct="false">Mutex<T></li>
+                <li class="mcq-option" data-correct="true">RefCell<T></li>
+                <li class="mcq-option" data-correct="false">Box<T></li>
             </ul>
             <button class="mcq-submit" disabled>Submit</button>
             <div class="mcq-feedback">Correct answer! Great job!</div>
