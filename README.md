@@ -6,6 +6,8 @@ Welcome to the **Rust Security Course**, an interactive workshop designed to tea
 
 This repository contains the full HTML/CSS/JS source for a beautiful, interactive web-based book. It features real-time code editing using Ace Editor, allowing users to compile and run Rust code directly in their browser against the Rust Playground backend.
 
+**Reference Video:** [Introduction to Rust](https://www.youtube.com/watch?v=vSTOGrx4weg)
+
 ### Course Sessions
 
 1. **Session 1: Core concepts and C/C++ limitations**

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rust Security Course - Presentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css" id="theme">
+    
+    <!-- Custom styling for a professional aesthetic -->
+    <style>
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+            font-family: 'Inter', 'Outfit', sans-serif;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        .reveal h1 {
+            color: #E43716; /* Rust accent color */
+            font-weight: 800;
+        }
+        .reveal h2 {
+            color: #f7a08b;
+        }
+        .reveal section p, .reveal section ul {
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+        }
+        .reveal ul {
+            display: inline-block;
+            text-align: left;
+        }
+        .reveal li {
+            margin-bottom: 0.75em;
+        }
+        .highlight {
+            color: #E43716;
+            font-weight: bold;
+        }
+        .badge {
+            background-color: #2b2b2b;
+            padding: 0.2em 0.6em;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8em;
+            color: #ffb86c;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section>
+                <h1>Rust Security Course</h1>
+                <h3>From Vulnerable C/C++ to Safe Systems Programming</h3>
+                <p>
+                    <small>Prepared by <span class="highlight">Apt Computing Labs</span></small>
+                </p>
+            </section>
+
+            <!-- Slide 2: Pre-Workshop -->
+            <section>
+                <h2>The Security Landscape</h2>
+                <p>Why do we need a new systems language?</p>
+                <ul style="font-size: 0.9em;">
+                    <li><span class="highlight">The 70% Rule:</span> Microsoft and Google report that ~70% of high-severity vulnerabilities are due to <span class="highlight">memory safety</span> issues.</li>
+                    <li>Legacy languages (C/C++) rely heavily on <span class="highlight">developer discipline</span> and manual memory management.</li>
+                    <li>Notorious CVEs (e.g., Heartbleed, Baron Samedit) stem from buffer over-reads and heap overflows.</li>
+                    <li>Rust guarantees memory safety <span class="highlight">at compile time</span>, preventing costly breaches.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 3: Session 1 -->
+            <section>
+                <section>
+                    <h2>Session 1: Core Concepts</h2>
+                    <p>Understanding the foundations of memory and legacy code limits.</p>
+                </section>
+                <section>
+                    <h3>Limitations of C/C++</h3>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>Memory Management:</strong> Manual <code>malloc/free</code> leads to <span class="highlight">buffer overflows</span>, <span class="highlight">use-after-free</span>, and double free bugs.</li>
+                        <li><strong>Data Sharing:</strong> Unrestricted pointer access causes <span class="highlight">data races</span> in concurrent environments.</li>
+                        <li><strong>Legacy Tools:</strong> Valgrind, ASan, and MISRA catch bugs at <em>runtime</em> or via linters—often <span class="highlight">too late</span> in the development cycle.</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Slide 4: Session 2 Basics -->
+            <section>
+                <section>
+                    <h2>Session 2: Rust Basics</h2>
+                    <p>The building blocks of Rust programming.</p>
+                </section>
+                <section>
+                    <h3>Syntax & Tooling</h3>
+                    <ul>
+                        <li>Strong, static typing with modern syntax.</li>
+                        <li><span class="badge">cargo</span>: The ultimate build system and package manager.</li>
+                        <li>Built-in error handling via <span class="badge">Result</span> and <span class="badge">Option</span> enums—no hidden exceptions.</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Slide 5: Session 2 Heart of Rust -->
+            <section>
+                <section>
+                    <h2>The Heart of Rust</h2>
+                    <p>How Rust achieves memory safety without a garbage collector.</p>
+                </section>
+                <section>
+                    <h3>Ownership & Borrowing</h3>
+                    <p style="font-size: 0.8em; color: #aaa;">Rust's unique approach to memory without a garbage collector.</p>
+                    <ul style="font-size: 0.9em;">
+                        <li><strong>3 Rules of <span class="highlight">Ownership</span>:</strong>
+                            <ol>
+                                <li>Each value has exactly one owner.</li>
+                                <li>There can only be one owner at a time.</li>
+                                <li>When the owner goes out of scope, the value is automatically dropped.</li>
+                            </ol>
+                        </li>
+                        <br>
+                        <li><strong>Move Semantics:</strong> Passing a complex type (like a String) <em>moves</em> ownership, making the original variable invalid. This prevents Double Free bugs.</li>
+                        <li><strong><span class="highlight">Borrowing</span>:</strong> You can have <em>many <span class="highlight">immutable</span></em> borrows OR <em>one <span class="highlight">mutable</span></em> borrow, preventing data races at compile time.</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Slide 6: Session 3 Labs -->
+            <section>
+                <h2>Session 3: Practical Labs</h2>
+                <p>Hands-on secure coding exercises.</p>
+                <ul>
+                    <li><strong>Lab 1-2:</strong> Hello Rust & Ownership in Action.</li>
+                    <li><strong>Lab 3-4:</strong> Preventing Buffer Overflows & Input Validation.</li>
+                    <li><strong>Lab 5-6:</strong> Safe File Handling & Thread-safe Counters.</li>
+                    <li><strong>Bonus:</strong> Building a Secure Password Generator.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 7: Session 4 Future -->
+            <section>
+                <h2>Session 4: The Future of Rust</h2>
+                <p>Rust is foundational for critical infrastructure.</p>
+                <ul style="font-size: 0.9em;">
+                    <li><strong>Regulatory Mandates:</strong> The US White House, CISA, and NSA are increasingly advising the shift to memory-safe languages.</li>
+                    <li><strong><span class="highlight">Automotive / SDVs</span>:</strong> Crucial for next-generation secure vehicle architectures.</li>
+                    <li><strong><span class="highlight">Embedded & IoT</span>:</strong> High performance combined with a low resource footprint.</li>
+                    <li><strong><span class="highlight">Cloud & Linux</span>:</strong> Rust is now officially supported as a second language in the Linux kernel.</li>
+                    <li><strong><span class="highlight">AI Infrastructure</span>:</strong> Powering safe, highly concurrent massive data processing.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 8: Assessment -->
+            <section>
+                <h2>Session 5: Assessment</h2>
+                <p>Validate your knowledge.</p>
+                <ul>
+                    <li>Comprehensive 50 Multiple Choice Questions (MCQ).</li>
+                    <li>Covers ownership semantics, secure coding patterns, and Rust tooling.</li>
+                    <li><span class="highlight">Goal:</span> Confidence in writing production-ready, vulnerability-free code.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 9: Q&A -->
+            <section>
+                <h2>Thank You</h2>
+                <p>Questions?</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'fade', // none/fade/slide/convex/concave/zoom
+            slideNumber: true,
+            controls: true,
+            progress: true,
+            center: true
+        });
+    </script>
+</body>
+</html>

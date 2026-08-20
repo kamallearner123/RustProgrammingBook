@@ -94,11 +94,9 @@
                 
                 <p>C and C++ are the backbone of modern computing, but their unmanaged memory model creates a playground for hackers. Before seeing how Rust solves these issues, let's test your ability to spot vulnerabilities in standard C code.</p>
 
-                <!-- Image placeholder as requested -->
                 <div style="text-align: center; margin: 2rem 0;">
-                    <img src="c_cpp_wild.png" alt="C/C++ in the wild" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 2: C/C++ in the Wild</div>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);"><em>(Please ensure 'c_cpp_wild.png' is in your project folder)</em></p>
+                    <img src="images/c_cpp_wild.png" alt="C/C++ in the wild" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 2: C/C++ in the Wild</div>
                 </div>
 
                 <h2>Vulnerability Challenge</h2>
@@ -117,6 +115,51 @@
                         <summary>Reveal Vulnerability</summary>
                         <strong>Stack Buffer Overflow.</strong> The <code>gets()</code> function reads from standard input until it sees a newline, completely ignoring the 16-byte limit of the buffer. An attacker can input 500 characters and overwrite the function's return address, taking control of the program.
                     </details>
+                </div>
+
+                <!-- Extended Stack Buffer Overflow -->
+                <div class="vuln-card">
+                    <h3>Extended: Buffer over flow</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void get_password()
+{
+    struct {
+        char password[16];
+        unsigned int guard;
+    } data;
+
+    data.guard = 0x12345678;
+
+    printf("Before overflow:\n");
+    printf("  password = %s\n", data.password);
+    printf("  guard    = 0x%08X\n", data.guard);
+
+    printf("\nEnter password: ");
+
+    /*
+     * Deliberately unsafe:
+     * allows more than 16 bytes to be written.
+     */
+    scanf("%s", data.password);
+
+    printf("\nAfter input:\n");
+    printf("  password = %s\n", data.password);
+    printf("  guard    = 0x%08X\n", data.guard);
+
+    if (data.guard != 0x12345678)
+        printf("\n*** BUFFER OVERFLOW: guard was corrupted! ***\n");
+    else
+        printf("\nGuard is unchanged.\n");
+}
+
+int main()
+{
+    get_password();
+    return 0;
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 5: Extended: Buffer over flow</div>
                 </div>
 
                 <!-- 2. Integer Overflow -->
@@ -197,6 +240,22 @@ cleanup(buffer);</code></pre>
                         <summary>Reveal Vulnerability</summary>
                         <strong>Format String Vulnerability.</strong> If the user inputs <code>%x %x %x</code>, <code>printf</code> will pop values off the stack and print them, leaking sensitive data. Worse, if they input <code>%n</code>, they can write data to arbitrary memory addresses!
                     </details>
+                </div>
+
+                <!-- Extended Unfiltered Echo -->
+                <div class="vuln-card">
+                    <h3>Extended: The Unfiltered Echo</h3>
+                    <pre><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+void log_input(char *user_input) {
+    printf("userinput = %d\n", *(int *)user_input);
+}
+
+int main() {
+	char ptr[] = {'a'};
+	log_input(ptr);
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 10: Extended: The Unfiltered Echo</div>
                 </div>
 
                 <!-- 7. Null Pointer Dereference -->

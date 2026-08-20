@@ -95,38 +95,10 @@
                     <li><strong>Stack:</strong> Fast, static memory for local function variables and call frames. Grows downwards. Automatically managed as functions are called and return.</li>
                 </ul>
 
-                <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
-flowchart TD
-    %% Define Node Classes
-    classDef stack fill:#f56565,stroke:#c53030,color:#fff,stroke-width:2px;
-    classDef heap fill:#ed8936,stroke:#dd6b20,color:#fff,stroke-width:2px;
-    classDef bss fill:#ecc94b,stroke:#d69e2e,color:#000,stroke-width:2px;
-    classDef data fill:#48bb78,stroke:#38a169,color:#fff,stroke-width:2px;
-    classDef text fill:#4299e1,stroke:#3182ce,color:#fff,stroke-width:2px;
-    classDef free fill:#e2e8f0,stroke:#a0aec0,color:#4a5568,stroke-dasharray: 5 5;
-    classDef addr fill:none,stroke:none,color:#718096,font-weight:bold;
-
-    subgraph Memory["Virtual Memory Layout"]
-        direction TB
-        High["High Memory Addresses (0xFFFFFFFF)"]:::addr
-        Stack["<b>Stack Segment</b><br>Local variables, function frames<br><i>(Grows Downwards ↓)</i>"]:::stack
-        Free["<i>... Free Memory ...</i>"]:::free
-        Heap["<b>Heap Segment</b><br>Dynamic allocation (malloc/new)<br><i>(Grows Upwards ↑)</i>"]:::heap
-        BSS["<b>BSS Segment</b><br>Uninitialized global/static variables"]:::bss
-        Data["<b>Data Segment</b><br>Initialized global/static variables"]:::data
-        Text["<b>Text Segment</b><br>Read-only compiled instructions"]:::text
-        Low["Low Memory Addresses (0x00000000)"]:::addr
-
-        High --- Stack
-        Stack --- Free
-        Free --- Heap
-        Heap --- BSS
-        BSS --- Data
-        Data --- Text
-        Text --- Low
-    end
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="images/process_memory_scheme.png" alt="Process Memory Segments Diagram" style="max-width: 100%; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 3: Process Memory Segments<br>Source: <a href="https://stackoverflow.com/questions/15700694/linux-process-memory-scheme" target="_blank" style="color: var(--accent);">https://stackoverflow.com/questions/15700694/linux-process-memory-scheme</a></div>
                 </div>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 3: Process Memory Segments</div>
 
                 <div class="mermaid" style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
 sequenceDiagram
@@ -164,8 +136,8 @@ sequenceDiagram
                 
                 <div style="margin: 3rem 0; padding: 1.5rem; background: var(--sidebar-bg); border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
                     <h3 style="margin-top: 0; color: var(--accent); margin-bottom: 1.5rem;">Hardware & OS Memory Protection</h3>
-                    <img src="images/memory_management_diagram.png" alt="OS Memory Management and Hardware Protection Diagram" style="max-width: 100%; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 1: Hardware & OS Memory Protection</div>
+                    <img src="images/memory_segmentation.png" alt="Memory Segmentation Diagram" style="max-width: 100%; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 1: Hardware & OS Memory Protection<br>Source: <a href="https://www.youtube.com/watch?v=jZKAZ-4BDmQ" target="_blank" style="color: var(--accent);">https://www.youtube.com/watch?v=jZKAZ-4BDmQ</a></div>
                     <p style="margin-top: 1.5rem; text-align: left; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
                         <strong>How Protection Works:</strong> The OS Kernel is responsible for allocating specific memory segments (like the Stack and Heap) to each running process. However, the OS relies on hardware—specifically the <strong>Memory Management Unit (MMU)</strong>—to actively monitor and enforce these boundaries at runtime. If a process attempts to read or write data outside of its allocated segment (e.g., due to a buffer overflow or dangling pointer), the MMU hardware intercepts the invalid access and throws a hardware exception. The OS Kernel catches this exception and immediately kills the offending process with a <strong>Segmentation Fault (Segfault)</strong> to prevent data leakage or corruption.
                     </p>
@@ -200,6 +172,10 @@ void process_data() {
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 3: Manual Memory Management (C Example)</div>
 
                 <h2>The Weak Links</h2>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="images/weak_links_coffee.jpg" alt="Memory Vulnerabilities Explained with Coffee Cups" style="max-width: 100%; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Image 2: Common Memory Vulnerabilities</div>
+                </div>
                 <p>The code above looks simple, but it relies entirely on the developer perfectly tracking the lifecycle of <code>buffer</code>. If any of the following occur, you have a critical security vulnerability:</p>
                 <ul>
                     <li><strong>Forget to call <code>free()</code>:</strong> Memory Leak. If this happens in a loop, the server will crash from Out of Memory (OOM).</li>
