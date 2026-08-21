@@ -133,6 +133,42 @@ The new value of x is: 6</code></pre>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 
+                <h2>Printing Output with <code>println!</code></h2>
+                <p>Throughout these examples, you've seen <code>println!</code>. The exclamation mark (<code>!</code>) means it's a <strong>macro</strong>, not a standard function. It is Rust's primary way to format and print text to the standard output (your terminal).</p>
+                
+                <h3>Example 4: Basic Formatting</h3>
+                <p>You can print variables by placing empty curly braces <code>{}</code> inside the string. Rust will replace them with the value of the variable you pass next.</p>
+                <pre><code class="language-rust">fn main() {
+    let username = "admin";
+    // The `{}` acts as a placeholder
+    println!("Welcome to the system, {}!", username);
+}</code></pre>
+
+                <h3>Example 5: Multiple Variables & Inline Formatting</h3>
+                <p>You can use multiple placeholders, or even place the variable names directly inside the curly braces (a feature added in Rust 1.58).</p>
+                <pre><code class="language-rust">fn main() {
+    let score = 100;
+    let lives = 3;
+    
+    // Traditional multi-variable approach
+    println!("Score: {}, Lives: {}", score, lives);
+    
+    // Modern inline approach (cleaner!)
+    println!("Score: {score}, Lives: {lives}");
+}</code></pre>
+
+                <h3>Example 6: Debug Formatting <code>{:?}</code></h3>
+                <p>Some complex data types (like Arrays or Tuples) cannot be printed using standard <code>{}</code> because they don't have a simple text representation. For these, we use the Debug formatter <code>{:?}</code> (or <code>{:#?}</code> for pretty-printing).</p>
+                <pre><code class="language-rust">fn main() {
+    let active_ports = [80, 443, 22];
+    
+    // Using {} here would cause a compiler error!
+    // We use {:?} to print the entire array for debugging.
+    println!("Active network ports: {:?}", active_ports);
+}</code></pre>
+
+                <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
                 <h2>Knowledge Check (MCQ)</h2>
                 <div class="info-callout" style="background-color: var(--sidebar-bg); border-left-color: var(--text-muted);">
                     <p><strong>Question:</strong> What is the default state of a variable declared with <code>let</code> in Rust?</p>
