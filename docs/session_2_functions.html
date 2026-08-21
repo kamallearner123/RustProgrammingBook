@@ -138,6 +138,62 @@ fn main() {
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 
+                <h2>Example 4: Strict Type Enforcement</h2>
+                <p>In C/C++, passing a <code>float</code> to a function expecting an <code>int</code> works silently because the compiler automatically (and dangerously) casts it, often losing data. Rust strictly forbids this. You must explicitly cast types, preventing accidental data loss or integer overflow bugs.</p>
+                <pre><code class="language-rust">fn calculate_area(width: u32, height: u32) -> u32 {
+    width * height
+}
+
+fn main() {
+    let w = 10.5; // inferred as f64
+    let h = 5;    // inferred as i32
+    
+    // ERROR: mismatched types. Rust will NOT implicitly convert f64 or i32 to u32!
+    // let area = calculate_area(w, h); 
+    
+    // Correct way: Explicitly cast the variables using 'as'
+    let area = calculate_area(w as u32, h as u32);
+    println!("Area: {}", area);
+}</code></pre>
+
+                <h2>Example 5: Safe Multiple Returns (No Pointers!)</h2>
+                <p>If you want to return multiple values from a C function, you usually have to pass pointers into the function as arguments (e.g. <code>void get_data(int* out_x, int* out_y)</code>). This is a massive source of security bugs (null pointer dereferences, dangling pointers). Rust elegantly solves this by allowing you to return <strong>Tuples</strong>.</p>
+                <pre><code class="language-rust">fn split_name(full_name: &str) -> (&str, &str) {
+    let mut parts = full_name.split(' ');
+    let first = parts.next().unwrap_or("");
+    let last = parts.next().unwrap_or("");
+    
+    // Return a tuple containing both values
+    (first, last) 
+}
+
+fn main() {
+    // We safely and instantly destructure the returned tuple into two variables
+    let (first_name, last_name) = split_name("Ada Lovelace");
+    println!("First: {}, Last: {}", first_name, last_name);
+}</code></pre>
+
+                <h2>Example 6: Early Returns</h2>
+                <p>While implicit returns (expressions without semicolons) are preferred for the final output, you can still use the <code>return</code> keyword to exit a function early. Rust's compiler rigorously checks every possible branch of your logic to ensure a value of the correct type is <em>always</em> returned, eliminating the C bug where a developer forgets a return statement on an edge case.</p>
+                <pre><code class="language-rust">fn process_payment(amount: i32) -> bool {
+    if amount <= 0 {
+        println!("Invalid amount!");
+        // Early return must match the expected return type (bool)
+        return false; 
+    }
+    
+    println!("Processing payment of ${}", amount);
+    true // Implicit return for the success path
+}
+
+fn main() {
+    let success = process_payment(-50);
+    println!("Payment successful: {}", success);
+}</code></pre>
+
+                <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+
                 <h2>Knowledge Check (MCQ)</h2>
                 <div class="info-callout" style="background-color: var(--sidebar-bg); border-left-color: var(--text-muted);">
                     <p><strong>Question:</strong> How does Rust handle function return values without using the <code>return</code> keyword?</p>
