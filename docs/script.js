@@ -401,6 +401,72 @@ function updateScoreDisplay() {
     
     const s5Display = document.getElementById('s5-score');
     if (s5Display) s5Display.textContent = s5 + ' / 50';
+    
+    renderSidebarScores();
+}
+
+function renderSidebarScores() {
+    const mcqMapping = {
+        'session_1_1.html': 5,
+        'session_1_2.html': 5,
+        'session_1_3.html': 5,
+        'session_1_4.html': 5,
+        'session_2_variables.html': 5,
+        'session_2_types.html': 5,
+        'session_2_functions.html': 5,
+        'session_2_ownership.html': 5,
+        'session_2_borrowing.html': 5,
+        'session_2_references.html': 5,
+        'session_2_mutability.html': 5,
+        'session_2_error.html': 5,
+        'session_2_cargo.html': 5,
+        'session_4_6.html': 5,
+        'session_5_test.html': 50
+    };
+
+    let answeredQuestions = JSON.parse(localStorage.getItem('rust_answered_mcqs') || '{}');
+    let correctsPerPage = {};
+    for (let key in answeredQuestions) {
+        let lastQIndex = key.lastIndexOf('_q');
+        if (lastQIndex === -1) continue;
+        let pathPart = key.substring(0, lastQIndex);
+        let filename = pathPart.split('/').pop();
+        if (!correctsPerPage[filename]) correctsPerPage[filename] = 0;
+        if (answeredQuestions[key].chosen === answeredQuestions[key].correct) {
+            correctsPerPage[filename]++;
+        }
+    }
+    
+    let s5 = parseInt(localStorage.getItem('rust_test_score') || '0', 10);
+    correctsPerPage['session_5_test.html'] = s5;
+    
+    const sidebarLinks = document.querySelectorAll('.sidebar .toc a');
+    sidebarLinks.forEach(link => {
+        let href = link.getAttribute('href');
+        if (href) href = href.split('#')[0];
+        
+        if (href && mcqMapping[href]) {
+            let corrects = correctsPerPage[href] || 0;
+            let total = mcqMapping[href];
+            
+            let scoreSpan = link.querySelector('.topic-score');
+            if (!scoreSpan) {
+                scoreSpan = document.createElement('span');
+                scoreSpan.className = 'topic-score';
+                scoreSpan.style.cssText = 'float: right; font-size: 0.75rem; background: rgba(128,128,128,0.15); padding: 2px 6px; border-radius: 12px; color: var(--text-muted); font-weight: 600; margin-left: 5px;';
+                link.appendChild(scoreSpan);
+            }
+            scoreSpan.textContent = `${corrects}/${total}`;
+            
+            if (corrects === total) {
+                scoreSpan.style.color = '#4caf50';
+                scoreSpan.style.background = 'rgba(76, 175, 80, 0.1)';
+            } else {
+                scoreSpan.style.color = 'var(--text-muted)';
+                scoreSpan.style.background = 'rgba(128,128,128,0.15)';
+            }
+        }
+    });
 }
 
 function initMCQs() {
