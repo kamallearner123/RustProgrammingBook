@@ -143,6 +143,12 @@ int main() {
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 4: A Classic C Data Race</div>
 
+                <div style="background: var(--sidebar-bg); padding: 1rem; border-radius: 6px; margin: 1.5rem 0; font-family: 'Fira Code', monospace; font-size: 0.9em; border-left: 4px solid var(--accent);">
+                    <div style="color: var(--text-muted); font-size: 0.8em; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif;">HOW TO RUN THIS CODE</div>
+                    <span style="color: #4CAF50;">$</span> gcc data_race.c -lpthread -o data_race<br>
+                    <span style="color: #4CAF50;">$</span> ./data_race
+                </div>
+
                 <h2>The Result</h2>
                 <p>If you run this code, the output will almost never be <code>201000</code>. It might be <code>145293</code>, or <code>198302</code>. The operations overlap.</p>
                 <div class="info-callout">
