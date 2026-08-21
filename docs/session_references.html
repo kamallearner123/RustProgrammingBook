@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 1: Core concepts and C/C++ limitations - Rust Security Course</title>
+    <title>References - Rust Security Course</title>
     <link rel="stylesheet" href="styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,55 +88,26 @@
             </header>
 
             <article class="book-page">
-    <span class="chapter-number">Standard Library</span>
-    <h1>Networking & Threads</h1>
+    <span class="chapter-number">References</span>
+    <h1>References & Additional Resources</h1>
 
-    <h2>std::net (Networking Primitives)</h2>
-    <p>The <code>std::net</code> module provides networking primitives for TCP/UDP communication.</p>
-
-    <h3>TCP (Transmission Control Protocol)</h3>
+    <h2>Visualization Tools</h2>
     <ul>
-        <li><code>TcpListener::bind("127.0.0.1:8080")</code> - Creates a TCP socket server, listening for connections.</li>
-        <li><code>listener.accept()</code> - Blocks until a connection is received.</li>
-        <li><code>listener.incoming()</code> - Returns an iterator over the connections being received on this listener.</li>
-        <li><code>TcpStream::connect("127.0.0.1:8080")</code> - Opens a TCP connection to a remote host (Client).</li>
-    </ul>
-
-    <h3>UDP (User Datagram Protocol)</h3>
-    <ul>
-        <li><code>UdpSocket::bind("127.0.0.1:8080")</code> - Binds a UDP socket to the given address.</li>
-        <li><code>socket.send_to(&amp;buf, "127.0.0.1:4000")</code> - Sends data on the socket to the given address.</li>
-        <li><code>socket.recv_from(&amp;mut buf)</code> - Receives a single datagram message on the socket.</li>
-    </ul>
-
-    <h2>std::thread (OS-Level Threading)</h2>
-    <p>Native OS threads with safe shared-state concurrency via message passing or atomic primitives.</p>
-
-    <ul>
-        <li><code>thread::spawn(|| { ... })</code> - Spawns a new OS thread and executes the closure.</li>
-        <li><code>handle.join()</code> - Blocks the current thread until the spawned thread terminates.</li>
-        <li><code>thread::sleep(Duration::from_secs(1))</code> - Puts the current thread to sleep for the specified duration.</li>
-        <li><code>thread::current()</code> - Gets a handle to the thread that invokes it.</li>
-    </ul>
-
-    <h2>std::sync (Synchronization Primitives)</h2>
-    <ul>
-        <li><code>Arc&lt;T&gt;</code> - Thread-safe reference-counting pointer.</li>
-        <li><code>Mutex&lt;T&gt;</code> - Mutual exclusion lock. Allows safe mutable access across threads.</li>
-        <li><code>mpsc::channel()</code> - Multi-producer, single-consumer FIFO queue for message passing between threads.</li>
+        <li><a href="https://pythontutor.com/visualize.html#mode=edit" target="_blank">Python Tutor (C/C++ Visualization)</a> - An excellent tool to visualize memory, pointers, and execution flow in C/C++ line by line.</li>
     </ul>
     
+    <h2>Official Documentation</h2>
+    <ul>
+        <li><a href="https://doc.rust-lang.org/book/" target="_blank">The Rust Programming Language (The Book)</a></li>
+        <li><a href="https://doc.rust-lang.org/std/" target="_blank">Rust Standard Library Documentation</a></li>
+        <li><a href="https://doc.rust-lang.org/cargo/" target="_blank">The Cargo Book</a></li>
+    </ul>
 </article>
 
             <footer class="page-navigation">
-                <a href="session_library_io.html" class="nav-button prev">
+                <a href="session_library_sys.html" class="nav-button prev">
                     <span class="nav-label">Previous</span>
-                    <span class="nav-title">I/O & File System</span>
-                </a>
-                
-                <a href="session_library_sys.html" class="nav-button next" style="">
-                    <span class="nav-label">Next</span>
-                    <span class="nav-title">System Calls & Env</span>
+                    <span class="nav-title">System & Env</span>
                 </a>
             </footer>
         
