@@ -1,3 +1,11 @@
+// Instant apply saved zoom to prevent layout shift
+(function() {
+    let savedZoom = localStorage.getItem('rust-book-zoom');
+    if (savedZoom && savedZoom !== '100') {
+        document.documentElement.style.fontSize = savedZoom + '%';
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -611,6 +619,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // Print & GitHub (Right)
         const navActions = document.querySelector('.nav-actions');
         if (navActions && !document.getElementById('github-link')) {
+            // Zoom Out
+            const zoomOutBtn = document.createElement('button');
+            zoomOutBtn.id = 'zoom-out-btn';
+            zoomOutBtn.className = 'nav-icon';
+            zoomOutBtn.title = "Zoom Out";
+            zoomOutBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>`;
+            
+            // Zoom In
+            const zoomInBtn = document.createElement('button');
+            zoomInBtn.id = 'zoom-in-btn';
+            zoomInBtn.className = 'nav-icon';
+            zoomInBtn.title = "Zoom In";
+            zoomInBtn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>`;
+
             const printBtn = document.createElement('button');
             printBtn.id = 'print-btn';
             printBtn.className = 'nav-icon';
@@ -626,8 +648,35 @@ document.addEventListener('DOMContentLoaded', () => {
             githubLink.title = "View on GitHub";
             githubLink.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`;
 
+            navActions.appendChild(zoomOutBtn);
+            navActions.appendChild(zoomInBtn);
             navActions.appendChild(printBtn);
             navActions.appendChild(githubLink);
+            
+            // Zoom Logic
+            let currentZoom = parseInt(localStorage.getItem('rust-book-zoom') || '100', 10);
+            
+            const applyZoom = (zoom) => {
+                document.documentElement.style.fontSize = zoom + '%';
+                localStorage.setItem('rust-book-zoom', zoom);
+            };
+            
+            // Apply zoom immediately if it differs from 100
+            if (currentZoom !== 100) applyZoom(currentZoom);
+
+            zoomInBtn.addEventListener('click', () => {
+                if (currentZoom < 150) { // Max 150%
+                    currentZoom += 10;
+                    applyZoom(currentZoom);
+                }
+            });
+
+            zoomOutBtn.addEventListener('click', () => {
+                if (currentZoom > 70) { // Min 70%
+                    currentZoom -= 10;
+                    applyZoom(currentZoom);
+                }
+            });
         }
     }
 });
