@@ -410,6 +410,205 @@ int main() {
                         <strong>Memory Leak.</strong> If <code>user_aborted()</code> is true, the function returns early and skips the <code>free()</code> call. Every time an attacker triggers this condition, the server permanently loses 4KB of RAM until it crashes completely.
                     </details>
                 </div>
+                
+                <h2 style="margin-top: 3rem; color: #ff5f56; border-bottom: 2px solid #ff5f56; padding-bottom: 0.5rem;">Top 5 Multithreading Vulnerabilities in C/C++</h2>
+                <p>As applications scale, developers turn to multithreading. However, manual memory management combined with concurrency creates some of the most difficult-to-debug vulnerabilities in computing.</p>
+
+                <!-- 11. Data Race -->
+                <div class="vuln-card">
+                    <h3>11. The Data Race</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;pthread.h&gt;
+
+int counter = 0;
+
+void* increment(void* arg) {
+    for (int i = 0; i &lt; 100000; i++) {
+        counter++; // Data race! Read, Add, Write
+    }
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&amp;t1, NULL, increment, NULL);
+    pthread_create(&amp;t2, NULL, increment, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    printf("Expected 200000, got: %d\n", counter);
+    return 0;
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 15: 11. The Data Race</div>
+                    <details>
+                        <summary>Reveal Vulnerability</summary>
+                        <strong>Data Race.</strong> <code>counter++</code> is not an atomic operation. Multiple threads fetch the same value, increment it, and overwrite each other, causing lost updates.
+                    </details>
+                </div>
+
+                <!-- 12. Deadlock -->
+                <div class="vuln-card">
+                    <h3>12. The Deadlock Trap</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;unistd.h&gt;
+
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+
+void* thread_a(void* arg) {
+    pthread_mutex_lock(&amp;lock1);
+    sleep(1); // Simulate work
+    pthread_mutex_lock(&amp;lock2); // Waiting for lock2...
+    
+    printf("Thread A complete.\n");
+    pthread_mutex_unlock(&amp;lock2);
+    pthread_mutex_unlock(&amp;lock1);
+    return NULL;
+}
+
+void* thread_b(void* arg) {
+    pthread_mutex_lock(&amp;lock2);
+    sleep(1); // Simulate work
+    pthread_mutex_lock(&amp;lock1); // Waiting for lock1...
+    
+    printf("Thread B complete.\n");
+    pthread_mutex_unlock(&amp;lock1);
+    pthread_mutex_unlock(&amp;lock2);
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+    printf("Starting threads... This will freeze!\n");
+    pthread_create(&amp;t1, NULL, thread_a, NULL);
+    pthread_create(&amp;t2, NULL, thread_b, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    return 0;
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 16: 12. The Deadlock Trap</div>
+                    <details>
+                        <summary>Reveal Vulnerability</summary>
+                        <strong>Deadlock.</strong> Thread A locks 1 and waits for 2. Thread B locks 2 and waits for 1. Neither can proceed, and the application freezes permanently.
+                    </details>
+                </div>
+
+                <!-- 13. TOCTOU -->
+                <div class="vuln-card">
+                    <h3>13. The Time-of-Check Trap (TOCTOU)</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;unistd.h&gt;
+
+int item_stock = 1; // Only 1 item left!
+
+void* buy_item(void* arg) {
+    if (item_stock &gt; 0) { // Time of Check
+        // Context switch happens here!
+        sleep(1); 
+        item_stock--; // Time of Use
+        printf("Purchase successful! Stock left: %d\n", item_stock);
+    } else {
+        printf("Out of stock!\n");
+    }
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&amp;t1, NULL, buy_item, NULL);
+    pthread_create(&amp;t2, NULL, buy_item, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    return 0;
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 17: 13. The TOCTOU Trap</div>
+                    <details>
+                        <summary>Reveal Vulnerability</summary>
+                        <strong>Time-of-Check to Time-of-Use.</strong> Both threads check the stock simultaneously. Since they both see <code>stock &gt; 0</code>, they both proceed to buy it, resulting in a negative inventory.
+                    </details>
+                </div>
+
+                <!-- 14. Multithreaded Use-After-Free -->
+                <div class="vuln-card">
+                    <h3>14. The Concurrent Ghost (Use-After-Free)</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+char *shared_msg;
+
+void* background_reader(void* arg) {
+    sleep(1); // Wait a moment
+    // Crashes or prints garbage because the memory was freed!
+    printf("Reader sees: %s\n", shared_msg); 
+    return NULL;
+}
+
+int main() {
+    shared_msg = malloc(50);
+    strcpy(shared_msg, "Top Secret Data");
+
+    pthread_t t1;
+    pthread_create(&amp;t1, NULL, background_reader, NULL);
+    
+    // Main thread decides to free the data early
+    free(shared_msg);
+    
+    pthread_join(t1, NULL);
+    return 0;
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 18: 14. The Concurrent Ghost</div>
+                    <details>
+                        <summary>Reveal Vulnerability</summary>
+                        <strong>Concurrent Use-After-Free.</strong> Multithreading vastly complicates memory management. The main thread frees the pointer while a background thread is still relying on it.
+                    </details>
+                </div>
+
+                <!-- 15. Missing Unlock -->
+                <div class="vuln-card">
+                    <h3>15. The Missing Unlock</h3>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;pthread.h&gt;
+
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+int count = 0;
+
+void process_data(int input) {
+    pthread_mutex_lock(&amp;lock);
+    
+    if (input &lt; 0) {
+        printf("Error: Invalid input.\n");
+        return; // Vulnerability: Early return misses the unlock!
+    }
+    
+    count += input;
+    pthread_mutex_unlock(&amp;lock);
+}
+
+void* thread_func(void* arg) {
+    process_data(-1); // Triggers error path
+    printf("Thread finished.\n");
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&amp;t1, NULL, thread_func, NULL);
+    pthread_create(&amp;t2, NULL, thread_func, NULL); // Will hang forever
+    
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    return 0;
+}</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 19: 15. The Missing Unlock</div>
+                    <details>
+                        <summary>Reveal Vulnerability</summary>
+                        <strong>Missing Mutex Unlock.</strong> C does not automatically clean up locks on return. If an error condition causes an early return, the mutex remains locked forever, blocking all other threads that try to acquire it.
+                    </details>
+                </div>
 
             </article>
 
