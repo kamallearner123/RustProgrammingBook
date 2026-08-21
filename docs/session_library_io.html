@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 2: Basics of Rust programming - Rust Security Course</title>
+    <title>Session 1: Core concepts and C/C++ limitations - Rust Security Course</title>
     <link rel="stylesheet" href="styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,98 +87,59 @@
             </header>
 
             <article class="book-page">
-                <span class="chapter-number">Session 2</span>
-                <h1>Basics of Rust programming</h1>
-                
-                <p>Welcome to Session 2! Now that we've seen the dangers of unmanaged memory, it's time to learn how Rust solves these problems without sacrificing performance. This crash course covers the essential syntax and paradigms you need to know.</p>
+    <span class="chapter-number">Standard Library</span>
+    <h1>I/O, File System & Arguments</h1>
 
-                <h2>Topics Covered</h2>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_variables.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.1 Variables
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Learn about Rust's default immutability and how it enforces safe state modifications.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_types.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.2 Data Types
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Understand Primitive vs Non-Primitive data types, and how the compiler uses them to ensure memory safety.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_functions.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.3 Functions
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Understand function signatures, types, and implicit returns.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_ownership.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.4 Ownership
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            The core feature of Rust. Learn the three rules of ownership that eliminate the need for a garbage collector.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_borrowing.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.5 Borrowing
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            How to safely pass data around without transferring ownership.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_references.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.6 References
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Deep dive into references and the dereferencing operator.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_mutability.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.7 Mutable vs Immutable
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            The golden rule of references that mathematically prevents Data Races at compile time.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_error.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.8 Error Handling
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Discover how Rust forces you to handle errors explicitly using the Result enum and the ? operator.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_cargo.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.9 Cargo Basics
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Master the standard Rust build system and package manager.
-                        </p>
-                    </li>
-                </ul>
+    <h2>std::fs (File System)</h2>
+    <p>The <code>std::fs</code> module contains basic methods to manipulate the contents of the local file system.</p>
+    
+    <h3>File Operations</h3>
+    <ul>
+        <li><code>File::create("foo.txt")</code> - Opens a file in write-only mode, creating it if it doesn't exist.</li>
+        <li><code>File::open("foo.txt")</code> - Opens a file in read-only mode.</li>
+        <li><code>fs::read_to_string("foo.txt")</code> - Reads the entire contents of a file into a String.</li>
+        <li><code>fs::write("foo.txt", "data")</code> - Writes a slice as the entire contents of a file.</li>
+        <li><code>fs::remove_file("foo.txt")</code> - Removes a file from the filesystem.</li>
+    </ul>
 
-            </article>
+    <h3>Directory Operations</h3>
+    <ul>
+        <li><code>fs::create_dir("dir")</code> - Creates a new directory.</li>
+        <li><code>fs::create_dir_all("dir/sub")</code> - Recursively create a directory and all of its parent components.</li>
+        <li><code>fs::read_dir("dir")</code> - Returns an iterator over the entries within a directory.</li>
+    </ul>
+
+    <h2>std::io (Input/Output Traits)</h2>
+    <p>The <code>std::io</code> module contains traits and helpers for reading and writing streams.</p>
+    <ul>
+        <li><code>Read</code> trait: <code>read(&amp;mut buf)</code>, <code>read_to_end(&amp;mut vec)</code>, <code>read_to_string(&amp;mut string)</code></li>
+        <li><code>Write</code> trait: <code>write(&amp;buf)</code>, <code>write_all(&amp;buf)</code>, <code>flush()</code></li>
+        <li><code>io::stdin()</code> - Constructs a new handle to the standard input of the current process.</li>
+        <li><code>io::stdout()</code> - Constructs a new handle to the standard output.</li>
+    </ul>
+
+    <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="margin-top:0; color:var(--accent);">Tutorial Highlight: Reading User Input</h3>
+        <pre><code class="language-rust">use std::io;
+
+fn get_input() -&gt; String {
+    let mut buffer = String::new();
+    io::stdin().read_line(&amp;mut buffer).expect("Failed to read line");
+    buffer.trim().to_string()
+}</code></pre>
+    </div>
+    
+</article>
 
             <footer class="page-navigation">
-                <a href="session_1_4.html" class="nav-button prev">
+                <a href="session_library_containers.html" class="nav-button prev">
                     <span class="nav-label">Previous</span>
-                    <span class="nav-title">1.4 Tools and practices</span>
+                    <span class="nav-title">Containers & Collections</span>
                 </a>
                 
-                <a href="session_2_variables.html" class="nav-button next">
+                <a href="session_library_network.html" class="nav-button next" style="">
                     <span class="nav-label">Next</span>
-                    <span class="nav-title">2.1 Variables</span>
+                    <span class="nav-title">Network & Threads</span>
                 </a>
             </footer>
         
@@ -196,5 +157,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
 </body>
 </html>

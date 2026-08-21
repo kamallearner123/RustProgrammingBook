@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 2: Basics of Rust programming - Rust Security Course</title>
+    <title>Session 1: Core concepts and C/C++ limitations - Rust Security Course</title>
     <link rel="stylesheet" href="styles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,98 +87,57 @@
             </header>
 
             <article class="book-page">
-                <span class="chapter-number">Session 2</span>
-                <h1>Basics of Rust programming</h1>
-                
-                <p>Welcome to Session 2! Now that we've seen the dangers of unmanaged memory, it's time to learn how Rust solves these problems without sacrificing performance. This crash course covers the essential syntax and paradigms you need to know.</p>
+    <span class="chapter-number">Standard Library</span>
+    <h1>System Calls & Environment</h1>
 
-                <h2>Topics Covered</h2>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_variables.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.1 Variables
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Learn about Rust's default immutability and how it enforces safe state modifications.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_types.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.2 Data Types
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Understand Primitive vs Non-Primitive data types, and how the compiler uses them to ensure memory safety.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_functions.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.3 Functions
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Understand function signatures, types, and implicit returns.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_ownership.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.4 Ownership
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            The core feature of Rust. Learn the three rules of ownership that eliminate the need for a garbage collector.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_borrowing.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.5 Borrowing
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            How to safely pass data around without transferring ownership.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_references.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.6 References
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Deep dive into references and the dereferencing operator.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_mutability.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.7 Mutable vs Immutable
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            The golden rule of references that mathematically prevents Data Races at compile time.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_error.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.8 Error Handling
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Discover how Rust forces you to handle errors explicitly using the Result enum and the ? operator.
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 1.5rem;">
-                        <a href="session_2_cargo.html" style="text-decoration: none; color: var(--accent); font-weight: 600; font-size: 1.25rem;">
-                            2.9 Cargo Basics
-                        </a>
-                        <p style="margin-top: 0.25rem; font-size: 1rem; color: var(--text-muted);">
-                            Master the standard Rust build system and package manager.
-                        </p>
-                    </li>
-                </ul>
+    <h2>std::env (Environment & Arguments)</h2>
+    <p>The <code>std::env</code> module allows inspection and manipulation of the process's environment.</p>
 
-            </article>
+    <ul>
+        <li><code>env::args()</code> - Returns an iterator of the command line arguments that the process was started with.</li>
+        <li><code>env::var("PATH")</code> - Fetches the environment variable key from the current process.</li>
+        <li><code>env::set_var("KEY", "VALUE")</code> - Sets the environment variable key to the value string.</li>
+        <li><code>env::current_dir()</code> - Returns the current working directory as a <code>PathBuf</code>.</li>
+        <li><code>env::set_current_dir(&amp;path)</code> - Changes the current working directory to the specified path.</li>
+    </ul>
+
+    <h2>std::process (Process Execution)</h2>
+    <p>The <code>std::process</code> module provides a way to spawn child processes and interact with them.</p>
+
+    <ul>
+        <li><code>Command::new("ls")</code> - Constructs a new Command for launching the program at path.</li>
+        <li><code>cmd.arg("-l")</code> - Adds an argument to pass to the program.</li>
+        <li><code>cmd.envs(map)</code> - Adds multiple environment variables to the new process.</li>
+        <li><code>cmd.spawn()</code> - Executes the command as a child process, returning a handle to it.</li>
+        <li><code>cmd.output()</code> - Executes the command as a child process, waiting for it to finish and collecting all of its output.</li>
+        <li><code>process::exit(1)</code> - Terminates the current process with the specified exit code.</li>
+    </ul>
+
+    <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+        <h3 style="margin-top:0; color:var(--accent);">Tutorial Highlight: Executing a System Command</h3>
+        <pre><code class="language-rust">use std::process::Command;
+
+fn main() {
+    let output = Command::new("ls")
+        .arg("-la")
+        .output()
+        .expect("Failed to execute command");
+
+    println!("Output: {}", String::from_utf8_lossy(&amp;output.stdout));
+}</code></pre>
+    </div>
+    
+</article>
 
             <footer class="page-navigation">
-                <a href="session_1_4.html" class="nav-button prev">
+                <a href="session_library_network.html" class="nav-button prev">
                     <span class="nav-label">Previous</span>
-                    <span class="nav-title">1.4 Tools and practices</span>
+                    <span class="nav-title">Network & Threads</span>
                 </a>
                 
-                <a href="session_2_variables.html" class="nav-button next">
+                <a href="#" class="nav-button next" style="display:none;">
                     <span class="nav-label">Next</span>
-                    <span class="nav-title">2.1 Variables</span>
+                    <span class="nav-title"></span>
                 </a>
             </footer>
         
@@ -196,5 +155,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
 </body>
 </html>
