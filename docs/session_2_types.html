@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2.2 Data Types - Rust Security Course</title>
     <link rel="stylesheet" href="styles.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
 
     <script>
         const savedTheme = localStorage.getItem('rust-book-theme');
@@ -22,22 +25,23 @@
 
 <body>
     <div class="app-container">
-                <nav class="sidebar" id="sidebar">
+        <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h2>Rust Security Course</h2>
             </div>
             <div class="sidebar-content">
-                                <ul class="toc">
+                <ul class="toc">
                     <li><a href="index.html">Introduction</a></li>
                     <li><a href="pre_workshop.html">Pre-Workshop</a></li>
                     <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
-                    
-                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++ limitations</a></li>
+
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++
+                            limitations</a></li>
                     <li><a href="session_1_1.html">1.1 Memory structure</a></li>
                     <li><a href="session_1_2.html">1.2 Data sharing</a></li>
                     <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
                     <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
-                    
+
                     <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
                     <li><a href="session_2_variables.html">2.1 Variables</a></li>
                     <li><a href="session_2_types.html">2.2 Data Types</a></li>
@@ -48,7 +52,7 @@
                     <li><a href="session_2_mutability.html">2.7 Mutable vs Immutable</a></li>
                     <li><a href="session_2_error.html">2.8 Error Handling</a></li>
                     <li><a href="session_2_cargo.html">2.9 Cargo Basics</a></li>
-                    
+
                     <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
                     <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
                     <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
@@ -57,7 +61,7 @@
                     <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
                     <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
                     <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
-                
+
                     <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
                     <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
                     <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
@@ -73,7 +77,8 @@
             <header class="top-nav" id="top-nav">
                 <div class="nav-actions" style="margin-left: auto;">
                     <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
-                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></svg>
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></svg>
                     </button>
                 </div>
             </header>
@@ -81,24 +86,42 @@
             <article class="book-page">
                 <span class="chapter-number">Session 2.2</span>
                 <h1>Rust Data Types</h1>
-                
-                <p>Rust is a statically typed language, which means that it must know the types of all variables at compile time. While the compiler can usually infer what type we want to use, understanding the exact type taxonomy is critical for memory safety.</p>
-                
+
+                <p>Rust is a statically typed language, which means that it must know the types of all variables at
+                    compile time. While the compiler can usually infer what type we want to use, understanding the exact
+                    type taxonomy is critical for memory safety.</p>
+
                 <div style="text-align: center; margin: 2rem 0;">
-                    <img src="images/rust_types.png" alt="Rust Data Types Taxonomy" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 6: Rust Data Types Taxonomy</div>
+                    <img src="images/rust_types.png" alt="Rust Data Types Taxonomy"
+                        style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    <div class="element-caption"
+                        style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        Figure 6: Rust Data Types Taxonomy</div>
                 </div>
 
                 <h2>Primitive Data Types</h2>
-                <p>Primitive types are basic data structures built directly into the language. They live directly on the Stack (because they have a known, fixed size at compile time).</p>
+                <p>Primitive types are basic data structures built directly into the language. They live directly on the
+                    Stack (because they have a known, fixed size at compile time).</p>
 
                 <h3>Scalar Types</h3>
                 <p>A scalar type represents a single value. Rust has four primary scalar types:</p>
                 <ul>
-                    <li><strong>Integers:</strong> Numbers without a fractional component. They can be Signed (<code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>i128</code>, <code>isize</code>) which can hold negative numbers, or Unsigned (<code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>u128</code>, <code>usize</code>) which only hold positive numbers. The <code>isize</code> and <code>usize</code> types depend on the architecture of the computer your program is running on (64-bit or 32-bit).</li>
-                    <li><strong>Floating-Point Numbers:</strong> Numbers with decimal points. Rust provides <code>f32</code> (single-precision) and <code>f64</code> (double-precision).</li>
-                    <li><strong>Character (<code>char</code>):</strong> Represents a single Unicode scalar value. Unlike C (where a char is 1 byte), a Rust char is 4 bytes and can represent emojis, accented letters, and non-Latin scripts.</li>
-                    <li><strong>Boolean (<code>bool</code>):</strong> Represents a logical state: <code>true</code> or <code>false</code>.</li>
+                    <li><strong>Integers:</strong> Numbers without a fractional component. They can be Signed
+                        (<code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code>, <code>i128</code>,
+                        <code>isize</code>) which can hold negative numbers, or Unsigned (<code>u8</code>,
+                        <code>u16</code>, <code>u32</code>, <code>u64</code>, <code>u128</code>, <code>usize</code>)
+                        which only hold positive numbers. The <code>isize</code> and <code>usize</code> types depend on
+                        the architecture of the computer your program is running on (64-bit or 32-bit).
+                    </li>
+                    <li><strong>Floating-Point Numbers:</strong> Numbers with decimal points. Rust provides
+                        <code>f32</code> (single-precision) and <code>f64</code> (double-precision).
+                    </li>
+                    <li><strong>Character (<code>char</code>):</strong> Represents a single Unicode scalar value. Unlike
+                        C (where a char is 1 byte), a Rust char is 4 bytes and can represent emojis, accented letters,
+                        and non-Latin scripts.</li>
+                    <li><strong>Boolean (<code>bool</code>):</strong> Represents a logical state: <code>true</code> or
+                        <code>false</code>.
+                    </li>
                 </ul>
 
                 <pre><code class="language-rust">fn main() {
@@ -131,13 +154,19 @@
     println!("Scalar Types initialized successfully!");
     println!("Letter: {}, Emoji: {}, Secure: {}", letter, emoji, is_secure);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.2-1: Scalar Types</div>
 
                 <div class="trap-callout">
                     <h3>⚠️ C/C++ Developer Trap: No Implicit Type Coercion</h3>
-                    <p>In C, you can seamlessly add a <code>char</code> to an <code>int</code>, or pass a <code>float</code> into a function expecting a <code>double</code>. The compiler implicitly converts it. <strong>Rust refuses to do this.</strong></p>
-                    
-                    <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                        <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Buggy Code</summary>
+                    <p>In C, you can seamlessly add a <code>char</code> to an <code>int</code>, or pass a
+                        <code>float</code> into a function expecting a <code>double</code>. The compiler implicitly
+                        converts it. <strong>Rust refuses to do this.</strong>
+                    </p>
+
+                    <details
+                        style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin: 1.5rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++
+                            Buggy Code</summary>
                         <div style="margin-top: 1rem;">
                             <pre><code class="language-c">
 // C suffers from dangerous implicit type conversions (Integer Underflow)
@@ -150,27 +179,37 @@ if (user_input > max_buffer) {
     printf("Access Denied");
 }
                             </code></pre>
+                            <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.2-2: C Implicit Coercion Vulnerability</div>
                         </div>
                     </details>
 
-                    <p>If you try to add an <code>i32</code> to an <code>i64</code> in Rust, the compiler will throw an error. You must explicitly cast types using the <code>as</code> keyword (e.g., <code>x as i64</code>). This eliminates an entire class of subtle integer overflow and truncation vulnerabilities.</p>
+                    <p>If you try to add an <code>i32</code> to an <code>i64</code> in Rust, the compiler will throw an
+                        error. You must explicitly cast types using the <code>as</code> keyword (e.g.,
+                        <code>x as i64</code>). This eliminates an entire class of subtle integer overflow and
+                        truncation vulnerabilities.
+                    </p>
                     <pre><code class="language-rust">
-let max_buffer: u32 = 100;
-let user_input: i32 = -1;
+fn main() {
+    let max_buffer: u32 = 100;
+    let user_input: i32 = -1;
 
-// COMPILER ERROR: Rust refuses to compare different types directly!
-// You must explicitly handle the conversion, forcing you to think about the sign.
-if user_input > max_buffer { 
-    // error[E0308]: mismatched types
+    // COMPILER ERROR: Rust refuses to compare different types directly!
+    // You must explicitly handle the conversion, forcing you to think about the sign.
+    if user_input > max_buffer { 
+        // error[E0308]: mismatched types
+    }
 }
                     </code></pre>
+                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.2-3: Strict Type Checking</div>
                 </div>
 
                 <h3>Compound Types</h3>
                 <p>Compound types can group multiple values into one type.</p>
                 <ul>
-                    <li><strong>Tuples:</strong> A collection of values of <em>different</em> types. They have a fixed length. Example: <code>(i32, f64, char)</code>.</li>
-                    <li><strong>Arrays:</strong> A collection of elements of the <em>same</em> type, with a fixed length. Example: <code>[i32; 5]</code> is an array of exactly 5 integers.</li>
+                    <li><strong>Tuples:</strong> A collection of values of <em>different</em> types. They have a fixed
+                        length. Example: <code>(i32, f64, char)</code>.</li>
+                    <li><strong>Arrays:</strong> A collection of elements of the <em>same</em> type, with a fixed
+                        length. Example: <code>[i32; 5]</code> is an array of exactly 5 integers.</li>
                 </ul>
 
                 <pre><code class="language-rust">fn main() {
@@ -193,16 +232,22 @@ if user_input > max_buffer {
     println!("User {} scored {} (Grade: {})", user_id, user_score, user_grade);
     println!("Allowed ports: {}, {}, {}", http_port, https_port, ssh_port);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.2-4: Compound Types</div>
 
                 <h2>Non-Primitive Data Types (Containers)</h2>
-                <p>Non-primitive types (often part of the standard library) usually point to dynamically sized data on the Heap, or they are advanced constructs used to manage state safely.</p>
+                <p>Non-primitive types (often part of the standard library) usually point to dynamically sized data on
+                    the Heap, or they are advanced constructs used to manage state safely.</p>
                 <ul>
                     <li><strong>String:</strong> A dynamically sized, UTF-8 encoded, growable text container.</li>
                     <li><strong>Vector (<code>Vec&lt;T&gt;</code>):</strong> A dynamically sized, growable array.</li>
-                    <li><strong>Enums:</strong> Types that can be one of several variants (like <code class="keyword-hl">Option</code> and <code class="keyword-hl">Result</code>).</li>
+                    <li><strong>Enums:</strong> Types that can be one of several variants (like <code
+                            class="keyword-hl">Option</code> and <code class="keyword-hl">Result</code>).</li>
                     <li><strong>HashMap:</strong> A collection of key-value pairs.</li>
-                    <li><strong>References:</strong> Pointers to data owned by another variable (e.g., <code>&str</code>, <code>&i32</code>).</li>
-                    <li><strong>Smart Pointers:</strong> Like <code>Box</code>, <code>Rc</code>, and <code>Arc</code>, which provide advanced memory management capabilities.</li>
+                    <li><strong>References:</strong> Pointers to data owned by another variable (e.g.,
+                        <code>&str</code>, <code>&i32</code>).
+                    </li>
+                    <li><strong>Smart Pointers:</strong> Like <code>Box</code>, <code>Rc</code>, and <code>Arc</code>,
+                        which provide advanced memory management capabilities.</li>
                 </ul>
 
                 <pre><code class="language-rust">use std::collections::HashMap;
@@ -246,78 +291,86 @@ fn main() {
     println!("Boxed Value: {}", boxed_integer);
     println!("Shared Config: {}", shared_data);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.2-5: Non-Primitive Types</div>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
                 <h2>Knowledge Check</h2>
-                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent); cursor: pointer;">
-                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none;">Question: What is the main difference between a C <code>char</code> and a Rust <code>char</code>?</summary>
-                    <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Answer:</strong> A C <code>char</code> is just 1 byte (ASCII). A Rust <code>char</code> is 4 bytes. This allows Rust to natively support Unicode scalar values (like emojis and global alphabets), preventing common internationalization parsing bugs.</p>
+                <details
+                    style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent); cursor: pointer;">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none;">Question: What is the main
+                        difference between a C <code>char</code> and a Rust <code>char</code>?</summary>
+                    <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Answer:</strong> A C <code>char</code> is
+                        just 1 byte (ASCII). A Rust <code>char</code> is 4 bytes. This allows Rust to natively support
+                        Unicode scalar values (like emojis and global alphabets), preventing common internationalization
+                        parsing bugs.</p>
                 </details>
 
             </article>
 
-            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
-        <div class="mcq-container">
-            <div class="mcq-question">1. Which of the following is a scalar type in Rust?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="false">Struct</li>
-                <li class="mcq-option" data-correct="false">Vector (e.g., Vec<T>)</li>
-                <li class="mcq-option" data-correct="true">Integer (e.g., i32)</li>
-                <li class="mcq-option" data-correct="false">Enum</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">2. What is the default integer type inferred by Rust?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="false">i64</li>
-                <li class="mcq-option" data-correct="true">i32</li>
-                <li class="mcq-option" data-correct="false">u8</li>
-                <li class="mcq-option" data-correct="false">f64</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">3. What is a tuple in Rust?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="true">A fixed-length collection of values of potentially different types</li>
-                <li class="mcq-option" data-correct="false">A function pointer</li>
-                <li class="mcq-option" data-correct="false">A key-value store</li>
-                <li class="mcq-option" data-correct="false">A growable array</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">4. How do you access the first element of a tuple named 'tup'?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="false">tup[0]</li>
-                <li class="mcq-option" data-correct="true">tup.0</li>
-                <li class="mcq-option" data-correct="false">tup.first()</li>
-                <li class="mcq-option" data-correct="false">tup(0)</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        
-        <div class="mcq-container">
-            <div class="mcq-question">5. Which of these is a boolean value in Rust?</div>
-            <ul class="mcq-options">
-                <li class="mcq-option" data-correct="false">"true"</li>
-                <li class="mcq-option" data-correct="false">Yes</li>
-                <li class="mcq-option" data-correct="false">1</li>
-                <li class="mcq-option" data-correct="true">true</li>
-            </ul>
-            <button class="mcq-submit" disabled>Submit</button>
-            <div class="mcq-feedback">Correct answer! Great job!</div>
-        </div>
-        </div>
-<footer class="page-navigation">
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);">
+                <h2>Topic Quiz (5 Questions)</h2>
+                <div class="mcq-container">
+                    <div class="mcq-question">1. Which of the following is a scalar type in Rust?</div>
+                    <ul class="mcq-options">
+                        <li class="mcq-option" data-correct="false">Struct</li>
+                        <li class="mcq-option" data-correct="false">Vector (e.g., Vec<T>)</li>
+                        <li class="mcq-option" data-correct="true">Integer (e.g., i32)</li>
+                        <li class="mcq-option" data-correct="false">Enum</li>
+                    </ul>
+                    <button class="mcq-submit" disabled>Submit</button>
+                    <div class="mcq-feedback">Correct answer! Great job!</div>
+                </div>
+
+                <div class="mcq-container">
+                    <div class="mcq-question">2. What is the default integer type inferred by Rust?</div>
+                    <ul class="mcq-options">
+                        <li class="mcq-option" data-correct="false">i64</li>
+                        <li class="mcq-option" data-correct="true">i32</li>
+                        <li class="mcq-option" data-correct="false">u8</li>
+                        <li class="mcq-option" data-correct="false">f64</li>
+                    </ul>
+                    <button class="mcq-submit" disabled>Submit</button>
+                    <div class="mcq-feedback">Correct answer! Great job!</div>
+                </div>
+
+                <div class="mcq-container">
+                    <div class="mcq-question">3. What is a tuple in Rust?</div>
+                    <ul class="mcq-options">
+                        <li class="mcq-option" data-correct="true">A fixed-length collection of values of potentially
+                            different types</li>
+                        <li class="mcq-option" data-correct="false">A function pointer</li>
+                        <li class="mcq-option" data-correct="false">A key-value store</li>
+                        <li class="mcq-option" data-correct="false">A growable array</li>
+                    </ul>
+                    <button class="mcq-submit" disabled>Submit</button>
+                    <div class="mcq-feedback">Correct answer! Great job!</div>
+                </div>
+
+                <div class="mcq-container">
+                    <div class="mcq-question">4. How do you access the first element of a tuple named 'tup'?</div>
+                    <ul class="mcq-options">
+                        <li class="mcq-option" data-correct="false">tup[0]</li>
+                        <li class="mcq-option" data-correct="true">tup.0</li>
+                        <li class="mcq-option" data-correct="false">tup.first()</li>
+                        <li class="mcq-option" data-correct="false">tup(0)</li>
+                    </ul>
+                    <button class="mcq-submit" disabled>Submit</button>
+                    <div class="mcq-feedback">Correct answer! Great job!</div>
+                </div>
+
+                <div class="mcq-container">
+                    <div class="mcq-question">5. Which of these is a boolean value in Rust?</div>
+                    <ul class="mcq-options">
+                        <li class="mcq-option" data-correct="false">"true"</li>
+                        <li class="mcq-option" data-correct="false">Yes</li>
+                        <li class="mcq-option" data-correct="false">1</li>
+                        <li class="mcq-option" data-correct="true">true</li>
+                    </ul>
+                    <button class="mcq-submit" disabled>Submit</button>
+                    <div class="mcq-feedback">Correct answer! Great job!</div>
+                </div>
+            </div>
+            <footer class="page-navigation">
                 <a href="session_2_variables.html" class="nav-button prev">
                     <span class="nav-label">Previous</span>
                     <span class="nav-title">2.1 Variables</span>
@@ -327,27 +380,31 @@ fn main() {
                     <span class="nav-title">2.3 Functions</span>
                 </a>
             </footer>
-        
-            <div style="text-align: center; padding: 2rem 0; margin-top: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem;">
-                Prepared by <a href="https://www.aptcomputinglabs.com/" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: bold;">Apt Computing Labs</a>
-                <br><span style="font-size: 0.8rem; opacity: 0.7;">&copy; 2026 Apt Computing Labs. This material may be distributed freely provided that credit is given to Apt Computing Labs.</span>
+
+            <div
+                style="text-align: center; padding: 2rem 0; margin-top: 2rem; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem;">
+                Prepared by <a href="https://www.aptcomputinglabs.com/" target="_blank"
+                    style="color: var(--accent); text-decoration: none; font-weight: bold;">Apt Computing Labs</a>
+                <br><span style="font-size: 0.8rem; opacity: 0.7;">&copy; 2026 Apt Computing Labs. This material may be
+                    distributed freely provided that credit is given to Apt Computing Labs.</span>
             </div>
-</main>
+        </main>
     </div>
     <script src="script.js"></script>
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        mermaid.initialize({ startOnLoad: true, theme: 'default' });
-    });
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            mermaid.initialize({ startOnLoad: true, theme: 'default' });
+        });
+    </script>
 
 </body>
+
 </html>

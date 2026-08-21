@@ -102,12 +102,14 @@ int max_retries = 3;
 // ... hundreds of lines later ...
 max_retries = -1; // Accidental logic bug, no compiler warning!
                         </code></pre>
+                        <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-1: C Immutable Vulnerability</div>
                     </div>
                 </details>
 <pre><code class="language-rust">fn main() {
     let x = 5;
     println!("The value of x is: {}", x);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-2: Immutable Variables</div>
                 <p><strong>Why:</strong> We bind the value 5 to <code>x</code>. The compiler infers the type (i32 by default) and prints it successfully.</p>
 
                 <h2>Example 2: Compiler Error on Mutation</h2>
@@ -117,6 +119,7 @@ max_retries = -1; // Accidental logic bug, no compiler warning!
     x = 6; // ERROR: cannot assign twice to immutable variable `x`
     println!("The value of x is: {}", x);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-3: Compiler Error on Mutation</div>
                 <p><strong>Error Explanation:</strong> The Rust compiler will throw an error <code>cannot assign twice to immutable variable</code>. Rust prevents unintended data modification. This guarantees that if a variable is not marked <code class="keyword-hl">mut</code>, you can be 100% sure it will never change unexpectedly, which eliminates many bugs related to state modification.</p>
 
                 <h2>Example 3: Mutable Variables</h2>
@@ -126,6 +129,7 @@ max_retries = -1; // Accidental logic bug, no compiler warning!
     x = 6;
     println!("The new value of x is: {}", x);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-4: Mutable Variables</div>
                 <p><strong>Output:</strong></p>
                 <pre><code class="language-rust">The initial value of x is: 5
 The new value of x is: 6</code></pre>
@@ -143,6 +147,7 @@ The new value of x is: 6</code></pre>
     // The `{}` acts as a placeholder
     println!("Welcome to the system, {}!", username);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-5: Basic Formatting</div>
 
                 <h3>Example 5: Multiple Variables & Inline Formatting</h3>
                 <p>You can use multiple placeholders, or even place the variable names directly inside the curly braces (a feature added in Rust 1.58).</p>
@@ -156,6 +161,7 @@ The new value of x is: 6</code></pre>
     // Modern inline approach (cleaner!)
     println!("Score: {score}, Lives: {lives}");
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-6: Multiple Variables</div>
 
                 <h3>Example 6: Debug Formatting <code>{:?}</code></h3>
                 <p>Some complex data types (like Arrays or Tuples) cannot be printed using standard <code>{}</code> because they don't have a simple text representation. For these, we use the Debug formatter <code>{:?}</code> (or <code>{:#?}</code> for pretty-printing).</p>
@@ -166,6 +172,7 @@ The new value of x is: 6</code></pre>
     // We use {:?} to print the entire array for debugging.
     println!("Active network ports: {:?}", active_ports);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.1-7: Debug Formatting</div>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 

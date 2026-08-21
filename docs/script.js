@@ -101,6 +101,117 @@ document.addEventListener('DOMContentLoaded', () => {
             document.head.appendChild(style);
         }
 
+        function buildEditorWrapper(codeText, mode, isC, isCpp) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-wrapper';
+            
+            const lines = codeText.split('\n').length;
+            const editorHeight = Math.max(100, lines * 21 + 30);
+            
+            const editorDiv = document.createElement('div');
+            editorDiv.style.width = '100%';
+            editorDiv.style.height = editorHeight + 'px';
+            editorDiv.textContent = codeText;
+            
+            wrapper.appendChild(editorDiv);
+            
+            const editor = ace.edit(editorDiv);
+            editor.setTheme("ace/theme/tomorrow_night_eighties");
+            editor.session.setMode(mode);
+            editor.setOptions({
+                fontFamily: "'Fira Code', monospace",
+                fontSize: "14px",
+                showPrintMargin: false,
+                displayIndentGuides: true,
+                highlightActiveLine: true,
+                tabSize: 4,
+                useSoftTabs: true
+            });
+            
+            const playBtn = document.createElement('button');
+            playBtn.className = 'play-btn';
+            playBtn.innerHTML = 'Run ▶';
+            playBtn.title = 'Run locally';
+            
+            const outputDiv = document.createElement('div');
+            outputDiv.className = 'terminal-window';
+            outputDiv.style.display = 'none';
+            outputDiv.innerHTML = `
+                <div class="terminal-header">
+                    <span class="terminal-btn red"></span>
+                    <span class="terminal-btn yellow"></span>
+                    <span class="terminal-btn green"></span>
+                    <span class="terminal-title">Execution Output</span>
+                </div>
+                <div class="terminal-body" style="font-family: monospace; white-space: pre-wrap;"></div>
+            `;
+            
+            playBtn.addEventListener('click', async () => {
+                const code = editor.getValue();
+                outputDiv.style.display = 'block';
+                const terminalBody = outputDiv.querySelector('.terminal-body');
+                terminalBody.innerHTML = '<span style="color: #ffbd2e;">Compiling and running...</span>';
+                
+                try {
+                    if (mode === "ace/mode/rust") {
+                        const response = await fetch('https://play.rust-lang.org/execute', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                channel: "stable", mode: "debug", edition: "2021",
+                                crateType: "bin", tests: false, code: code, backtrace: false
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        let output = '';
+                        if (data.success) {
+                            output = data.stdout ? data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "<em>Program ran successfully with no output.</em>";
+                            if (data.stderr) output += '\n<span style="color: #8b949e;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                        } else {
+                            output = '<span style="color: #ff5f56;">' + (data.stderr || data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                        }
+                        terminalBody.innerHTML = output;
+                    } else {
+                        const languageId = isC ? 50 : 54;
+                        const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                source_code: code,
+                                language_id: languageId
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        let output = '';
+                        
+                        if (data.compile_output) {
+                            output += '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + data.compile_output.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                        } else if (data.stderr) {
+                            output += '<span style="color: #ff5f56;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                        }
+                        
+                        if (data.stdout) {
+                            output += (output ? '\n' : '') + data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        }
+                        
+                        if (!data.compile_output && !data.stderr && !data.stdout) {
+                            output = "<em>Program ran successfully with no output.</em>";
+                        }
+                        
+                        terminalBody.innerHTML = output;
+                    }
+                } catch (error) {
+                    terminalBody.innerHTML = '<span style="color: #ff5f56;">Error connecting to compiler backend.</span>';
+                }
+            });
+            
+            wrapper.appendChild(playBtn);
+            wrapper.appendChild(outputDiv);
+            return wrapper;
+        }
+
         function initAceEditors() {
             const codeBlocks = document.querySelectorAll('pre code.language-rust, pre code.language-c, pre code.language-cpp');
             codeBlocks.forEach((codeBlock, index) => {
@@ -109,123 +220,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isRust = codeBlock.classList.contains('language-rust');
                 const isC = codeBlock.classList.contains('language-c');
                 const isCpp = codeBlock.classList.contains('language-cpp');
+                const mode = isRust ? "ace/mode/rust" : "ace/mode/c_cpp";
                 
-                const wrapper = document.createElement('div');
-                wrapper.className = 'code-wrapper';
+                const wrapper = buildEditorWrapper(codeText, mode, isC, isCpp);
                 pre.parentNode.insertBefore(wrapper, pre);
-                
-                const lines = codeText.split('\n').length;
-                const editorHeight = Math.max(100, lines * 21 + 30);
-                
-                const editorDiv = document.createElement('div');
-                editorDiv.style.width = '100%';
-                editorDiv.style.height = editorHeight + 'px';
-                editorDiv.textContent = codeText;
-                
-                wrapper.appendChild(editorDiv);
                 pre.remove();
                 
-                const editor = ace.edit(editorDiv);
-                editor.setTheme("ace/theme/tomorrow_night_eighties");
+                const addCodeBtn = document.createElement('button');
+                addCodeBtn.innerHTML = '+ Add code';
+                addCodeBtn.style.cssText = 'display: block; margin: 0.5rem 0 2rem 0; background: transparent; border: 1px dashed var(--accent); color: var(--accent); padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: bold; transition: all 0.2s;';
                 
-                if (isRust) {
-                    editor.session.setMode("ace/mode/rust");
-                } else {
-                    editor.session.setMode("ace/mode/c_cpp");
-                }
-                
-                editor.setOptions({
-                    fontFamily: "'Fira Code', monospace",
-                    fontSize: "14px",
-                    showPrintMargin: false,
-                    displayIndentGuides: true,
-                    highlightActiveLine: true,
-                    tabSize: 4,
-                    useSoftTabs: true
+                addCodeBtn.addEventListener('mouseenter', () => {
+                    addCodeBtn.style.background = 'rgba(232, 62, 140, 0.1)';
+                });
+                addCodeBtn.addEventListener('mouseleave', () => {
+                    addCodeBtn.style.background = 'transparent';
                 });
                 
-                const playBtn = document.createElement('button');
-                playBtn.className = 'play-btn';
-                playBtn.innerHTML = 'Run ▶';
-                playBtn.title = 'Run locally';
-                
-                const outputDiv = document.createElement('div');
-                outputDiv.className = 'terminal-window';
-                outputDiv.style.display = 'none';
-                outputDiv.innerHTML = `
-                    <div class="terminal-header">
-                        <span class="terminal-btn red"></span>
-                        <span class="terminal-btn yellow"></span>
-                        <span class="terminal-btn green"></span>
-                        <span class="terminal-title">Execution Output</span>
-                    </div>
-                    <div class="terminal-body" style="font-family: monospace; white-space: pre-wrap;"></div>
-                `;
-                
-                playBtn.addEventListener('click', async () => {
-                    const code = editor.getValue();
-                    outputDiv.style.display = 'block';
-                    const terminalBody = outputDiv.querySelector('.terminal-body');
-                    terminalBody.innerHTML = '<span style="color: #ffbd2e;">Compiling and running...</span>';
-                    
-                    try {
-                        if (isRust) {
-                            const response = await fetch('https://play.rust-lang.org/execute', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    channel: "stable", mode: "debug", edition: "2021",
-                                    crateType: "bin", tests: false, code: code, backtrace: false
-                                })
-                            });
-                            
-                            const data = await response.json();
-                            let output = '';
-                            if (data.success) {
-                                output = data.stdout ? data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "<em>Program ran successfully with no output.</em>";
-                                if (data.stderr) output += '\n<span style="color: #8b949e;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                            } else {
-                                output = '<span style="color: #ff5f56;">' + (data.stderr || data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                            }
-                            terminalBody.innerHTML = output;
-                        } else {
-                            // Use Judge0 API for C/C++
-                            const languageId = isC ? 50 : 54; // 50 is C (GCC 9.2.0), 54 is C++ (GCC 9.2.0)
-                            const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    source_code: code,
-                                    language_id: languageId
-                                })
-                            });
-                            
-                            const data = await response.json();
-                            let output = '';
-                            
-                            if (data.compile_output) {
-                                output += '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + data.compile_output.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                            } else if (data.stderr) {
-                                output += '<span style="color: #ff5f56;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                            }
-                            
-                            if (data.stdout) {
-                                output += (output ? '\n' : '') + data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                            }
-                            
-                            if (!data.compile_output && !data.stderr && !data.stdout) {
-                                output = "<em>Program ran successfully with no output.</em>";
-                            }
-                            
-                            terminalBody.innerHTML = output;
-                        }
-                    } catch (error) {
-                        terminalBody.innerHTML = '<span style="color: #ff5f56;">Error connecting to compiler backend.</span>';
-                    }
+                addCodeBtn.addEventListener('click', () => {
+                    const defaultCode = isRust ? "fn main() {\n    \n}" : "#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}";
+                    const newWrapper = buildEditorWrapper(defaultCode, mode, isC, isCpp);
+                    addCodeBtn.parentNode.insertBefore(newWrapper, addCodeBtn);
                 });
                 
-                wrapper.appendChild(playBtn);
-                wrapper.appendChild(outputDiv);
+                wrapper.parentNode.insertBefore(addCodeBtn, wrapper.nextSibling);
             });
         }
 

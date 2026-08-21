@@ -104,6 +104,7 @@ int* get_system_status() {
     return &status_code; 
 }
                         </code></pre>
+                        <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-1: C Local Pointer Return Bug</div>
                     </div>
                 </details>
 <pre><code class="language-rust">fn print_labeled_measurement(value: i32, unit_label: char) {
@@ -113,6 +114,7 @@ int* get_system_status() {
 fn main() {
     print_labeled_measurement(5, 'h');
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-2: Basic Function</div>
                 <p><strong>Why:</strong> The function takes two parameters. In Rust, you must declare the types (<code>i32</code> for a 32-bit integer, and <code>char</code> for a character). We then format them directly in the <code>println!</code> macro.</p>
 
                 <h2>Example 2: Functions with Return Values (Implicit Return)</h2>
@@ -124,6 +126,7 @@ fn main() {
     let x = five();
     println!("The value of x is: {x}");
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-3: Implicit Return</div>
                 <p><strong>Why:</strong> We define a return type using <code>-> i32</code>. In Rust, the last expression in a block is automatically returned if you do not place a semicolon <code>;</code> at the end. <code>5</code> (no semicolon) is an expression that yields the value 5.</p>
 
                 <h2>Example 3: Error: Adding a Semicolon</h2>
@@ -134,6 +137,7 @@ fn main() {
 fn main() {
     let x = plus_one(5);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-4: The Semicolon Error</div>
                 <p><strong>Error Explanation:</strong> <code>mismatched types: expected `i32`, found `()`</code>. Adding a semicolon turns the expression <code>x + 1</code> into a <em>statement</em>. Statements in Rust return the unit type <code>()</code> (which is like `void` in C). The function signature promised to return an <code>i32</code>, but because of the semicolon, it returns <code>()</code>. To fix this, simply remove the semicolon!</p>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
@@ -155,6 +159,7 @@ fn main() {
     let area = calculate_area(w as u32, h as u32);
     println!("Area: {}", area);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-5: Strict Type Enforcement</div>
 
                 <h2>Example 5: Safe Multiple Returns (No Pointers!)</h2>
                 <p>If you want to return multiple values from a C function, you usually have to pass pointers into the function as arguments (e.g. <code>void get_data(int* out_x, int* out_y)</code>). This is a massive source of security bugs (null pointer dereferences, dangling pointers). Rust elegantly solves this by allowing you to return <strong>Tuples</strong>.</p>
@@ -172,6 +177,7 @@ fn main() {
     let (first_name, last_name) = split_name("Ada Lovelace");
     println!("First: {}, Last: {}", first_name, last_name);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-6: Safe Multiple Returns (Tuples)</div>
 
                 <h2>Example 6: Early Returns</h2>
                 <p>While implicit returns (expressions without semicolons) are preferred for the final output, you can still use the <code>return</code> keyword to exit a function early. Rust's compiler rigorously checks every possible branch of your logic to ensure a value of the correct type is <em>always</em> returned, eliminating the C bug where a developer forgets a return statement on an edge case.</p>
@@ -190,6 +196,7 @@ fn main() {
     let success = process_payment(-50);
     println!("Payment successful: {}", success);
 }</code></pre>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-7: Early Returns</div>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 
