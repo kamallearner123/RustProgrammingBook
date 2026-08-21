@@ -102,10 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function initAceEditors() {
-            const rustBlocks = document.querySelectorAll('pre code.language-rust');
-            rustBlocks.forEach((codeBlock, index) => {
+            const codeBlocks = document.querySelectorAll('pre code.language-rust, pre code.language-c, pre code.language-cpp');
+            codeBlocks.forEach((codeBlock, index) => {
                 const pre = codeBlock.parentElement;
                 const codeText = codeBlock.textContent;
+                const isRust = codeBlock.classList.contains('language-rust');
+                const isC = codeBlock.classList.contains('language-c');
+                const isCpp = codeBlock.classList.contains('language-cpp');
                 
                 const wrapper = document.createElement('div');
                 wrapper.className = 'code-wrapper';
@@ -124,7 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const editor = ace.edit(editorDiv);
                 editor.setTheme("ace/theme/tomorrow_night_eighties");
-                editor.session.setMode("ace/mode/rust");
+                
+                if (isRust) {
+                    editor.session.setMode("ace/mode/rust");
+                } else {
+                    editor.session.setMode("ace/mode/c_cpp");
+                }
+                
                 editor.setOptions({
                     fontFamily: "'Fira Code', monospace",
                     fontSize: "14px",
@@ -160,24 +169,56 @@ document.addEventListener('DOMContentLoaded', () => {
                     terminalBody.innerHTML = '<span style="color: #ffbd2e;">Compiling and running...</span>';
                     
                     try {
-                        const response = await fetch('https://play.rust-lang.org/execute', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                channel: "stable", mode: "debug", edition: "2021",
-                                crateType: "bin", tests: false, code: code, backtrace: false
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        let output = '';
-                        if (data.success) {
-                            output = data.stdout ? data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "<em>Program ran successfully with no output.</em>";
-                            if (data.stderr) output += '\n<span style="color: #8b949e;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                        if (isRust) {
+                            const response = await fetch('https://play.rust-lang.org/execute', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    channel: "stable", mode: "debug", edition: "2021",
+                                    crateType: "bin", tests: false, code: code, backtrace: false
+                                })
+                            });
+                            
+                            const data = await response.json();
+                            let output = '';
+                            if (data.success) {
+                                output = data.stdout ? data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "<em>Program ran successfully with no output.</em>";
+                                if (data.stderr) output += '\n<span style="color: #8b949e;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            } else {
+                                output = '<span style="color: #ff5f56;">' + (data.stderr || data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            }
+                            terminalBody.innerHTML = output;
                         } else {
-                            output = '<span style="color: #ff5f56;">' + (data.stderr || data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            // Use Judge0 API for C/C++
+                            const languageId = isC ? 50 : 54; // 50 is C (GCC 9.2.0), 54 is C++ (GCC 9.2.0)
+                            const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    source_code: code,
+                                    language_id: languageId
+                                })
+                            });
+                            
+                            const data = await response.json();
+                            let output = '';
+                            
+                            if (data.compile_output) {
+                                output += '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + data.compile_output.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            } else if (data.stderr) {
+                                output += '<span style="color: #ff5f56;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            }
+                            
+                            if (data.stdout) {
+                                output += (output ? '\n' : '') + data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            }
+                            
+                            if (!data.compile_output && !data.stderr && !data.stdout) {
+                                output = "<em>Program ran successfully with no output.</em>";
+                            }
+                            
+                            terminalBody.innerHTML = output;
                         }
-                        terminalBody.innerHTML = output;
                     } catch (error) {
                         terminalBody.innerHTML = '<span style="color: #ff5f56;">Error connecting to compiler backend.</span>';
                     }
