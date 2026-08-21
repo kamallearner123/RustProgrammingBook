@@ -174,11 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         terminalBody.innerHTML = output;
                     } else {
                         const languageId = isC ? 50 : 54;
-                        const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
+                        const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                source_code: code,
+                                source_code: btoa(unescape(encodeURIComponent(code))),
                                 language_id: languageId
                             })
                         });
@@ -186,18 +186,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         const data = await response.json();
                         let output = '';
                         
-                        if (data.compile_output) {
-                            output += '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + data.compile_output.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                        } else if (data.stderr) {
-                            output += '<span style="color: #ff5f56;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                        }
+                        const decodeSafe = (str) => str ? decodeURIComponent(escape(atob(str))) : '';
                         
-                        if (data.stdout) {
-                            output += (output ? '\n' : '') + data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        }
-                        
-                        if (!data.compile_output && !data.stderr && !data.stdout) {
-                            output = "<em>Program ran successfully with no output.</em>";
+                        if (data.error) {
+                            output = '<span style="color: #ff5f56;">API Error: ' + data.error + '</span>';
+                        } else if (data.message) {
+                            output = '<span style="color: #ff5f56;">' + data.message + '</span>';
+                        } else {
+                            if (data.compile_output) {
+                                output += '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + decodeSafe(data.compile_output).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            } else if (data.stderr) {
+                                output += '<span style="color: #ff5f56;">' + decodeSafe(data.stderr).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+                            }
+                            
+                            if (data.stdout) {
+                                output += (output ? '\n' : '') + decodeSafe(data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            }
+                            
+                            if (!data.compile_output && !data.stderr && !data.stdout) {
+                                output = "<em>Program ran successfully with no output.</em>";
+                            }
                         }
                         
                         terminalBody.innerHTML = output;

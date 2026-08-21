@@ -97,11 +97,19 @@
                     <div style="margin-top: 1rem;">
                         <pre><code class="language-c">
 // C allows you to return pointers to local stack variables!
+#include <stdio.h>
+
 int* get_system_status() {
     int status_code = 200;
     // BUG: Returning the address of a local variable. 
     // When the function returns, this memory is destroyed!
     return &status_code; 
+}
+
+int main() {
+    int* ptr = get_system_status();
+    printf("Status: %d\n", *ptr);
+    return 0;
 }
                         </code></pre>
                         <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 2.3-1: C Local Pointer Return Bug</div>
