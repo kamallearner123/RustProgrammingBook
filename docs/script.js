@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 outputDiv.style.display = 'block';
                 const terminalBody = outputDiv.querySelector('.terminal-body');
                 
-                const needsInput = code.includes("scanf") || code.includes("gets") || code.includes("fgets") || code.includes("cin") || code.includes("io::stdin") || code.includes("read_line");
+                const needsInput = code.includes("scanf(") || code.includes("gets(") || code.includes("fgets(") || code.includes("cin >>") || code.includes("io::stdin()") || code.includes(".read_line(");
                 
                 const executeCode = async (stdinData) => {
                     terminalBody.innerHTML = '<span style="color: #ffbd2e;">Compiling and running...</span>';
