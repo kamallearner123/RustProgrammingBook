@@ -84,10 +84,33 @@
                 
                 <p>Rust is a statically typed language, which means that it must know the types of all variables at compile time. While the compiler can usually infer what type we want to use, understanding the exact type taxonomy is critical for memory safety.</p>
                 
-                <div style="text-align: center; margin: 2rem 0;">
-                    <img src="rust_types.png" alt="Rust Data Types Diagram" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                    <p style="font-size: 0.9rem; color: var(--text-muted);"><em>(Please ensure 'rust_types.png' is saved in your project folder)</em></p>
+                <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
+flowchart TD
+    classDef main fill:#2b6cb0,stroke:#2c5282,color:#fff,stroke-width:2px;
+    classDef category fill:#48bb78,stroke:#38a169,color:#fff,stroke-width:2px;
+    classDef sub fill:#ed8936,stroke:#dd6b20,color:#fff,stroke-width:2px;
+    
+    A[Rust Data Types]:::main
+    
+    A --> B[Primitive]:::category
+    A --> C[Non-Primitive]:::category
+    
+    B --> B1[Scalar]:::sub
+    B --> B2[Compound]:::sub
+    
+    B1 --> B1A(Integers: i32, u8)
+    B1 --> B1B(Floats: f32, f64)
+    B1 --> B1C(Boolean: bool)
+    B1 --> B1D(Character: char)
+    
+    B2 --> B2A(Tuples)
+    B2 --> B2B(Arrays)
+    
+    C --> C1(String / &str)
+    C --> C2(Vectors: Vec)
+    C --> C3(Structs & Enums)
                 </div>
+<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 6: Rust Data Types Taxonomy</div>
 
                 <h2>Primitive Data Types</h2>
                 <p>Primitive types are basic data structures built directly into the language. They live directly on the Stack (because they have a known, fixed size at compile time).</p>
@@ -247,5 +270,13 @@ if user_input > max_buffer {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    });
+</script>
+
 </body>
 </html>
