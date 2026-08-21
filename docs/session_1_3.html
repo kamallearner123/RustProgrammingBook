@@ -110,10 +110,17 @@
                 <!-- 1. Stack Buffer Overflow -->
                 <div class="vuln-card">
                     <h3>1. The Classic Mistake</h3>
-                    <pre><code class="language-c">void get_password() {
+                    <pre><code class="language-c">#include <stdio.h>
+
+void get_password() {
     char password[16];
     printf("Enter password: ");
     gets(password);
+}
+
+int main() {
+    get_password();
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 5: 1. The Classic Mistake</div>
                     <details>
@@ -170,12 +177,19 @@ int main()
                 <!-- 2. Integer Overflow -->
                 <div class="vuln-card">
                     <h3>2. The Math Trap</h3>
-                    <pre><code class="language-c">void transfer_funds(unsigned int amount) {
+                    <pre><code class="language-c">#include <stdio.h>
+
+void transfer_funds(unsigned int amount) {
     unsigned int balance = 100;
     if (balance - amount >= 0) { // Check if we have enough
         balance -= amount;
         printf("Transfer successful!\n");
     }
+}
+
+int main() {
+    transfer_funds(500);
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 6: 2. The Math Trap</div>
                     <details>
@@ -187,12 +201,19 @@ int main()
                 <!-- 3. Use After Free -->
                 <div class="vuln-card">
                     <h3>3. The Ghost Pointer</h3>
-                    <pre><code class="language-c">char *user = malloc(100);
-strcpy(user, "admin");
-free(user);
+                    <pre><code class="language-c">#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-// ... later in the code ...
-printf("Welcome, %s\n", user);</code></pre>
+int main() {
+    char *user = malloc(100);
+    strcpy(user, "admin");
+    free(user);
+
+    // ... later in the code ...
+    printf("Welcome, %s\n", user);
+    return 0;
+}</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 7: 3. The Ghost Pointer</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
@@ -203,9 +224,15 @@ printf("Welcome, %s\n", user);</code></pre>
                 <!-- 4. Static Array Overflow -->
                 <div class="vuln-card">
                     <h3>4. The Off-By-One</h3>
-                    <pre><code class="language-c">int scores[10];
-for (int i = 0; i &lt;= 10; i++) {
-    scores[i] = 100;
+                    <pre><code class="language-c">#include <stdio.h>
+
+int main() {
+    int scores[10];
+    for (int i = 0; i <= 10; i++) {
+        scores[i] = 100;
+    }
+    printf("Done!\n");
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 8: 4. The Off-By-One</div>
                     <details>
@@ -217,16 +244,21 @@ for (int i = 0; i &lt;= 10; i++) {
                 <!-- 5. Double Free -->
                 <div class="vuln-card">
                     <h3>5. The Echo</h3>
-                    <pre><code class="language-c">void cleanup(char *ptr) {
+                    <pre><code class="language-c">#include <stdlib.h>
+
+void cleanup(char *ptr) {
     if (ptr) {
         free(ptr);
     }
 }
-// ...
-char *buffer = malloc(256);
-cleanup(buffer);
-// ... error occurs ...
-cleanup(buffer);</code></pre>
+
+int main() {
+    char *buffer = malloc(256);
+    cleanup(buffer);
+    // ... error occurs ...
+    cleanup(buffer);
+    return 0;
+}</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 9: 5. The Echo</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
@@ -237,8 +269,15 @@ cleanup(buffer);</code></pre>
                 <!-- 6. Format String Vulnerability -->
                 <div class="vuln-card">
                     <h3>6. The Unfiltered Echo</h3>
-                    <pre><code class="language-c">void log_input(char *user_input) {
+                    <pre><code class="language-c">#include <stdio.h>
+
+void log_input(char *user_input) {
     printf(user_input);
+}
+
+int main() {
+    log_input("%x %x %x\n");
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 10: 6. The Unfiltered Echo</div>
                     <details>
@@ -266,13 +305,25 @@ int main() {
                 <!-- 7. Null Pointer Dereference -->
                 <div class="vuln-card">
                     <h3>7. The Missing Check</h3>
-                    <pre><code class="language-c">void update_config(Config *cfg) {
-    cfg-&gt;updated = 1;
+                    <pre><code class="language-c">#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int updated;
+} Config;
+
+Config* get_config() {
+    return NULL; // Fails to get config
+}
+
+void update_config(Config *cfg) {
+    cfg->updated = 1;
 }
 
 int main() {
-    Config *cfg = get_config(); // Might return NULL
+    Config *cfg = get_config(); // Returns NULL
     update_config(cfg);
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 11: 7. The Missing Check</div>
                     <details>
@@ -284,7 +335,13 @@ int main() {
                 <!-- 8. Uninitialized Variable -->
                 <div class="vuln-card">
                     <h3>8. The Dirty Laundry</h3>
-                    <pre><code class="language-c">void check_auth() {
+                    <pre><code class="language-c">#include <stdio.h>
+
+int check_secret_key() {
+    return 0; // Wrong key
+}
+
+void check_auth() {
     int is_admin; // Not initialized
     if (check_secret_key() == 1) {
         is_admin = 1;
@@ -292,6 +349,11 @@ int main() {
     if (is_admin) {
         printf("Access Granted.\n");
     }
+}
+
+int main() {
+    check_auth();
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 12: 8. The Dirty Laundry</div>
                     <details>
@@ -303,9 +365,17 @@ int main() {
                 <!-- 9. Heap Buffer Overflow -->
                 <div class="vuln-card">
                     <h3>9. The Short Request</h3>
-                    <pre><code class="language-c">char *src = "Super Secret Password";
-char *dest = malloc(10);
-strcpy(dest, src);</code></pre>
+                    <pre><code class="language-c">#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    char *src = "Super Secret Password";
+    char *dest = malloc(10);
+    strcpy(dest, src);
+    printf("Copied: %s\n", dest);
+    return 0;
+}</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 13: 9. The Short Request</div>
                     <details>
                         <summary>Reveal Vulnerability</summary>
@@ -316,12 +386,23 @@ strcpy(dest, src);</code></pre>
                 <!-- 10. Memory Leak -->
                 <div class="vuln-card">
                     <h3>10. The Silent Killer</h3>
-                    <pre><code class="language-c">void handle_request() {
+                    <pre><code class="language-c">#include <stdlib.h>
+
+int user_aborted() {
+    return 1; // User always aborts
+}
+
+void handle_request() {
     char *session_data = malloc(4096);
     if (user_aborted()) {
-        return; // Early exit
+        return; // Early exit (Memory Leak)
     }
     free(session_data);
+}
+
+int main() {
+    handle_request();
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 14: 10. The Silent Killer</div>
                     <details>
