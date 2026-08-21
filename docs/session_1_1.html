@@ -173,6 +173,11 @@ void process_data() {
 
     // DANGER: The pointer 'buffer' still holds the memory address, 
     // even though we don't own it anymore. It is now a "Dangling Pointer".
+}
+
+int main() {
+    process_data();
+    return 0;
 }</code></pre>
 <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Program 3: Manual Memory Management (C Example)</div>
 
