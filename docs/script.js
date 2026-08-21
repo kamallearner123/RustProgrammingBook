@@ -191,10 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (stdinData) {
                                     output = output.replace("Enter password:", "Enter password: <span style='color: #a5d6ff;'>" + stdinData.trim() + "</span>");
                                 }
-                                if (data.status !== "0" || data.program_error) {
-                                    output = '<span style="color: #ff5f56;">' + output + '</span>';
-                                }
-                            } else {
+                            }
+                            
+                            if (data.status !== "0") {
+                                let signalMsg = "";
+                                if (data.signal) signalMsg = " (" + data.signal + ")";
+                                else if (data.status === "139") signalMsg = " (SIGSEGV - Segmentation Fault)";
+                                else if (data.status === "134") signalMsg = " (SIGABRT - Aborted)";
+                                
+                                const crashMsg = '\n<span style="color: #ff5f56; font-weight: bold;">[CRASH] Program terminated abnormally with status code ' + data.status + signalMsg + '</span>';
+                                output = output ? output + crashMsg : crashMsg.trim();
+                            } else if (!data.program_message) {
                                 output = "<em>Program ran successfully with no output.</em>";
                             }
                         }
