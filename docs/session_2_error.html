@@ -156,6 +156,78 @@ fn read_username() -> Result&lt;String, Error&gt; {
                 <p><strong>Output:</strong> Depends on if the file exists. It returns either <code>Ok(username)</code> or an <code>Err</code>.</p>
                 <p><strong>Why:</strong> The <code>?</code> operator is placed after a <code class="keyword-hl">Result</code> value. If the value is <code>Ok</code>, it unpacks the value and continues. If it's an <code>Err</code>, it immediately returns from the whole function, propagating the error up the chain automatically.</p>
 
+                <h2>C/C++ Error Return Confusion</h2>
+                <details style="background: var(--sidebar-bg); padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; cursor: pointer; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <summary style="font-weight: 600; font-size: 1.1rem; outline: none; color: #f44336;">View C/C++ Ambiguous Returns</summary>
+                    <div style="margin-top: 1rem;">
+                        <pre><code class="language-c">
+// In C/C++, functions often use a special value (like -1, 0, or NULL) to indicate an error.
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+void process_input(const char* input) {
+    int val = atoi(input);
+    // BUG: atoi returns 0 on error! But what if the user actually typed "0"?
+    // The developer cannot distinguish between success ("0") and error ("invalid string").
+    // This ambiguity leads to severe logic bugs and security flaws.
+    if (val == 0) {
+        printf("Error or Zero? Who knows!\n");
+    }
+}
+                        </code></pre>
+                    </div>
+                </details>
+
+                <h2>Example 4: The Option Enum (Absence of Data)</h2>
+                <p>To fix the concept of Null pointers, Rust uses the <code>Option&lt;T&gt;</code> enum when a value might be absent. It forces the developer to check for null.</p>
+                <pre><code class="language-rust">fn find_user(id: i32) -> Option&lt;String&gt; {
+    if id == 1 {
+        Some(String::from("Alice"))
+    } else {
+        None // No null pointers here!
+    }
+}
+
+fn main() {
+    let user = find_user(2);
+    // You cannot use 'user' directly without explicitly handling the 'None' case.
+    // println!("{}", user); // This will not compile!
+}</code></pre>
+
+                <h2>Example 5: Handling Option with `match`</h2>
+                <p>The compiler forces you to handle both the <code>Some</code> and <code>None</code> cases using a <code>match</code> block.</p>
+                <pre><code class="language-rust">fn main() {
+    let user = Some(String::from("Alice"));
+
+    match user {
+        Some(name) => println!("Found user: {}", name),
+        None => println!("User not found!"),
+    }
+}</code></pre>
+
+                <h2>Example 6: Complex Logic with `match` and Result</h2>
+                <p>You can use <code>match</code> to handle specific types of errors gracefully rather than just panicking.</p>
+                <pre><code class="language-rust">use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    // Attempt to open the file
+    let file = File::open("config.txt");
+
+    let _config = match file {
+        Ok(f) => f,
+        Err(error) => match error.kind() {
+            // If it doesn't exist, create it!
+            ErrorKind::NotFound => match File::create("config.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Tried to create file but failed: {:?}", e),
+            },
+            // For any other error (like permissions), panic.
+            other_error => panic!("Problem opening the file: {:?}", other_error),
+        },
+    };
+}</code></pre>
+
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
 
                 <h2>Knowledge Check</h2>
