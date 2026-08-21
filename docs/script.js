@@ -158,37 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const code = editor.getValue();
                 outputDiv.style.display = 'block';
                 const terminalBody = outputDiv.querySelector('.terminal-body');
-                terminalBody.innerHTML = '<span style="color: #ffbd2e;">Compiling and running...</span>';
                 
-                try {
-                    if (mode === "ace/mode/rust") {
-                        const response = await fetch('https://play.rust-lang.org/execute', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                channel: "stable", mode: "debug", edition: "2021",
-                                crateType: "bin", tests: false, code: code, backtrace: false
-                            })
-                        });
+                const needsInput = code.includes("scanf") || code.includes("gets") || code.includes("fgets") || code.includes("cin") || code.includes("io::stdin") || code.includes("read_line");
+                
+                const executeCode = async (stdinData) => {
+                    terminalBody.innerHTML = '<span style="color: #ffbd2e;">Compiling and running...</span>';
+                    try {
+                        let compilerName = "";
+                        if (mode === "ace/mode/rust") compilerName = "rust-1.81.0";
+                        else compilerName = isC ? "gcc-head-c" : "gcc-head";
                         
-                        const data = await response.json();
-                        let output = '';
-                        if (data.success) {
-                            output = data.stdout ? data.stdout.replace(/</g, '&lt;').replace(/>/g, '&gt;') : "<em>Program ran successfully with no output.</em>";
-                            if (data.stderr) output += '\n<span style="color: #8b949e;">' + data.stderr.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                        } else {
-                            output = '<span style="color: #ff5f56;">' + (data.stderr || data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                        }
-                        terminalBody.innerHTML = output;
-                    } else {
-                        const compilerName = isC ? "gcc-head-c" : "gcc-head";
                         const response = await fetch('https://wandbox.org/api/compile.json', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 compiler: compilerName,
                                 code: code,
-                                save: false
+                                save: false,
+                                stdin: stdinData
                             })
                         });
                         
@@ -200,6 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else {
                             if (data.program_message) {
                                 output = data.program_message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                // Visual trick to simulate interactive terminal input
+                                if (stdinData) {
+                                    output = output.replace("Enter password:", "Enter password: <span style='color: #a5d6ff;'>" + stdinData.trim() + "</span>");
+                                }
                                 if (data.status !== "0" || data.program_error) {
                                     output = '<span style="color: #ff5f56;">' + output + '</span>';
                                 }
@@ -209,9 +200,35 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         
                         terminalBody.innerHTML = output;
+                    } catch (error) {
+                        terminalBody.innerHTML = '<span style="color: #ff5f56;">Error connecting to compiler backend.</span>';
                     }
-                } catch (error) {
-                    terminalBody.innerHTML = '<span style="color: #ff5f56;">Error connecting to compiler backend.</span>';
+                };
+
+                if (needsInput) {
+                    terminalBody.innerHTML = `
+                        <div style="margin-bottom: 10px; color: #8b949e; font-style: italic;">This program requires standard input (stdin).</div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="color: #3fb950; font-weight: bold;">$</span>
+                            <input type="text" class="stdin-prompt" style="flex: 1; background: rgba(0,0,0,0.3); color: #c9d1d9; border: 1px solid #30363d; border-radius: 4px; padding: 6px; font-family: monospace; outline: none;" placeholder="Type your input here (e.g. admin)">
+                            <button class="stdin-submit" style="background: var(--accent); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: bold;">Run</button>
+                        </div>
+                    `;
+                    const inputField = terminalBody.querySelector('.stdin-prompt');
+                    const submitBtn = terminalBody.querySelector('.stdin-submit');
+                    inputField.focus();
+                    
+                    const handleSubmit = () => {
+                        const val = inputField.value;
+                        executeCode(val + "\\n");
+                    };
+                    
+                    submitBtn.addEventListener('click', handleSubmit);
+                    inputField.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') handleSubmit();
+                    });
+                } else {
+                    executeCode("");
                 }
             });
             

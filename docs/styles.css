@@ -450,6 +450,24 @@ li::marker {
     color: #fff;
 }
 
+.toc a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+}
+
+.toc li a[href^="session_library_"] {
+    padding-left: 2.5rem;
+    position: relative;
+    font-size: 0.95em;
+}
+.toc li a[href^="session_library_"]::before {
+    content: "↳";
+    position: absolute;
+    left: 1.2rem;
+    color: var(--accent);
+    opacity: 0.6;
+}
+
 .info-callout strong {
     color: var(--text-main);
 }
