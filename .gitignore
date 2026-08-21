@@ -1,0 +1,10 @@
+a.out
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Rust binaries from rustc
+box
+buffer_overflow
