@@ -69,6 +69,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // Collapsible Library TOC
+    function setupLibraryTOC() {
+        const libraryMainLink = document.querySelector('.toc a[href="session_library.html"]');
+        if (!libraryMainLink) return;
+        
+        const arrow = document.createElement('span');
+        arrow.innerHTML = '▶';
+        arrow.style.float = 'right';
+        arrow.style.fontSize = '0.7em';
+        arrow.style.marginTop = '4px';
+        arrow.style.color = 'var(--text-muted)';
+        arrow.style.transition = 'transform 0.2s';
+        libraryMainLink.appendChild(arrow);
+        
+        const subItems = document.querySelectorAll('.toc li a[href^="session_library_"]');
+        
+        const currentPath = window.location.pathname.split('/').pop();
+        const isLibraryPage = currentPath === 'session_library.html' || currentPath.startsWith('session_library_');
+        
+        let isOpen = localStorage.getItem('library_menu_open') === 'true';
+        if (isLibraryPage) {
+            isOpen = true; // Always open if reading a library page
+        }
+        
+        const updateVisibility = () => {
+            arrow.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0deg)';
+            subItems.forEach(item => {
+                item.parentElement.style.display = isOpen ? 'list-item' : 'none';
+            });
+            localStorage.setItem('library_menu_open', isOpen);
+        };
+        
+        updateVisibility();
+        
+        // If clicking specifically on the arrow, toggle without navigating
+        arrow.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            isOpen = !isOpen;
+            updateVisibility();
+        });
+        
+        // If clicking the link itself, allow navigation but we also want to toggle state
+        libraryMainLink.addEventListener('click', function(e) {
+            // It will navigate anyway, but save the intended open state for the next page load
+            if (e.target !== arrow) {
+                localStorage.setItem('library_menu_open', 'true');
+            }
+        });
+    }
+
+    setupLibraryTOC();
 
     // Top Nav Scroll Effect
     const mainContent = document.querySelector('.main-content');
