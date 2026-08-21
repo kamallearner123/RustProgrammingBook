@@ -117,6 +117,24 @@ graph TD
         </ul>
     </div>
 
+    <h2>Breaking News: How OEMs are Moving to Rust</h2>
+    <p>The transition to Rust in the automotive sector is not just a future concept; it is happening right now. Original Equipment Manufacturers (OEMs) and Tier 1 suppliers are rapidly integrating Rust into their next-generation Software-Defined Vehicles to improve time-to-market, reduce warranty recalls caused by memory bugs, and meet stringent safety requirements.</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+        <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border-top: 4px solid var(--accent); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0; color: var(--text-color);">Renault's Ampere</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 0;">Ampere, Renault Group's dedicated EV and software brand, has integrated Rust into its core SDV platform. They have already trained over 200 developers in Rust to ensure memory-safe, highly concurrent operations, drastically improving code quality.</p>
+        </div>
+        <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border-top: 4px solid var(--accent); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0; color: var(--text-color);">Bosch & ETAS</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 0;">Bosch and its subsidiary ETAS have committed to using Rust for future embedded software. To drive industry-wide standardization, they co-founded the <strong>Eclipse SDV Rust SIG</strong>, fostering open-source collaboration for automotive-grade Rust components.</p>
+        </div>
+        <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; border-top: 4px solid var(--accent); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0; color: var(--text-color);">Incremental Adoption</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 0;">OEMs aren't throwing away decades of C/C++ overnight. They are utilizing Rust's powerful <strong>Foreign Function Interface (FFI)</strong> to write new, high-risk modules (like OTA update parsers) in Rust, seamlessly linking them with legacy C code.</p>
+        </div>
+    </div>
+
     <div style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
         <h3 style="margin-top:0; color:var(--accent);">Tutorial Highlight: Secure CAN Bus Parser</h3>
         <p>Writing a safe CAN frame parser in Rust ensures that malformed packets injected by hackers via Bluetooth or OBD-II ports cannot cause a buffer overflow in the vehicle's telemetry unit.</p>
