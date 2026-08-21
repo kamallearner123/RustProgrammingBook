@@ -110,7 +110,7 @@
                 <!-- 1. Stack Buffer Overflow -->
                 <div class="vuln-card">
                     <h3>1. The Classic Mistake</h3>
-                    <pre><code class="language-c">#include <stdio.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
 
 void get_password() {
     char password[16];
@@ -177,7 +177,7 @@ int main()
                 <!-- 2. Integer Overflow -->
                 <div class="vuln-card">
                     <h3>2. The Math Trap</h3>
-                    <pre><code class="language-c">#include <stdio.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
 
 void transfer_funds(unsigned int amount) {
     unsigned int balance = 100;
@@ -201,9 +201,9 @@ int main() {
                 <!-- 3. Use After Free -->
                 <div class="vuln-card">
                     <h3>3. The Ghost Pointer</h3>
-                    <pre><code class="language-c">#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
 
 int main() {
     char *user = malloc(100);
@@ -224,7 +224,7 @@ int main() {
                 <!-- 4. Static Array Overflow -->
                 <div class="vuln-card">
                     <h3>4. The Off-By-One</h3>
-                    <pre><code class="language-c">#include <stdio.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
 
 int main() {
     int scores[10];
@@ -244,7 +244,7 @@ int main() {
                 <!-- 5. Double Free -->
                 <div class="vuln-card">
                     <h3>5. The Echo</h3>
-                    <pre><code class="language-c">#include <stdlib.h>
+                    <pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 void cleanup(char *ptr) {
     if (ptr) {
@@ -269,7 +269,7 @@ int main() {
                 <!-- 6. Format String Vulnerability -->
                 <div class="vuln-card">
                     <h3>6. The Unfiltered Echo</h3>
-                    <pre><code class="language-c">#include <stdio.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
 
 void log_input(char *user_input) {
     printf(user_input);
@@ -305,8 +305,8 @@ int main() {
                 <!-- 7. Null Pointer Dereference -->
                 <div class="vuln-card">
                     <h3>7. The Missing Check</h3>
-                    <pre><code class="language-c">#include <stdio.h>
-#include <stdlib.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
 
 typedef struct {
     int updated;
@@ -335,7 +335,7 @@ int main() {
                 <!-- 8. Uninitialized Variable -->
                 <div class="vuln-card">
                     <h3>8. The Dirty Laundry</h3>
-                    <pre><code class="language-c">#include <stdio.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
 
 int check_secret_key() {
     return 0; // Wrong key
@@ -365,9 +365,9 @@ int main() {
                 <!-- 9. Heap Buffer Overflow -->
                 <div class="vuln-card">
                     <h3>9. The Short Request</h3>
-                    <pre><code class="language-c">#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+                    <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
 
 int main() {
     char *src = "Super Secret Password";
@@ -386,7 +386,7 @@ int main() {
                 <!-- 10. Memory Leak -->
                 <div class="vuln-card">
                     <h3>10. The Silent Killer</h3>
-                    <pre><code class="language-c">#include <stdlib.h>
+                    <pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int user_aborted() {
     return 1; // User always aborts

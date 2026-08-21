@@ -181,37 +181,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         terminalBody.innerHTML = output;
                     } else {
-                        const languageId = isC ? 50 : 54;
-                        const response = await fetch('https://ce.judge0.com/submissions?base64_encoded=true&wait=true', {
+                        const compilerName = isC ? "gcc-head-c" : "gcc-head";
+                        const response = await fetch('https://wandbox.org/api/compile.json', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                source_code: btoa(unescape(encodeURIComponent(code))),
-                                language_id: languageId
+                                compiler: compilerName,
+                                code: code,
+                                save: false
                             })
                         });
                         
                         const data = await response.json();
                         let output = '';
                         
-                        const decodeSafe = (str) => str ? decodeURIComponent(escape(atob(str))) : '';
-                        
-                        if (data.error) {
-                            output = '<span style="color: #ff5f56;">API Error: ' + data.error + '</span>';
-                        } else if (data.message) {
-                            output = '<span style="color: #ff5f56;">' + data.message + '</span>';
+                        if (data.status !== "0" && data.compiler_message) {
+                            output = '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + data.compiler_message.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
                         } else {
-                            if (data.compile_output) {
-                                output += '<span style="color: #ff5f56;">Compilation Error:</span>\n<span style="color: #ff5f56;">' + decodeSafe(data.compile_output).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                            } else if (data.stderr) {
-                                output += '<span style="color: #ff5f56;">' + decodeSafe(data.stderr).replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
-                            }
-                            
-                            if (data.stdout) {
-                                output += (output ? '\n' : '') + decodeSafe(data.stdout).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                            }
-                            
-                            if (!data.compile_output && !data.stderr && !data.stdout) {
+                            if (data.program_message) {
+                                output = data.program_message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                if (data.status !== "0" || data.program_error) {
+                                    output = '<span style="color: #ff5f56;">' + output + '</span>';
+                                }
+                            } else {
                                 output = "<em>Program ran successfully with no output.</em>";
                             }
                         }
