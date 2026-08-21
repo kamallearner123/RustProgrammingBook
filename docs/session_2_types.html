@@ -84,33 +84,10 @@
                 
                 <p>Rust is a statically typed language, which means that it must know the types of all variables at compile time. While the compiler can usually infer what type we want to use, understanding the exact type taxonomy is critical for memory safety.</p>
                 
-                <div class="mermaid" style="background: var(--sidebar-bg); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; text-align: center;">
-flowchart TD
-    classDef main fill:#2b6cb0,stroke:#2c5282,color:#fff,stroke-width:2px;
-    classDef category fill:#48bb78,stroke:#38a169,color:#fff,stroke-width:2px;
-    classDef sub fill:#ed8936,stroke:#dd6b20,color:#fff,stroke-width:2px;
-    
-    A[Rust Data Types]:::main
-    
-    A --> B[Primitive]:::category
-    A --> C[Non-Primitive]:::category
-    
-    B --> B1[Scalar]:::sub
-    B --> B2[Compound]:::sub
-    
-    B1 --> B1A(Integers: i32, u8)
-    B1 --> B1B(Floats: f32, f64)
-    B1 --> B1C(Boolean: bool)
-    B1 --> B1D(Character: char)
-    
-    B2 --> B2A(Tuples)
-    B2 --> B2B(Arrays)
-    
-    C --> C1(String / &str)
-    C --> C2(Vectors: Vec)
-    C --> C3(Structs & Enums)
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="images/rust_types.png" alt="Rust Data Types Taxonomy" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    <div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 6: Rust Data Types Taxonomy</div>
                 </div>
-<div class="element-caption" style="text-align: center; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Figure 6: Rust Data Types Taxonomy</div>
 
                 <h2>Primitive Data Types</h2>
                 <p>Primitive types are basic data structures built directly into the language. They live directly on the Stack (because they have a known, fixed size at compile time).</p>
@@ -123,6 +100,37 @@ flowchart TD
                     <li><strong>Character (<code>char</code>):</strong> Represents a single Unicode scalar value. Unlike C (where a char is 1 byte), a Rust char is 4 bytes and can represent emojis, accented letters, and non-Latin scripts.</li>
                     <li><strong>Boolean (<code>bool</code>):</strong> Represents a logical state: <code>true</code> or <code>false</code>.</li>
                 </ul>
+
+                <pre><code class="language-rust">fn main() {
+    // Integer Types
+    let signed_8: i8 = -128;
+    let signed_16: i16 = -32768;
+    let signed_32: i32 = -2147483648; // Default
+    let signed_64: i64 = -9223372036854775808;
+    let signed_128: i128 = -170141183460469231731687303715884105728;
+    let signed_arch: isize = -100;
+
+    let unsigned_8: u8 = 255;
+    let unsigned_16: u16 = 65535;
+    let unsigned_32: u32 = 4294967295;
+    let unsigned_64: u64 = 18446744073709551615;
+    let unsigned_128: u128 = 340282366920938463463374607431768211455;
+    let unsigned_arch: usize = 100;
+
+    // Floating-Point Types
+    let float_32: f32 = 3.14;
+    let float_64: f64 = 2.718281828459045; // Default
+
+    // Character Type
+    let letter: char = 'R';
+    let emoji: char = '🚀';
+
+    // Boolean Type
+    let is_secure: bool = true;
+
+    println!("Scalar Types initialized successfully!");
+    println!("Letter: {}, Emoji: {}, Secure: {}", letter, emoji, is_secure);
+}</code></pre>
 
                 <div class="trap-callout">
                     <h3>⚠️ C/C++ Developer Trap: No Implicit Type Coercion</h3>
@@ -165,6 +173,27 @@ if user_input > max_buffer {
                     <li><strong>Arrays:</strong> A collection of elements of the <em>same</em> type, with a fixed length. Example: <code>[i32; 5]</code> is an array of exactly 5 integers.</li>
                 </ul>
 
+                <pre><code class="language-rust">fn main() {
+    // Tuple: Grouping different types
+    let user_info: (i32, f64, char) = (42, 99.9, 'A');
+    
+    // Accessing tuple elements by index
+    let user_id = user_info.0;
+    let user_score = user_info.1;
+    let user_grade = user_info.2;
+    
+    // Array: Grouping the same type with a fixed length
+    let firewall_ports: [u16; 3] = [80, 443, 22];
+    
+    // Accessing array elements by index
+    let http_port = firewall_ports[0];
+    let https_port = firewall_ports[1];
+    let ssh_port = firewall_ports[2];
+
+    println!("User {} scored {} (Grade: {})", user_id, user_score, user_grade);
+    println!("Allowed ports: {}, {}, {}", http_port, https_port, ssh_port);
+}</code></pre>
+
                 <h2>Non-Primitive Data Types (Containers)</h2>
                 <p>Non-primitive types (often part of the standard library) usually point to dynamically sized data on the Heap, or they are advanced constructs used to manage state safely.</p>
                 <ul>
@@ -175,6 +204,48 @@ if user_input > max_buffer {
                     <li><strong>References:</strong> Pointers to data owned by another variable (e.g., <code>&str</code>, <code>&i32</code>).</li>
                     <li><strong>Smart Pointers:</strong> Like <code>Box</code>, <code>Rc</code>, and <code>Arc</code>, which provide advanced memory management capabilities.</li>
                 </ul>
+
+                <pre><code class="language-rust">use std::collections::HashMap;
+use std::rc::Rc;
+
+// Custom Type: Enum
+enum Status {
+    Active,
+    Inactive,
+}
+
+fn main() {
+    // String (Growable heap-allocated text)
+    let mut username = String::from("admin");
+    username.push_str("_user");
+
+    // Vector (Growable heap-allocated array)
+    let mut ip_addresses: Vec<&str> = Vec::new();
+    ip_addresses.push("192.168.1.1");
+    ip_addresses.push("10.0.0.1");
+
+    // HashMap (Key-Value store)
+    let mut sessions: HashMap<&str, i32> = HashMap::new();
+    sessions.insert("session_token_xyz", 3600);
+
+    // Reference (Borrowing data without taking ownership)
+    let ref_to_username: &String = &username;
+
+    // Smart Pointer (Box: allocating on the heap)
+    let boxed_integer: Box<i32> = Box::new(404);
+
+    // Smart Pointer (Rc: Reference counting for shared ownership)
+    let shared_data = Rc::new(String::from("Shared Config"));
+
+    // Using the Enum
+    let _current_status = Status::Active;
+
+    println!("Username: {}", ref_to_username);
+    println!("First IP: {}", ip_addresses[0]);
+    println!("Session Expiry: {}", sessions.get("session_token_xyz").unwrap());
+    println!("Boxed Value: {}", boxed_integer);
+    println!("Shared Config: {}", shared_data);
+}</code></pre>
 
                 <hr style="margin: 3rem 0; border: 0; border-top: 1px solid var(--border-color);">
                 <h2>Knowledge Check</h2>
