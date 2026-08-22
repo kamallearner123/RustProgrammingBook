@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.3 Control Flow - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++
+                            limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_control.html">2.3 Control Flow</a></li>
+                    <li><a href="session_2_functions.html">2.4 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.5 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.6 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.7 References</a></li>
+                    <li><a href="session_2_mutability.html">2.8 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.9 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.10 Cargo Basics</a></li>
+
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                    <li><a href="session_4_6.html">4.6 Automotive Cybersecurity</a></li>
+                    <li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
+                    <li class="toc-main"><a href="session_library.html">LIBRARY: Standard Library</a></li>
+                    <li><a href="session_library_containers.html">Containers & Collections</a></li>
+                    <li><a href="session_library_io.html">I/O & File System</a></li>
+                    <li><a href="session_library_network.html">Network & Threads</a></li>
+                    <li><a href="session_library_sys.html">System & Env</a></li>
+                    <li class="toc-main"><a href="session_references.html">References</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+    <span class="chapter-number">Session 2.3</span>
+    <h1>Operations and Control Flow</h1>
+    
+    <h2>Basic Operations</h2>
+    <p>Rust supports all standard mathematical and logical operations. However, unlike C/C++, Rust will panic on integer overflow in debug mode instead of silently wrapping around, which prevents many security bugs!</p>
+    <pre><code class="language-rust">fn main() {
+    let sum = 5 + 10;
+    let difference = 95.5 - 4.3;
+    let product = 4 * 30;
+    let quotient = 56.7 / 32.2;
+    let remainder = 43 % 5;
+    
+    let is_true = (sum == 15) && (remainder != 0);
+}</code></pre>
+
+    <h2>If Expressions</h2>
+    <p>In Rust, <code>if</code> blocks are expressions, meaning they can return values! There are no parentheses required around the condition.</p>
+    <pre><code class="language-rust">fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("divisible by 4");
+    } else if number % 3 == 0 {
+        println!("divisible by 3");
+    } else {
+        println!("not divisible by 4 or 3");
+    }
+
+    // Using if in a let statement (like a ternary operator in C)
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+}</code></pre>
+
+    <h2>Loops (loop, while, for)</h2>
+    <p>Rust has three kinds of loops: <code>loop</code> (infinite), <code>while</code>, and <code>for</code>. The <code>for</code> loop is the most commonly used and safest, as it prevents out-of-bounds indexing bugs.</p>
+    
+    <h3>The Safe `for` Loop</h3>
+    <pre><code class="language-rust">fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    // Safe iteration over a collection! No out-of-bounds possible.
+    for element in a {
+        println!("the value is: {element}");
+    }
+
+    // Iterating over a range
+    for number in (1..4).rev() {
+        println!("{number}!");
+    }
+    println!("LIFTOFF!!!");
+}</code></pre>
+
+    <h2>The Power of `match`</h2>
+    <p>The <code>match</code> control flow construct allows you to compare a value against a series of patterns. It is like a <code>switch</code> statement in C/C++, but the compiler enforces <strong>exhaustiveness checking</strong>: you must cover every single possible case, or the code will not compile.</p>
+    <pre><code class="language-rust">fn main() {
+    let http_status = 404;
+
+    match http_status {
+        200 => println!("OK"),
+        404 => println!("Not Found"),
+        500 => println!("Internal Server Error"),
+        _ => println!("Unknown Status"), // The '_' acts as a default/catch-all
+    }
+}</code></pre>
+</article>
+
+<div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
+        <div class="mcq-container">
+            <div class="mcq-question">1. What happens on integer overflow in Rust (in debug mode)?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It wraps around silently</li>
+                <li class="mcq-option" data-correct="false">It returns null</li>
+                <li class="mcq-option" data-correct="true">The program panics and crashes</li>
+                <li class="mcq-option" data-correct="false">It corrupts neighboring memory</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">2. Which statement about Rust's `if` is true?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">It is an expression and can be assigned to a variable</li>
+                <li class="mcq-option" data-correct="false">Parentheses are required around the condition</li>
+                <li class="mcq-option" data-correct="false">It must always have an else block</li>
+                <li class="mcq-option" data-correct="false">It evaluates 0 to false automatically</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">3. What is the safest and most idiomatic loop to iterate over an array in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">loop</li>
+                <li class="mcq-option" data-correct="false">while</li>
+                <li class="mcq-option" data-correct="false">goto</li>
+                <li class="mcq-option" data-correct="true">for</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">4. What does exhaustiveness checking in a `match` statement mean?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It checks memory exhaustion</li>
+                <li class="mcq-option" data-correct="true">You must cover every possible value pattern</li>
+                <li class="mcq-option" data-correct="false">It prevents infinite loops</li>
+                <li class="mcq-option" data-correct="false">It forces the use of a default case</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">5. What symbol is used as the default/catch-all arm in a match statement?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">default</li>
+                <li class="mcq-option" data-correct="false">*</li>
+                <li class="mcq-option" data-correct="true">_ (underscore)</li>
+                <li class="mcq-option" data-correct="false">else</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        </div><footer class="page-navigation">
+                <a href="session_2_types.html" class="nav-button prev">
+                    <span class="nav-label">Previous</span>
+                    <span class="nav-title">2.2 Data Types</span>
+                </a>
+                
+                <a href="session_2_functions.html" class="nav-button next">
+                    <span class="nav-label">Next</span>
+                    <span class="nav-title">2.4 Functions</span>
+                </a>
+            </footer>E html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.3 Control Flow - Rust Security Course</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    <script>
+        const savedTheme = localStorage.getItem('rust-book-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Rust Security Course</h2>
+            </div>
+            <div class="sidebar-content">
+                <ul class="toc">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="pre_workshop.html">Pre-Workshop</a></li>
+                    <li><a href="pre_workshop_cves.html">Common CVEs & Stats</a></li>
+
+                    <li class="toc-main"><a href="session_1_intro.html">Session 1: Core concepts and C/C++
+                            limitations</a></li>
+                    <li><a href="session_1_1.html">1.1 Memory structure</a></li>
+                    <li><a href="session_1_2.html">1.2 Data sharing</a></li>
+                    <li><a href="session_1_3.html">1.3 C/C++ in the wild</a></li>
+                    <li><a href="session_1_4.html">1.4 Tools and practices</a></li>
+
+                    <li class="toc-main"><a href="session_2_intro.html">Session 2: Basics of Rust programming</a></li>
+                    <li><a href="session_2_variables.html">2.1 Variables</a></li>
+                    <li><a href="session_2_types.html">2.2 Data Types</a></li>
+                    <li><a href="session_2_control.html">2.3 Control Flow</a></li>
+                    <li><a href="session_2_functions.html">2.4 Functions</a></li>
+                    <li><a href="session_2_ownership.html">2.5 Ownership</a></li>
+                    <li><a href="session_2_borrowing.html">2.6 Borrowing</a></li>
+                    <li><a href="session_2_references.html">2.7 References</a></li>
+                    <li><a href="session_2_mutability.html">2.8 Mutable vs Immutable</a></li>
+                    <li><a href="session_2_error.html">2.9 Error Handling</a></li>
+                    <li><a href="session_2_cargo.html">2.10 Cargo Basics</a></li>
+
+                    <li class="toc-main"><a href="session_3_intro.html">Session 3: Lab Exercises</a></li>
+                    <li><a href="session_3_1.html">Exercise 1: Hello Rust</a></li>
+                    <li><a href="session_3_2.html">Exercise 2: Ownership in Action</a></li>
+                    <li><a href="session_3_3.html">Exercise 3: Prevent Buffer Overflow</a></li>
+                    <li><a href="session_3_4.html">Exercise 4: Input Validation</a></li>
+                    <li><a href="session_3_5.html">Exercise 5: Safe File Handling</a></li>
+                    <li><a href="session_3_6.html">Exercise 6: Thread-safe Counter</a></li>
+                    <li><a href="session_3_bonus.html">Bonus: Password Generator</a></li>
+
+                    <li class="toc-main"><a href="session_4_intro.html">Session 4: Future of Rust & Career</a></li>
+                    <li><a href="session_4_1.html">4.1 Automotive & SDVs</a></li>
+                    <li><a href="session_4_2.html">4.2 Embedded & IoT</a></li>
+                    <li><a href="session_4_3.html">4.3 Linux & Cloud</a></li>
+                    <li><a href="session_4_4.html">4.4 AI Infrastructure</a></li>
+                    <li><a href="session_4_5.html">4.5 Career Roadmap</a></li>
+                    <li><a href="session_4_6.html">4.6 Automotive Cybersecurity</a></li>
+                    <li class="toc-main"><a href="session_5_test.html">SESSION 5: Test your skills (50 MCQs)</a></li>
+                    <li class="toc-main"><a href="session_library.html">LIBRARY: Standard Library</a></li>
+                    <li><a href="session_library_containers.html">Containers & Collections</a></li>
+                    <li><a href="session_library_io.html">I/O & File System</a></li>
+                    <li><a href="session_library_network.html">Network & Threads</a></li>
+                    <li><a href="session_library_sys.html">System & Env</a></li>
+                    <li class="toc-main"><a href="session_references.html">References</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="main-content">
+            <header class="top-nav" id="top-nav">
+                <div class="nav-actions" style="margin-left: auto;">
+                    <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
+                        <svg id="theme-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
+                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></svg>
+                    </button>
+                </div>
+            </header>
+
+            <article class="book-page">
+    <span class="chapter-number">Session 2.3</span>
+    <h1>Operations and Control Flow</h1>
+    
+    <h2>Basic Operations</h2>
+    <p>Rust supports all standard mathematical and logical operations. However, unlike C/C++, Rust will panic on integer overflow in debug mode instead of silently wrapping around, which prevents many security bugs!</p>
+    <pre><code class="language-rust">fn main() {
+    let sum = 5 + 10;
+    let difference = 95.5 - 4.3;
+    let product = 4 * 30;
+    let quotient = 56.7 / 32.2;
+    let remainder = 43 % 5;
+    
+    let is_true = (sum == 15) && (remainder != 0);
+}</code></pre>
+
+    <h2>If Expressions</h2>
+    <p>In Rust, <code>if</code> blocks are expressions, meaning they can return values! There are no parentheses required around the condition.</p>
+    <pre><code class="language-rust">fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("divisible by 4");
+    } else if number % 3 == 0 {
+        println!("divisible by 3");
+    } else {
+        println!("not divisible by 4 or 3");
+    }
+
+    // Using if in a let statement (like a ternary operator in C)
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+}</code></pre>
+
+    <h2>Loops (loop, while, for)</h2>
+    <p>Rust has three kinds of loops: <code>loop</code> (infinite), <code>while</code>, and <code>for</code>. The <code>for</code> loop is the most commonly used and safest, as it prevents out-of-bounds indexing bugs.</p>
+    
+    <h3>The Safe `for` Loop</h3>
+    <pre><code class="language-rust">fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    // Safe iteration over a collection! No out-of-bounds possible.
+    for element in a {
+        println!("the value is: {element}");
+    }
+
+    // Iterating over a range
+    for number in (1..4).rev() {
+        println!("{number}!");
+    }
+    println!("LIFTOFF!!!");
+}</code></pre>
+
+    <h2>The Power of `match`</h2>
+    <p>The <code>match</code> control flow construct allows you to compare a value against a series of patterns. It is like a <code>switch</code> statement in C/C++, but the compiler enforces <strong>exhaustiveness checking</strong>: you must cover every single possible case, or the code will not compile.</p>
+    <pre><code class="language-rust">fn main() {
+    let http_status = 404;
+
+    match http_status {
+        200 => println!("OK"),
+        404 => println!("Not Found"),
+        500 => println!("Internal Server Error"),
+        _ => println!("Unknown Status"), // The '_' acts as a default/catch-all
+    }
+}</code></pre>
+</article>
+
+<div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);"><h2>Topic Quiz (5 Questions)</h2>
+        <div class="mcq-container">
+            <div class="mcq-question">1. What happens on integer overflow in Rust (in debug mode)?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It wraps around silently</li>
+                <li class="mcq-option" data-correct="false">It returns null</li>
+                <li class="mcq-option" data-correct="true">The program panics and crashes</li>
+                <li class="mcq-option" data-correct="false">It corrupts neighboring memory</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">2. Which statement about Rust's `if` is true?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="true">It is an expression and can be assigned to a variable</li>
+                <li class="mcq-option" data-correct="false">Parentheses are required around the condition</li>
+                <li class="mcq-option" data-correct="false">It must always have an else block</li>
+                <li class="mcq-option" data-correct="false">It evaluates 0 to false automatically</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">3. What is the safest and most idiomatic loop to iterate over an array in Rust?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">loop</li>
+                <li class="mcq-option" data-correct="false">while</li>
+                <li class="mcq-option" data-correct="false">goto</li>
+                <li class="mcq-option" data-correct="true">for</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">4. What does exhaustiveness checking in a `match` statement mean?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">It checks memory exhaustion</li>
+                <li class="mcq-option" data-correct="true">You must cover every possible value pattern</li>
+                <li class="mcq-option" data-correct="false">It prevents infinite loops</li>
+                <li class="mcq-option" data-correct="false">It forces the use of a default case</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        
+        <div class="mcq-container">
+            <div class="mcq-question">5. What symbol is used as the default/catch-all arm in a match statement?</div>
+            <ul class="mcq-options">
+                <li class="mcq-option" data-correct="false">default</li>
+                <li class="mcq-option" data-correct="false">*</li>
+                <li class="mcq-option" data-correct="true">_ (underscore)</li>
+                <li class="mcq-option" data-correct="false">else</li>
+            </ul>
+            <button class="mcq-submit" disabled>Submit</button>
+            <div class="mcq-feedback">Correct answer! Great job!</div>
+        </div>
+        </div>>
